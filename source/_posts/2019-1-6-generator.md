@@ -14,6 +14,8 @@ tag: javascript
 
 下面的内容为阅读材料时随手做的笔记，未经过整理。
 
+<!-- more -->
+
 ## 关于generator函数的基本概念
 
 [这篇](https://davidwalsh.name/es6-generators)文章描述generator使用了`...so powerful for the future of JS.`。

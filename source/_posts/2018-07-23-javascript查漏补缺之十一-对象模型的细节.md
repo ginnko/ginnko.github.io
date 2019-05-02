@@ -9,6 +9,8 @@ tag: javascript
 
 1. JavaScript 是一种基于原型而不是基于类的面向对象语言。
 
+<!-- more -->
+
 2. 对象模型使用（创建Employee层级结构）
 
     Employee的层级结构见下图：

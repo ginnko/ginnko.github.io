@@ -7,6 +7,8 @@ tag: javascript
 
 [链接地址](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Meta_programming)
 
+<!-- more -->
+
 1. [代理对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
 
     `let p = new Proxy(target, handler);`

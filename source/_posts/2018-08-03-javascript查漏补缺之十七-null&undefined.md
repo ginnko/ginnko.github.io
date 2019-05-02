@@ -19,6 +19,7 @@ react的源码`ReactElement.js`中的`createElement`函数中就有如下定义�
   let self = null;
   let source = null;
 ```
+<!-- more -->
 
 1. null 和 undefined在现代JS语义里面是有明确区别的：
 

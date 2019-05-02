@@ -17,6 +17,8 @@ tag: javascript
     /* Process div in some way */
   }
   ```
+<!-- more -->
+
 2. 以下是几个自己没有怎么常用的数组方法
 
   1. `join()`

@@ -20,6 +20,8 @@ tag: css
 4. `Table layout`
 5. `Multi-column layout`
 
+<!-- more -->
+
 #### Flexbox
 
 在父元素上设置`display：flex`，然后它的直属子元素就变成了`flex items`。

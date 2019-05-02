@@ -11,6 +11,8 @@ tag: css
 
 `overflow`的默认值是`visible`。
 
+<!-- more -->
+
 ### background
 
 默认情况下，`backgrounds`延伸到`border`的外边延。

@@ -15,6 +15,8 @@ tag: javascript
 |substring()|返回指定索引区间的字符串|str.substring(0, 2);|
 |length|返回字符串的长度|str.length;|
 
+<!-- more -->
+
 ### 对数组的操作方法
 
 |函数名|作用|用法|

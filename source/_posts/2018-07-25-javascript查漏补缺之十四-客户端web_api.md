@@ -17,6 +17,8 @@ tag: javascript
 
     4. 它们在适当的地方有额外的安全机制
 
+<!-- more -->
+
 2. [操作文档](https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
 
     1. document.querySelector(selectors)

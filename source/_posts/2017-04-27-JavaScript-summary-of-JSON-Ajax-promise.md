@@ -13,6 +13,8 @@ tag:
 
 Ajax技术能够向服务器请求额外的数据而无需卸载页面，会带来更好的用户体验。
 
+<!-- more -->
+
     function success(text) {
     var textarea = document.getElementById('test-response-text');
     textarea.value = text;

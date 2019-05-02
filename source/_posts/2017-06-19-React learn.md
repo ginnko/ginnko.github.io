@@ -5,6 +5,9 @@ date: 2017-06-19
 tag: React
 ---
 这篇是React入门的学习总结，主要参考阮一峰大神的教程（如下）和官方文档，用codepen完成了教程里的[demo](https://codepen.io/ginnko/pen/EXWaaw)。
+
+<!-- more -->
+
 ## 基础学习
 
 ### 1. 资料

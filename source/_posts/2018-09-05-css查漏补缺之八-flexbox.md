@@ -21,6 +21,7 @@ flex是一维布局方法，将flex items在row方向上布局或是在column方
 
     上面的设置可以写成： `flex-flow: row wrap;`
 
+<!-- more -->
 
 ### 设置在 flex items 上的属性
 

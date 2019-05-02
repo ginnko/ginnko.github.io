@@ -16,7 +16,7 @@ tag: javascript
         ```javascript
         var request = new XMLHttpRequest();
         ```
-
+<!-- more -->
     2. 使用`open()`方法指定用于从网络请求资源的**方法**以及**url**
 
         ```javascript

@@ -7,6 +7,8 @@ tag: javascript
 
 [译文链接](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide)
 
+<!-- more -->
+
 1. String对象方法
 
     1. `String.prototype.charAt()`：从一个字符串中返回指定的字符。
@@ -29,7 +31,7 @@ tag: javascript
         The character at index 4 is 'e'
         The character at index 999 is ''
         ```
-    
+
     2. `String.prototype.charCodeAt(index)`: 能正确返回一个两个字节组成的字符的码点值。
 
     3. `String.prototype.pointCodeAt(index)`： 能正确返回一个四个字节组成的字符的码点值。

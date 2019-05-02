@@ -17,6 +17,8 @@ tag: css
 
 1. 元素默认的背景色是`transparent`
 
+<!-- more -->
+
 ### background image
 
 `background-image: url(https://mdn.mozillademos.org/files/13026/fire-ball-icon.png);` url中不用必须写成字符串

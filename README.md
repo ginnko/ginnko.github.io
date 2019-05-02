@@ -11,7 +11,9 @@
 
 2. 原模板没有给出正确修改图片的方法，添加方法使用参考中的链接*2*。
 
-2. 该模板需要的额外插件：`hexo-reading-time`，`hexo-generator-search`。
+3. 该模板需要的额外插件：`hexo-reading-time`，`hexo-generator-search`。
+
+4. 在md文件中添加`<!-- more -->`分割来实现`excerpt`。
 
 # 参考
 

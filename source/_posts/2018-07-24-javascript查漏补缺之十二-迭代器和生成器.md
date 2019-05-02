@@ -32,6 +32,7 @@ tag: javascript
     console.log(it.next().value); // 'ya'
     console.log(it.next().done); // true
     ```
+<!-- more -->
 
 2. 生成器
 

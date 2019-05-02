@@ -12,6 +12,8 @@ tag: React
 3. https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs
 4. https://juejin.im/post/5b1caceb5188257d63226743
 
+<!-- more -->
+
 ## 主要内容
 
 React为了提升性能，产生了纯组件。纯组件的子组件也是纯组件。

@@ -11,6 +11,8 @@ tag: javascript
 
     下面代码中有说明，catch中的return会挂起，直到finally中的代码完成，finally中的return会覆盖catch中的return。return之后的console都不会执行。
 
+<!-- more -->
+
     ```
     function f() {
       try {

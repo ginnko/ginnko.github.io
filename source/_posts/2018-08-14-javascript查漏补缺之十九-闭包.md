@@ -11,6 +11,8 @@ tag: javascript
 
 > The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. Nested functions have access to variables declared in their outer scope.
 
+<!-- more -->
+
 ### 关于闭包
 
 > A closure is the combination of a function andn the lexical environment within which that function was declared.

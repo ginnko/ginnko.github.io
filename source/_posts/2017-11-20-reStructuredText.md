@@ -13,7 +13,7 @@ tag: reStructuredText
 5. [博客2](http://blog.csdn.net/u012150179/article/details/37743605)
 6. [博客3](http://www.jianshu.com/p/1885d5570b37)
 
-
+<!-- more -->
 
 ### 说明
 

@@ -13,6 +13,8 @@ tag: javascript
 
 1. `Number`，`String`，`Boolean`类型在和`Number`，`String`，`Boolean`类型比较的时候，如果两个不是相同类型，会将两个比较的值都转成数字后再进行比较。转换时，相当于使用`+`。
 
+<!-- more -->
+
 2. `Number`，`String`，`Boolean`类型在和`Object`类型比较的时候，会把`Object`类型转换成基础类型。转换过程会调用`A.toString`和`A.valueOf`这两个方法，不同类型进行转换时，这两个方法调用的顺序不同。转换顺序详见[规范](http://ecma-international.org/ecma-262/5.1/#sec-8.12.8)。
 
     *此处要加上几个关于对象转换成基本值的示例，一步步按转换步骤写。暂时没有找到...明天看下犀牛书的说明好了。*

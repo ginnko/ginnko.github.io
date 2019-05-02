@@ -19,6 +19,8 @@ tag: javascript
 
 客户端存储在现代浏览器中可以取代cookie诶。
 
+<!-- more -->
+
 1. web storage
 
   用来存储简单的小型数据。web storage包含两种结构，一种是sessionStorage，一种是localStorage。
