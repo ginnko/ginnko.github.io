@@ -80,6 +80,7 @@ theme: xoxo
 deploy:
   type: git
   repo: git@github.com:ginnko/ginnko.github.io.git
+  branch: deploy
 
 search:
   path: search.xml
