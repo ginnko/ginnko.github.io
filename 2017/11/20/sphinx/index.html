@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="sphinx,">
+  
+
+  
+    <meta name="description" content="sphinx">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>sphinx [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        sphinx
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-11-19T16:00:00.000Z">
+        2017-11-20
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sphinx/">sphinx</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 7 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="http://www.sphinx-doc.org/en/stable/contents.html" target="_blank" rel="noopener">sphinx官方-主页</a></li>
+<li><a href="http://www.sphinx-doc.org/en/stable/config.html" target="_blank" rel="noopener">sphinx官方-config.py</a> ：生成html、latex以及转换成pdf的多数格式均在这个文件里进行配置</li>
+<li><a href="http://www.sphinx-doc.org/en/stable/theming.html#builtin-themes" target="_blank" rel="noopener">sphtinx官方-模板</a>：本次使用第三方模板 <em>sphinx_rtd_theme</em></li>
+<li><a href="http://www.sphinx-doc.org/en/stable/latex.html" target="_blank" rel="noopener">sphinx官方-latex输出配置说明</a></li>
+<li><a href="http://zh-sphinx-doc.readthedocs.io/en/latest/invocation.html" target="_blank" rel="noopener">sphinx官方-创建指令</a></li>
+<li><a href="http://zh-sphinx-doc.readthedocs.io/en/latest/invocation.html" target="_blank" rel="noopener">sphinx使用手册中文译文</a></li>
+<li><a href="https://www.cnblogs.com/zzqcn/p/5096876.html" target="_blank" rel="noopener">博客1</a>：环境搭建、快速构建</li>
+</ol>
+<a id="more"></a>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>环境搭建参考<a href="https://www.cnblogs.com/zzqcn/p/5096876.html" target="_blank" rel="noopener">博客1</a>。</p>
+<ol>
+<li>安装python</li>
+<li>安装sphinx</li>
+<li>安装textlive（可选）</li>
+<li>安装汉字字体（可选）<ul>
+<li>以装宋体为例（<a href="http://blog.csdn.net/wxwpxh/article/details/50532363" target="_blank" rel="noopener">simsun.ttc</a>），字体文件要注意是否可用</li>
+</ul>
+</li>
+<li>安装第三方模板（可选）</li>
+</ol>
+<h3 id="构建文档"><a href="#构建文档" class="headerlink" title="构建文档"></a>构建文档</h3><p>快速构建参考<a href="https://www.cnblogs.com/zzqcn/p/5096876.html" target="_blank" rel="noopener">博客1</a> 。</p>
+<h3 id="文档结构配置"><a href="#文档结构配置" class="headerlink" title="文档结构配置"></a>文档结构配置</h3><ul>
+<li><p>入口文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.. toctree::</span><br><span class="line">   :maxdepth: 2</span><br><span class="line">   :hidden:</span><br><span class="line"></span><br><span class="line">   README</span><br><span class="line">   book/UOS4.0介绍</span><br><span class="line">   book/快速入门/index</span><br><span class="line">   book/UOS项目平台/index</span><br><span class="line">   book/UOS管理平台/index</span><br><span class="line">   book/UOS计费系统/index</span><br><span class="line">   book/UOS审批系统/index</span><br><span class="line">   book/UOS存储平台/index</span><br><span class="line">   book/UOS工单系统/index</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>.. toctree::</code>：这个指令用来设置文档组织结构，其中<ul>
+<li><code>:maxdepth: 2</code> ：用来设置目录显示层级</li>
+<li><code>:hidden: 用来设置是否在每个主页（index）中显示该目录</code></li>
+<li><code>:number:</code>用来设置是否在目录前列出编号</li>
+<li><code>:caption: 目录</code>用来修改在pdf中index前显示的文字，更多设置详见<a href="http://www.sphinx-doc.org/en/stable/markup/toctree.html#toctree-directive" target="_blank" rel="noopener">官方配置文档</a> </li>
+</ul>
+</li>
+<li>下面的部分表示组织起来的结构，这里分别是各个章节的主页，会显示章节标题。每个章节的主页中再以此种形式列出各自的结构组织。</li>
+</ul>
+</li>
+</ul>
+<h3 id="config-py配置选项"><a href="#config-py配置选项" class="headerlink" title="config.py配置选项"></a>config.py配置选项</h3><ul>
+<li><p>值得注意的通用配置</p>
+<ol>
+<li>文档格式：<code>source_suffix = &#39;.rst&#39;</code></li>
+<li>编码类型（中文一定要用这个）：<code>source_encoding = &#39;utf-8&#39;</code></li>
+<li>文档入口：<code>master_doc = &#39;index&#39;</code>       </li>
+</ol>
+</li>
+<li><p>值得注意的html输出配置</p>
+<ul>
+<li>使用第三方模板（可以参考<a href="http://www.sphinx-doc.org/en/stable/theming.html#builtin-themes" target="_blank" rel="noopener">sphtinx官方-模板</a> 、<a href="https://www.cnblogs.com/zzqcn/p/5096876.html" target="_blank" rel="noopener">博客1</a>）<ol>
+<li>文档开头：<code>import sphinx_rtd_theme</code></li>
+<li>“Options for HTML output”部分：<code>html_theme = &#39;sphinx_rtd_theme&#39;</code></li>
+</ol>
+</li>
+<li>html_sidebars: html侧边栏显示（可以参考<a href="http://www.sphinx-doc.org/en/stable/theming.html#builtin-themes" target="_blank" rel="noopener">sphtinx官方-模板</a>）</li>
+<li>不显示文档源文件： <code>html_show_sourcelink = False</code></li>
+<li>不在底边显示“sphinx创建”字样： <code>html_show_sphinx = False</code></li>
+</ul>
+</li>
+<li><p>latex输出配置1（用于转换pdf）</p>
+<ul>
+<li><p>处理引擎配置：<code>latex_engine = &#39;xelatex&#39;</code></p>
+</li>
+<li><p>latex_elements配置中：</p>
+<ul>
+<li><p>纸张大小： <code>&#39;papersize&#39;: &#39;a4paper&#39;</code></p>
+</li>
+<li><p>字体大小： <code>&#39;pointsize&#39;: &#39;10pt&#39;</code></p>
+</li>
+<li><p>preamble配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&apos;&apos;&apos;</span><br><span class="line">	\\usepackage&#123;xeCJK&#125;</span><br><span class="line">	\\usepackage&#123;indentfirst&#125;</span><br><span class="line">	\\setlength&#123;\\parindent&#125;&#123;2em&#125;</span><br><span class="line">	\\setCJKmainfont&#123;SimSun&#125; #针对中文使用中文字体</span><br><span class="line">	\\setCJKmonofont[Scale=0.9]&#123;SimSun&#125;</span><br><span class="line">	\\setCJKfamilyfont&#123;song&#125;&#123;SimSun&#125;</span><br><span class="line">	\\setCJKfamilyfont&#123;sf&#125;&#123;SimSun&#125;</span><br><span class="line">	\\XeTeXlinebreakskip = 0pt plus 1pt</span><br><span class="line">	\\setcounter&#123;tocdepth&#125;&#123;2&#125; #目录显示的层级</span><br><span class="line">    \\setcounter&#123;secnumdepth&#125;&#123;0&#125; #文档中标题前显示的编号等级</span><br><span class="line">    &apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>单页输出： <code>&#39;classoptions&#39;: &#39;,oneside&#39;</code></p>
+</li>
+<li><p>章节样式：<code>&#39;fncychap&#39;: &#39;&#39;</code>空字符不使用章节</p>
+</li>
+<li><p>latex_documents配置的最后一项： 使用<code>&#39;howto&#39;</code> ，chm格式。</p>
+</li>
+</ul>
+</li>
+<li><p>latex输出配置2（用于输出pdf）</p>
+<p>latex输出配置1输出的pdf不带页码，为了解决这个问题：</p>
+<ul>
+<li>增加：<code>latex_toplevel_sectioning = &#39;section&#39;</code></li>
+<li>修改：’howto’改为’manual’</li>
+</ul>
+<p>关于latex配置选项，详见：<a href="http://www.sphinx-doc.org/en/stable/latex.html" target="_blank" rel="noopener">官方配置文档1</a>和<a href="http://www.sphinx-doc.org/en/stable/config.html#confval-latex_additional_files" target="_blank" rel="noopener">官方配置文档2</a> 。</p>
+</li>
+</ul>
+<h3 id="表格配置"><a href="#表格配置" class="headerlink" title="表格配置"></a>表格配置</h3><p>表格配置指令使用：<code>.. tabularcolumns::</code> <code>column spec</code> ，放在表格所在文档表格前，详见：<a href="http://www.sphinx-doc.org/en/stable/markup/misc.html#tables" target="_blank" rel="noopener">官方配置文档</a> 。<strong>注意：超过30行的表格latex无法自动控制宽度，可以使用p{width}手动控制</strong> 。</p>
+<h3 id="转换pdf指令"><a href="#转换pdf指令" class="headerlink" title="转换pdf指令"></a>转换pdf指令</h3><p>首先生成latex文档，之后使用xelatex（主要是为了处理中文）生成pdf，第二次使用xelatex为了生成pdf文档目录和文档中的连接。</p>
+<ol>
+<li>make latex</li>
+<li>cd build/latex</li>
+<li>xelatex *.tex</li>
+<li>xelatex *.tex</li>
+</ol>
+<h3 id="关于转换pdf的方法"><a href="#关于转换pdf的方法" class="headerlink" title="关于转换pdf的方法"></a>关于转换pdf的方法</h3><p>试用过四种方法，只有xelatex成功。以下是其他三种未成功的方法：</p>
+<ol>
+<li>latexpdf指令：生成文档错误，未继续；</li>
+<li>借用rst2pdf：sphinx官网上有说rst2pdf已停止维护，针对最新版可能有问题，实际使用中英文能够正常显示，中文显示未乱码，即便编码规则设定为utf-8依然不能正常显示；</li>
+<li>借用rinohtype：sphinx官方推荐的一种直接转换pdf的方法。但实际使用中发现转换时间过长，且依然没有能处理好中文显示的问题。</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境搭建"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建文档"><span class="toc-text">构建文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文档结构配置"><span class="toc-text">文档结构配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#config-py配置选项"><span class="toc-text">config.py配置选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表格配置"><span class="toc-text">表格配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换pdf指令"><span class="toc-text">转换pdf指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于转换pdf的方法"><span class="toc-text">关于转换pdf的方法</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/11/20/ubuntu使用/" rel="next" title="ubuntu系统使用记录">
+          ubuntu系统使用记录
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/11/20/reStructuredText/" rel="prev" title="reStructuredText语法">
+            reStructuredText语法
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content>
+  
+
+  
+    <meta name="description" content="Ginnko&#39;s,blog">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>archives: 2018 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item actived"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  
+  
+    
+    
+    <section class="post page archives">
+      <h3 class="archive-year-wrap">
+        <a href="/archives/2018" class="archive-year">
+          2018
+        </a>
+      </h3>
+      <div class="archives">
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/18/javascript查漏补缺之十-使用对象/">
+    <div>
+      <span class="date">
+        07-18
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之十——《使用对象》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Working_with_Objects" target="_blank" rel="noopener">链接地址</a></p>
+<ol>
+<li><p>JavaScript中的对象只能使用String类型作为键类型。</p>
+</li>
+<li><p>对对象的枚举</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function showProps(obj, objName) &#123;</span><br><span class="line">  var result = &quot;&quot;;</span><br><span class="line">  for (var i in obj) &#123;</span><br><span class="line">    if (obj.hasOwnProperty(i)) &#123;</span><br><span class="line">        result += objName + &quot;.&quot; + i + &quot; = &quot; + obj[i] + &quot;\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 上面的列子使用了<code>for in</code> 和 <code>hasOwnProperty</code>，自己几乎没有这样写过代码，都是先用<code>Object.keys</code>获取所有的键，然后循环键组成的数组进行操作。下次可以试一波。</p>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/18/http查漏补缺之一-缓存/">
+    <div>
+      <span class="date">
+        07-18
+      </span>
+      <span class="slash">/</span>
+      http查漏补缺之一 《缓存》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p>下面主要关于代理服务器的缓存。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ" target="_blank" rel="noopener">mdn地址</a></p>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/16/javascript查漏补缺之九-带键的集合/">
+    <div>
+      <span class="date">
+        07-16
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之九 ——《带键的集合》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<h3 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a><a href="http://es6.ruanyifeng.com/#docs/set-map#Map" target="_blank" rel="noopener">1.Map</a></h3><ol>
+<li><p>创建Map</p>
+<ol>
+<li><p>使用<code>set</code>方法添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const m = new Map();</span><br><span class="line">const o = &#123;p: &apos;Hello World&apos;&#125;;</span><br><span class="line"></span><br><span class="line">m.set(o, &apos;content&apos;)</span><br></pre></td></tr></table></figure>
+<p><em>set方法返回的是当前的Map对象，因此可以采用链式写法。</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let map = new Map()</span><br><span class="line">  .set(1, &apos;a&apos;)</span><br><span class="line">  .set(2, &apos;b&apos;)</span><br><span class="line">  .set(3, &apos;c&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/16/javascript查漏补缺之八-索引集合类/">
+    <div>
+      <span class="date">
+        07-16
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之八——《索引集合类》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections" target="_blank" rel="noopener">链接地址</a></p>
+<ol>
+<li><p>用来处理DOM集合的一个更高效的土法子</p>
+<p>从来没有这样用过诶。<code>div = divs[i]</code>这个赋值表达式，当i = length时，返回值为false就会停止这个循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var divs = document.getElementsByTagName(&apos;div&apos;);</span><br><span class="line">for (var i = 0, div; div = divs[i]; i++) &#123;</span><br><span class="line">  /* Process div in some way */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/15/javascript查漏补缺之七-正则表达式/">
+    <div>
+      <span class="date">
+        07-15
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之七——《正则表达式》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<h4 id="正则表达式中的特殊字符"><a href="#正则表达式中的特殊字符" class="headerlink" title="正则表达式中的特殊字符"></a>正则表达式中的特殊字符</h4><ol>
+<li><p><strong>?</strong></p>
+<ol>
+<li><p>单独使用：匹配前面一个表达式0次或者1次。等价于 {0,1}。</p>
+</li>
+<li><p>如果紧跟在任何量词 <code>*、 +、? 或 {}</code> 的后面，将会使量词变为非贪婪的（匹配尽量少的字符），和缺省使用的贪婪模式（匹配尽可能多的字符）正好相反。</p>
+</li>
+</ol>
+</li>
+<li><p><code>x(?=y)</code>: 正向肯定查找。</p>
+<blockquote>
+<p>/Jack(?=Sprat)/会匹配到’Jack’仅仅当它后面跟着’Sprat’。/Jack(?=Sprat|Frost)/匹配‘Jack’仅仅当它后面跟着’Sprat’或者是‘Frost’。但是‘Sprat’和‘Frost’都不是匹配结果的一部分。</p>
+</blockquote>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/09/javascript查漏补缺之六-字符串/">
+    <div>
+      <span class="date">
+        07-09
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之六——《字符串》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide" target="_blank" rel="noopener">译文链接</a></p>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/07/javascript查漏补缺之五-数字和日期/">
+    <div>
+      <span class="date">
+        07-07
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之五——《数字和日期》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Numbers_and_dates" target="_blank" rel="noopener">译文地址</a></p>
+<ol>
+<li><p>js中数字的范围和类型</p>
+<p>范围： -(2^53 - 1) ~ (2^53 - 1)</p>
+<p>类型： 普通数字， +Infinity， -Infinity， NaN</p>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/06/chrome调试技巧/">
+    <div>
+      <span class="date">
+        07-06
+      </span>
+      <span class="slash">/</span>
+      chrome开发者工具使用技巧
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<ol>
+<li><p>使用开发者工具查看dom节点的监听函数</p>
+<ol>
+<li>使用console查看</li>
+</ol>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/06/javascript查漏补缺之四-表达式和运算符/">
+    <div>
+      <span class="date">
+        07-06
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之四——《表达式和运算符》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<ol>
+<li><p>假值</p>
+<p> <code>false, null, 0, NaN, &quot;&quot;, undefined</code></p>
+</li>
+<li><p>逗号操作符</p>
+<p> 对两个操作数进行求值并<strong>返回最终操作数的值</strong>。它常常用在 for 循环中，在每次循环时对多个变量进行更新。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x = [0,1,2,3,4,5,6,7,8,9]</span><br><span class="line">var a = [x, x, x, x, x];</span><br><span class="line"></span><br><span class="line">for (var i = 0, j = 9; i &lt;= j; i++, j--)</span><br><span class="line">  console.log(&apos;a[&apos; + i + &apos;][&apos; + j + &apos;]= &apos; + a[i][j]);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
+  <a class="post-go" href="/2018/07/04/javascript查漏补缺之二-语法与类型/">
+    <div>
+      <span class="date">
+        07-04
+      </span>
+      <span class="slash">/</span>
+      javascript查缺补漏之二 ——《语法与类型》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Grammar_and_Types" target="_blank" rel="noopener">原文地址</a></p>
+<ol>
+<li><p>在 JavaScript 中大小写敏感，变量 früh 和 Früh 则是两个不同的变量。</p>
+</li>
+<li><p>当你对一个 null 变量求值时，空值 null 在数值类型环境中会被当作0来对待，而布尔类型环境中会被当作 false。</p>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+
+  </div></section>
+
+    </div>
+
+    
+      <nav class="page-nav text-center">
+          <a class="extend prev" rel="prev" href="/archives/2018/page/3/">〈</a><a class="page-number" href="/archives/2018/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2018/page/5/">5</a><a class="extend next" rel="next" href="/archives/2018/page/5/">〉</a>
+      </nav>
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

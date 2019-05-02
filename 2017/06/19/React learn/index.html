@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="React,">
+  
+
+  
+    <meta name="description" content="React学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>React学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        React学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-06-18T16:00:00.000Z">
+        2017-06-19
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 26 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇是React入门的学习总结，主要参考阮一峰大神的教程（如下）和官方文档，用codepen完成了教程里的<a href="https://codepen.io/ginnko/pen/EXWaaw" target="_blank" rel="noopener">demo</a>。</p>
+<a id="more"></a>
+<h2 id="基础学习"><a href="#基础学习" class="headerlink" title="基础学习"></a>基础学习</h2><h3 id="1-资料"><a href="#1-资料" class="headerlink" title="1. 资料"></a>1. 资料</h3><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2015/03/react.html" target="_blank" rel="noopener">阮大角虫的教程</a></li>
+<li><a href="https://facebook.github.io/react/docs/installation.html" target="_blank" rel="noopener">官网</a></li>
+<li><a href="https://codepen.io/gaearon/#" target="_blank" rel="noopener">Dan Abramov大神的实例</a></li>
+</ul>
+<h3 id="2-问题"><a href="#2-问题" class="headerlink" title="2. 问题"></a>2. 问题</h3><ul>
+<li><p>不太清楚React具体能做什么</p>
+<blockquote>
+<p>通过这段时间的练习，感觉React确实很适合UI，大神们说的没错。</p>
+</blockquote>
+</li>
+<li><p>教程里有个使用Promise的例子，虽然明白Promise最主要的有点就是将执行过程和结果分开，但是并没有觉得这有什么特别好处，只是看起来更清晰了？关于Promise的部分参考了<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000" target="_blank" rel="noopener">廖大角虫的教程</a>。</p>
+</li>
+<li><p>当使用setInterval()和Ajax的同时使用了bind（）函数，不太理解这个地方。</p>
+<blockquote>
+<p>bind(this)是将当前作用域传入相应的函数，在ES6中被要求要明确的表示，因为不再自动匹配，在下面的<a href="https://facebook.github.io/react/docs/react-component.html" target="_blank" rel="noopener">“是否使用ES6的方法对比”</a>中有说明。  </p>
+</blockquote>
+</li>
+<li><p>receive box这个应用中，自己写的代码是把所有的功能放进一个组件类中，别人的代码是像函数那样将完成一个功能的代码组合放进一个单独的组件类，在其他组件类中进行调用。后面的练习要使用这种方式。</p>
+</li>
+</ul>
+<h3 id="3-注意"><a href="#3-注意" class="headerlink" title="3. 注意"></a>3. 注意</h3><ul>
+<li>组件类的变量名的首字母要<strong>大写</strong>！！！</li>
+<li>rent中的顶级标签只能有一个，所以示例中的全部用<div>标签包裹</div></li>
+<li>关于<a href="https://facebook.github.io/react/docs/handling-events.html" target="_blank" rel="noopener">handle事件和this</a><br>如果一个方法后面没有直接跟着一个括号，就要手动绑定this和这个方法。解决办法有三：  <blockquote>
+<ol>
+<li>手动在constructor方法里绑定，例如：this.handleClick = this.handleClick.bind(this);</li>
+<li>使用属性初始化语法 handleClick = () =&gt;{//其他代码}<strong>结束没有分号</strong></li>
+<li>使用箭头函数，前面不需要事先绑定或使用属性初始化语法，在元素中使用箭头函数： <button onclick="{(e)" => this.handleClick(e)}&gt;Click me</button></li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="1-Leaderboard"><a href="#1-Leaderboard" class="headerlink" title="1. Leaderboard"></a>1. Leaderboard</h3><p>这个<a href="https://codepen.io/ginnko/full/bRqXaN/" target="_blank" rel="noopener">demo</a>是<a href="https://www.freecodecamp.com/challenges/build-a-camper-leaderboard" target="_blank" rel="noopener">FreeCodeCamp</a>的一个练习，使用React实现（2017.6.23完成）。</p>
+<h4 id="一个方法：componentDidUpdate"><a href="#一个方法：componentDidUpdate" class="headerlink" title="一个方法：componentDidUpdate()"></a>一个方法：componentDidUpdate()</h4><p>第一版使用如下代码，但现在看来是自己对componentDidUpdate()这个方法理解有问题，虽然能够实现下述的功能，但这个方法的真正使用方法应该不是这样。</p>
+<blockquote>
+<p>这个方法用来实现当属性或状态发生变化时，对页面中的相应内容进行变更。<a href="https://codepen.io/ginnko/full/bRqXaN/" target="_blank" rel="noopener">demo</a>中点击30天内的分数排名和总分数排名的切换就是通过这个方法实现的。实现的代码如下：  </p>
+</blockquote>
+<pre><code>componentDidUpdate(){
+  this.props.promise.then(
+    value =&gt; this.setState({loading: false, data: value}),
+    error =&gt; this.setState({loading: false, error: error})
+  );
+},
+handleClick: function(event){
+  if(flag === 0){
+    flag = 1;
+    this.props.promise = $.getJSON(alltime);
+  }else{
+    flag = 0;
+    this.props.promise = $.getJSON(recent);
+  }
+}
+</code></pre><blockquote>
+<p>handleClick属性传给标题中的30天内排名和总分数排名两个标题，当点击时，会相应的改变ajax请求的api并把返回结果传递给promise属性，发生的改变会被componentDidUpdate()方法捕捉，然后使用新的数据重新渲染模板。</p>
+</blockquote>
+<h4 id="一个属性handleClick"><a href="#一个属性handleClick" class="headerlink" title="一个属性handleClick"></a>一个属性handleClick</h4><p>这个<a href="https://codepen.io/ginnko/full/bRqXaN/" target="_blank" rel="noopener">demo</a>最终是通过handleClick属性完成切换是根据30天分数排名还是根据总分数排名，还可以选择是正序显示还是倒序显示，不再使用componentDidUpdate()方法。具体代码如下。</p>
+<pre><code>handleClick: function(event){
+  var id = event.target.parentElement.getAttribute(&apos;id&apos;);
+  if(id === &quot;alltime&quot;){
+    this.props.promise = $.getJSON(alltime);
+    if(flag2 === 1){
+      flag1 = 1;
+      flag2 = 0;
+      this.props.promise.then(
+        value =&gt; this.setState({loading: false, data: value, mark2 :&quot;↓&quot;, mark1 :&quot;&quot;}),
+        error =&gt; this.setState({loading: false, error: error})
+      );
+    }else{
+      flag1 = 1;
+      flag2 = 1;
+      this.props.promise.then(
+        value =&gt; this.setState({loading: false, data: value.reverse(), mark2 :&quot;↑&quot;, mark1 :&quot;&quot;}),
+        error =&gt; this.setState({loading: false, error: error})
+      );
+    }
+  }
+  if(id === &quot;recent&quot;){
+    this.props.promise = $.getJSON(recent);
+    if(flag1 === 1){
+      flag2 = 1;
+      flag1 = 0;
+      this.props.promise.then(
+        value =&gt; this.setState({loading: false, data: value, mark1 :&quot;↓&quot;, mark2 :&quot;&quot;}),
+        error =&gt; this.setState({loading: false, error: error})
+      );
+    }else{
+      flag2 = 1;
+      flag1 = 1;
+      this.props.promise.then(
+        value =&gt; this.setState({loading: false, data: value.reverse(), mark1 :&quot;↑&quot;, mark2 :&quot;&quot;}),
+        error =&gt; this.setState({loading: false, error: error})
+      );
+    }
+  }
+}
+</code></pre><p>有两处引用了handleClick，使用<strong>event.target.parentElement.getAttribute(‘id’)</strong>来判断是哪个发生了点击，并据此显示是根据哪类分数显示。<br>这条代码的使用参考<a href="https://stackoverflow.com/questions/39559222/react-onclick-event-on-link" target="_blank" rel="noopener">此处</a>。event.target可以获得发生点击事件的DOM node本身。然后使用操纵DOM node的方法<a href="https://developer.mozilla.org/en/docs/Web/API/Node/parentElement" target="_blank" rel="noopener">parentElement</a>以及<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute" target="_blank" rel="noopener">getAttribute()</a>进行判断。event.target真是方便啊！</p>
+<h4 id="一些想法"><a href="#一些想法" class="headerlink" title="一些想法"></a>一些想法</h4><ol>
+<li>第一次加载时，由于需要渲染，页面是完全白色的，渲染完成后加载相应的内容。但是在初始加载完成后，后面更新数据重新渲染不会再重新加载页面而只是渲染页面变更的部分，之前一直不太明白React的用途，只是听过适合开发UI，或许上面的描述就是一个证据。</li>
+<li>本例中，使用componentDidMount方法来处理ajax请求，根据现在掌握的资料，推断这个方法只能使用一次，也就是在组件加载完成后，之后属性或状态再发生变化要通过componentDidUpdate()方法（有待研究）或handleEvent系列属性来实现。另一个handleEvent属性的实例：<a href="http://www.ruanyifeng.com/blog/2015/03/react.html" target="_blank" rel="noopener">阮大角虫的教程</a>中第9个demo是一个实时显示的应用，使用的是handleChange属性，属性函数里用event.target.value来获取实时改变的值并显示。</li>
+</ol>
+<h4 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h4><ol>
+<li>最初的代码是，关于图标和表格标题的部分都写在html文档中，页面一加载就能看到这两项内容，表格的数据部分用json获取后通过React返回。当React使用render返回一个被DOM元素包裹的数组时，React会自动将其展开一条一条列出。但是，render函数中要求只能有一个顶级标签，导致返回的表格数组和已经写好的表格标题不一样大小，只占其第一列的宽度。没有查到解决办法，参考别人的项目，也没有这样写的，最后只能让所有的部分都由React来实现。希望能找到解决上述问题的方法。</li>
+<li>colspan 属性名在JSX中要写成colSpan才会被识别。</li>
+<li><p>ES6发布后，React的一些方法有了改变，阮一峰大神的教程使用的是ES6发布前的方法。这个demo也没有使用ES6，但是在之后的练习中都要使用最新的方法。下面两个链接是React官方文档和是否使用ES6的一些方法的改变对比：  </p>
+<ul>
+<li><a href="https://facebook.github.io/react/docs/react-component.html" target="_blank" rel="noopener">常用方法</a></li>
+<li><a href="https://facebook.github.io/react/docs/react-without-es6.html" target="_blank" rel="noopener">是否使用ES6的方法对比</a>  </li>
+</ul>
+</li>
+</ol>
+<h3 id="2-Recipe-game"><a href="#2-Recipe-game" class="headerlink" title="2. Recipe game"></a>2. Recipe game</h3><p>这个<a href="https://codepen.io/ginnko/full/XgzqKG/" target="_blank" rel="noopener">demo</a>是FreeCodeCamp的一个练习，使用React实现（2017.6.28完成）。大结构使用了Bootstrap的<a href="https://v4-alpha.getbootstrap.com/components/modal/" target="_blank" rel="noopener">Modal</a>和cards中的<a href="https://v4-alpha.getbootstrap.com/components/card/" target="_blank" rel="noopener">list group</a>。使用动态Modal弹出一个窗口接受和修改数据，list group用来组织数据，静态Modal用来显示数据。</p>
+<h4 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h4><p>参考资料：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Storage" target="_blank" rel="noopener">localStorage接口</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify" target="_blank" rel="noopener">JSON.stringify()</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse" target="_blank" rel="noopener">JSON.parse()</a>  </p>
+<ol>
+<li>能存入localstorage的数据没有限制原数据结构，只要转成字符串都可以存入。存入前使用JSON.stringify（）将原对象转成字符串，取出后使用JSON.parse()还原成原数据结构。  </li>
+<li>使用localStorage.setItem(key, value)存入对象，localStorage.getItem(key)获取对象。  </li>
+<li>对于有默认初始值得情况，使用下面的方法进行第一次赋值，借鉴了<a href="https://codepen.io/awesom3/pen/Hlfma?editors=1010" target="_blank" rel="noopener">Awesomen3ss 大神</a>的方法。  </li>
+</ol>
+<p>项目中的代码如下：  </p>
+<pre><code>var recipeList = [[&quot;Braised string bean with noodle&quot;, &quot;garlic&quot;, &quot;noodle&quot;, &quot;string bean&quot;,&quot;coriander&quot;, &quot;salt&quot;, &quot;light soy sauce&quot;], [&quot;Braised hairtail&quot;, &quot;hairtail&quot;, &quot;vinegar&quot;, &quot;scallion&quot;, &quot;garlic&quot;, &quot;ginger&quot;, &quot;distilled spirit&quot;, &quot;salt&quot;], [&quot;Scrambled eggs with tomatoes&quot;, &quot;tomatoes&quot;, &quot;egg&quot;, &quot;scallion&quot;, &quot;salt&quot;]];  
+var condition = localStorage.getItem(&quot;recipeList&quot;);
+if(condition === null){
+  localStorage.setItem(&quot;recipeList&quot;, JSON.stringify(recipeList));
+}
+</code></pre><h4 id="handle事件的绑定和使用"><a href="#handle事件的绑定和使用" class="headerlink" title="handle事件的绑定和使用"></a>handle事件的绑定和使用</h4><ul>
+<li>React的ES6版本中，handle事件要在初始化中明确绑定，参考<a href="https://facebook.github.io/react/docs/handling-events.html" target="_blank" rel="noopener">官方文档</a>。  </li>
+</ul>
+<p>下面的代码是这个项目中的使用：</p>
+<pre><code>constructor(props){
+  super(props);
+  this.state = {list: localStorage.getItem(&quot;recipeList&quot;), value: [temRecipe,temIngredients]};
+  this.handleClick = this.handleClick.bind(this);
+  this.handleChange = this.handleChange.bind(this);
+}  
+</code></pre><ul>
+<li>“this”位于一个函数中时，它的作用域就是这个函数，正常函数的写法无法接触到需要的DOM对象，导致无法加载DOM对象，页面一篇空白的错误，解决方法是使用<a href="https://stackoverflow.com/questions/41174980/handling-clicks-on-dynamically-generated-buttons" target="_blank" rel="noopener">arrow function</a>，handle函数和后面的应用函数都使用箭头函数的形式。<strong>关于this的使用还是不太理解！</strong></li>
+</ul>
+<p>下面的代码是这个项目中的使用：  </p>
+<pre><code>handleChange = (event) =&gt; {//。。。}
+handleClick = (event) =&gt; {//。。。}
+var recipeStructure = JSON.parse(this.state.list).map((val, index) =&gt; {//。。。}
+var ingredientsList = val.slice(1).map((ele, index) =&gt; {//。。。}
+</code></pre><ul>
+<li>如果一个map函数循环一个数组并作为组件对象输出到最后的DOM结构中时，要在每次输出过程中包含一个类似id的成为key的属性，来帮助React识别哪一条发生了改变，参考<a href="https://facebook.github.io/react/docs/lists-and-keys.html" target="_blank" rel="noopener">官方文档</a>。</li>
+</ul>
+<h4 id="Forms的Controlled-Components"><a href="#Forms的Controlled-Components" class="headerlink" title="Forms的Controlled Components"></a>Forms的Controlled Components</h4><p>“input”、”textarea”标签使用value属性定义页面加载后输入框中的内容，要想实现能够被编辑，需要再添加onChange属性，参考<a href="https://facebook.github.io/react/docs/forms.html#default-value" target="_blank" rel="noopener">官网文档</a>。</p>
+<h3 id="3-Game-of-Life"><a href="#3-Game-of-Life" class="headerlink" title="3. Game of Life"></a>3. Game of Life</h3><p>这个<a href="https://codepen.io/ginnko/full/YQvVRw/" target="_blank" rel="noopener">demo</a>是FreeCodeCamp的一个练习，使用React实现（2017.7.05完成）。在做这个项目之前，把官方文档的基础部分全部看了一遍，这个项目中，尽量应用了学到的一些原则，比如把有具体单一功能的代码放到一个组件或函数中。  </p>
+<ul>
+<li><p>函数</p>
+<blockquote>
+<p>search：获取某个存活细胞周围的8个邻居<br>execute: 判断这当代细胞的存活<br>repeat： 重复执行判断过程  </p>
+</blockquote>
+</li>
+<li><p>组件</p>
+<blockquote>
+<p>NewTable：制造board<br>TableConstruct: 加载board以及三类点击事件（控制、board大小、速度）  </p>
+</blockquote>
+</li>
+</ul>
+<p>感觉TableConstruct的内容依然过多，可以进一步分离。</p>
+<h4 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout()"></a>setTimeout()</h4><ul>
+<li>在React中，如果想要实现通过点击某个按钮来实现改变某个元素变化的速度，就要通过<a href="https://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running" target="_blank" rel="noopener">SetTimeout()</a>来实现。setTimeout()允许在运行过程中改变时间间隔，setInterval()没有这项功能。</li>
+<li>如果要在setTimeout()或setInterval()的回调函数中直接使用所在组件的this，因为<a href="https://stackoverflow.com/questions/26348557/issue-accessing-state-inside-setinterval-in-react-js" target="_blank" rel="noopener">作用域</a>的原因，要var self = this;通过self传入this或手动绑定this。</li>
+<li><p>setInterval()的循环不能直接放进for或while循环体中，要是用类似迭代的方式。<br>如下代码：</p>
+<pre><code>function repeat(){
+  execute();
+  timer = setTimeout(repeat, self.state.speed);
+}
+</code></pre></li>
+</ul>
+<h4 id="state-amp-props"><a href="#state-amp-props" class="headerlink" title="state &amp; props"></a>state &amp; props</h4><p>本例中，NewTable组件里同时使用了props和state，忘记官方文档里是不是有说尽量把state和props分开使用了，这个有待确定。代码如下：</p>
+<pre><code>class NewTable extends React.Component{
+  constructor(props){
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {};
+  }
+  handleClick(e){
+    var flag = e.target.getAttribute(&quot;class&quot;);
+    if(flag === &quot;white&quot;){
+      e.target.setAttribute(&quot;class&quot;, &quot;red&quot;);
+    }else{
+      e.target.setAttribute(&quot;class&quot;, &quot;white&quot;);
+    }
+  }
+  render(){
+    var row = [];
+    var rowLen = this.props.rowNumber;
+    var columnLen = this.props.columnNumber;
+    var key = 0;
+    var flag = 0;
+    for(let j = 0; j&lt;rowLen; j++){
+      var tableData = [];
+      for(let i = 0; i&lt;columnLen; i++){
+        if(start === 0){
+          flag = Math.round(Math.random());
+        }else{
+          flag = 0;
+        }
+        tableData.push(&lt;td id={key++} r={0} onClick={this.handleClick} className={flag===0?&quot;white&quot;:&quot;red&quot;} role=&quot;button&quot;&gt;&lt;/td&gt;);
+      }
+      row.push(&lt;tr&gt;{tableData}&lt;/tr&gt;);
+    }
+    start = 1;
+    return &lt;tbody&gt;{row}&lt;/tbody&gt;;
+  }
+}
+</code></pre><h4 id="关于jQuery和DOM的操作"><a href="#关于jQuery和DOM的操作" class="headerlink" title="关于jQuery和DOM的操作"></a>关于jQuery和DOM的操作</h4><ul>
+<li>使用jQuery删除属性，方法：<code>$(&quot;p&quot;).removeAttr(&quot;id&quot;);</code>即可成功删除id属性。</li>
+<li>DOM元素使用<code>getAttribute()</code>和<code>setAttribute()</code>两个函数来操作属性；而jQuery使用<code>.attr()</code>来操作属性</li>
+</ul>
+<h4 id="JSX中的属性名称"><a href="#JSX中的属性名称" class="headerlink" title="JSX中的属性名称"></a>JSX中的属性名称</h4><p>官方文档中，有说JSX属性名称使用驼峰命名法，这个项目中NewTable组件里的这行代码<code>tableData.push(&lt;td id={key++} r={0} onClick={this.handleClick} className={flag===0?&quot;white&quot;:&quot;red&quot;} role=&quot;button&quot;&gt;&lt;/td&gt;);</code>最开始属性名<strong>r</strong>是写作<strong>relive</strong>但是在后面获取时失败，这明明是一个单词，不知道该在哪里驼峰。。。有待确认。  </p>
+<h3 id="4-Roguelike-Dungeon-Crawler-Game-2017-7-28完成"><a href="#4-Roguelike-Dungeon-Crawler-Game-2017-7-28完成" class="headerlink" title="4. Roguelike Dungeon Crawler Game(2017.7.28完成)"></a>4. <a href="https://codepen.io/ginnko/full/JydBWO/" target="_blank" rel="noopener">Roguelike Dungeon Crawler Game</a>(2017.7.28完成)</h3><p>这个小项目是目前最耗时的一个，写了很久，也有很多想法。最重要的一个想法是基础太重要了，所以决定后面拿出一部分时间来复习css、js基础。下面来说这个项目。  </p>
+<h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>界面可以分成五个部分，左侧的状态、中间的游戏板、上方的阴影遮挡、右侧的解释以及下方的说明。  </p>
+<ul>
+<li>下方的说明：说明部分没有借助React，是使用html节点直接显示</li>
+<li>左侧状态栏、右侧解释栏：独立组件，使用React生成，但是其中信息的更新使用了全局变量，没有通过React的状态更新（因为不知如何用React处理游戏板更新但状态栏和解释栏不变的情况）。</li>
+<li>中间游戏板： 独立组件，使用React生成，每一层的随机设置使用Math.random()函数，层与层的转换借助floor state。</li>
+<li>上方阴影遮挡： 独立组件，使用React生成，代码类似中间游戏板，去掉了随机布置的部分。透明部分使用jQuery和css完成定位和透明度转换。  </li>
+</ul>
+<h4 id="遇到的问题和解决办法"><a href="#遇到的问题和解决办法" class="headerlink" title="遇到的问题和解决办法"></a>遇到的问题和解决办法</h4><ol>
+<li>第一个问题是在<table>标签中使用onKeyDown事件，搜索发现，有两种解决办法。第一种是，在table类的标签中增加<strong>tabindex=”0”</strong>属性，用来解决table类的节点不能focused的问题，但失败了，其没有找到原因，猜测和作用域有关系；第二种办法是，在componentDidMount中设置事件监听函数，进行窗口监听，获取onKeyDown事件，成功，监听代码见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">MozillaMDN</a>。  </table></li>
+<li><p>在外部函数中改变组件的state，来re-render。解决办法是利用全局变量floor和新建一个变量var self = this;来消除作用域的隔绝。  </p>
+<pre><code>floor = 1;//全局变量  
+var self = this;//用self变量消除作用域隔绝问题
+move (id, nav, self)//将self作为函数参数传入外部move函数  
+floor++;
+self.setState({floor: floor});//在move中改变组件的state
+</code></pre></li>
+<li>地图死角问题。使用外部函数fix来解决，开始想在地图生成组件的最后来解决，但是发现捕捉到的节点全是未定义，由于React在加载前构建的全都是空节点，所以没办法使用这种方法，所以在componentDidMount、componentDidUpdate中调用fix函数通过jQuery来对地图调整。</li>
+<li>左侧状态栏、中间游戏板、右侧解释栏以及上方阴影遮挡的布局问题。最后使用绝对位置和相对位置成功解决。<strong>基础就是这么的重要啊！！！</strong></li>
+<li>上方阴影遮挡空白处随方向键移动问题。通过外部函数eye（），利用jQuery和css解决，使用了jQuery中我不太常用的.filter（）函数。另外，在实现这个功能的过程中，开始fighter从一层进入下一层时，上一层的空白可见区域会遗留而不跟随新的fighter位置变化。开始以为这个问题是因为阴影遮挡组件没有状态改变，所以不会重新加载的原因，但是通过获取fighter的更新位置，发现在地图生成组件和componentDidUpdate中获取的位置是一致的，而且只使用了jQuery和css实现，应该不是React的render问题。最后发现是在事件监听部分，先把fighter的id获取传给了一个变量，再将这个变量传给位于move（）后面的eye（）函数。move（）函数中已经变化了层数，更新了fighter的位置，但是传入的id是上一层的door的位置，所以此处不借助中间变量，直接使用<code>$(&quot;.red&quot;).attr(&quot;id&quot;)</code>获取最新的位置，解决了这个问题。  </li>
+</ol>
+<h4 id="遗留的问题"><a href="#遗留的问题" class="headerlink" title="遗留的问题"></a>遗留的问题</h4><ol>
+<li>地图生成使用了最简单的随机生成，生成复杂的规整地图有些乏力；</li>
+<li>目前没有实现固定小窗口，在小窗口内移动变换空间的功能，猜测使用了overflow属性，但查看资料overflow只对block元素有效，table类元素调整起来貌似有些困难。</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础学习"><span class="toc-text">基础学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-资料"><span class="toc-text">1. 资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-问题"><span class="toc-text">2. 问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-注意"><span class="toc-text">3. 注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用"><span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Leaderboard"><span class="toc-text">1. Leaderboard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一个方法：componentDidUpdate"><span class="toc-text">一个方法：componentDidUpdate()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个属性handleClick"><span class="toc-text">一个属性handleClick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些想法"><span class="toc-text">一些想法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些问题"><span class="toc-text">一些问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Recipe-game"><span class="toc-text">2. Recipe game</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#localStorage"><span class="toc-text">localStorage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#handle事件的绑定和使用"><span class="toc-text">handle事件的绑定和使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Forms的Controlled-Components"><span class="toc-text">Forms的Controlled Components</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Game-of-Life"><span class="toc-text">3. Game of Life</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#setTimeout"><span class="toc-text">setTimeout()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#state-amp-props"><span class="toc-text">state &amp; props</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于jQuery和DOM的操作"><span class="toc-text">关于jQuery和DOM的操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSX中的属性名称"><span class="toc-text">JSX中的属性名称</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Roguelike-Dungeon-Crawler-Game-2017-7-28完成"><span class="toc-text">4. Roguelike Dungeon Crawler Game(2017.7.28完成)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过程："><span class="toc-text">过程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#遇到的问题和解决办法"><span class="toc-text">遇到的问题和解决办法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#遗留的问题"><span class="toc-text">遗留的问题</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/06/13/Regular Express/" rel="next" title="RegExp">
+          RegExp
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/07/24/D3 learn/" rel="prev" title="D3学习">
+            D3学习
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

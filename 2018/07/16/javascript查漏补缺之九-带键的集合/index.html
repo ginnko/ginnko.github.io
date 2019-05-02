@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="javascript查漏补缺之九 ——《带键的集合》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>javascript查漏补缺之九 ——《带键的集合》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        javascript查漏补缺之九 ——《带键的集合》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-15T16:00:00.000Z">
+        2018-07-16
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="1-Map"><a href="#1-Map" class="headerlink" title="1.Map"></a><a href="http://es6.ruanyifeng.com/#docs/set-map#Map" target="_blank" rel="noopener">1.Map</a></h3><ol>
+<li><p>创建Map</p>
+<ol>
+<li><p>使用<code>set</code>方法添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const m = new Map();</span><br><span class="line">const o = &#123;p: &apos;Hello World&apos;&#125;;</span><br><span class="line"></span><br><span class="line">m.set(o, &apos;content&apos;)</span><br></pre></td></tr></table></figure>
+<p><em>set方法返回的是当前的Map对象，因此可以采用链式写法。</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let map = new Map()</span><br><span class="line">  .set(1, &apos;a&apos;)</span><br><span class="line">  .set(2, &apos;b&apos;)</span><br><span class="line">  .set(3, &apos;c&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="2">
+<li><p>调用构造函数的时候传入一个二维数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const map = new Map([</span><br><span class="line">  [&apos;name&apos;, &apos;张三&apos;],</span><br><span class="line">  [&apos;title&apos;, &apos;Author&apos;]</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>判断Map结构中是否包含某个键值，使用<code>has</code>方法</p>
+<p><code>map.has(&#39;name&#39;) // true</code></p>
+</li>
+<li><p>获取Map结构某个键对应的值，使用<code>get</code>方法</p>
+<p><code>map.get(&#39;name&#39;) // &quot;张三&quot;</code></p>
+</li>
+<li><p>删除某个键值对，使用<code>delete</code>方法</p>
+<p><code>m.delete(o) // true</code></p>
+</li>
+<li><p>清除所有成员，使用<code>clear</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let map = new Map();</span><br><span class="line">map.set(&apos;foo&apos;, true);</span><br><span class="line">map.set(&apos;bar&apos;, false);</span><br><span class="line"></span><br><span class="line">map.size // 2</span><br><span class="line">map.clear()</span><br><span class="line">map.size // 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对同一个键多次赋值，后面的值将覆盖前面的值。</p>
+</li>
+<li><p>读取一个未知的键返回undefined。</p>
+</li>
+<li><p>只有对同一个对象的引用，Map 结构才将其视为同一个键。<strong>陷阱！大陷阱！！！</strong>墙裂注意下面的代码。原因：<strong>Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题.</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const map = new Map();</span><br><span class="line"></span><br><span class="line">map.set([&apos;a&apos;], 555);</span><br><span class="line">map.get([&apos;a&apos;]) // undefined</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。</p>
+</li>
+<li><p>三个遍历器生成函数</p>
+<ol>
+<li><p>遍历的顺序就是插入的顺序。</p>
+</li>
+<li><p>使用这三个函数返回的是这种形式的结果：<code>MapIterator {&quot;F&quot;, &quot;T&quot;}</code>。这就是传说中的遍历器？！<strong>感觉可以将这个遍历器视为一个数组？下面第11项感觉可以佐证这个猜想。</strong></p>
+</li>
+</ol>
+<p>然后利用这个遍历器的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (let key of map.keys()) &#123;</span><br><span class="line">  console.log(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用<code>for of</code>循环来利用这个遍历器。</p>
+<ol start="3">
+<li>Map结构的默认遍历器接口就是entries方法。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (let [key, value] of map.entries()) &#123;</span><br><span class="line">    console.log(key, value);</span><br><span class="line">  &#125;</span><br><span class="line">  // &quot;F&quot; &quot;no&quot;</span><br><span class="line">  // &quot;T&quot; &quot;yes&quot;</span><br><span class="line"></span><br><span class="line">  // 等同于使用map.entries()</span><br><span class="line">  for (let [key, value] of map) &#123;</span><br><span class="line">    console.log(key, value);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map结构转数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const map = new Map([</span><br><span class="line">  [1, &apos;one&apos;],</span><br><span class="line">  [2, &apos;two&apos;],</span><br><span class="line">  [3, &apos;three&apos;],</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">[...map.keys()]</span><br><span class="line">// [1, 2, 3]</span><br><span class="line"></span><br><span class="line">[...map.values()]</span><br><span class="line">// [&apos;one&apos;, &apos;two&apos;, &apos;three&apos;]</span><br><span class="line"></span><br><span class="line">[...map.entries()]</span><br><span class="line">// [[1,&apos;one&apos;], [2, &apos;two&apos;], [3, &apos;three&apos;]]</span><br><span class="line"></span><br><span class="line">[...map]</span><br><span class="line">// [[1,&apos;one&apos;], [2, &apos;two&apos;], [3, &apos;three&apos;]]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map结构的遍历函数<code>forEach</code></p>
+<ol>
+<li>使用方法类似数组的<code>forEach</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map.forEach(function(value, key, map) &#123;</span><br><span class="line">  console.log(&quot;Key: %s, Value: %s&quot;, key, value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>forEach方法还可以接受第二个参数，用来绑定this</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const reporter = &#123;</span><br><span class="line">  report: function(key, value) &#123;</span><br><span class="line">    console.log(&quot;Key: %s, Value: %s&quot;, key, value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">map.forEach(function(value, key, map) &#123;</span><br><span class="line">  this.report(key, value);</span><br><span class="line">&#125;, reporter);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map转JSON</p>
+<ol>
+<li>当Map的键为字符串时</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function strMapToJson(strMap) &#123;</span><br><span class="line">  return JSON.stringify(strMapToObj(strMap));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let myMap = new Map().set(&apos;yes&apos;, true).set(&apos;no&apos;, false);</span><br><span class="line">strMapToJson(myMap)</span><br><span class="line">// &apos;&#123;&quot;yes&quot;:true,&quot;no&quot;:false&#125;&apos;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>当Map的键包含其他类型的值时</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function mapToArrayJson(map) &#123;</span><br><span class="line">  return JSON.stringify([...map]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let myMap = new Map().set(true, 7).set(&#123;foo: 3&#125;, [&apos;abc&apos;]);</span><br><span class="line">mapToArrayJson(myMap)</span><br><span class="line">// &apos;[[true,7],[&#123;&quot;foo&quot;:3&#125;,[&quot;abc&quot;]]]&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><ol>
+<li><p>WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。<strong>一旦消除对该节点的引用，它占用的内存就会被垃圾回收机制释放。Weakmap 保存的这个键值对，也会自动消失。</strong></p>
+</li>
+<li><p>WeakMap只有四个方法可用：get()、set()、has()、delete()。没有size属性。</p>
+</li>
+</ol>
+<h3 id="2-Set"><a href="#2-Set" class="headerlink" title="2. Set"></a><a href="http://es6.ruanyifeng.com/#docs/set-map#Set" target="_blank" rel="noopener">2. Set</a></h3><p>Set类似于数组，但是成员的值都是唯一的，没有重复的值。</p>
+<ol>
+<li><p>创建Set对象</p>
+<ol>
+<li><p>使用<code>add</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const s = new Set();</span><br><span class="line"></span><br><span class="line">[2, 3, 5, 4, 5, 2, 2].forEach(x =&gt; s.add(x));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>2. 传入数组或类数组参数
+
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//传入数组参数</span><br><span class="line">  const set = new Set([1, 2, 3, 4, 4]);</span><br><span class="line">  [...set]</span><br><span class="line"></span><br><span class="line">//传入类数组参数</span><br><span class="line">  const set = new Set(document.querySelectorAll(&apos;div&apos;));</span><br><span class="line">  set.size // 56</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="2">
+<li><p>数组去重的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 去除数组的重复成员</span><br><span class="line">[...new Set(array)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Set对象判断元素是否相等的算法</p>
+<p> 算法类似<code>===</code>，但是NaN在Set中被认为是等于自身的，这点和<code>===</code>不！一！样！</p>
+</li>
+<li><p>Set对象的属性</p>
+<ul>
+<li>size属性，查看元素个数</li>
+</ul>
+</li>
+<li><p>Set对象的方法</p>
+<ul>
+<li><p>add(value)：添加某个值，返回 Set 结构本身。</p>
+</li>
+<li><p>delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。</p>
+</li>
+<li><p>has(value)：返回一个布尔值，表示该值是否为Set的成员。</p>
+</li>
+<li><p>clear()：清除所有成员，没有返回值。</p>
+<p>Map对象添加元素使用的是<code>set</code>。</p>
+</li>
+</ul>
+</li>
+<li><p>Set对象转成普通数组对象</p>
+<ol>
+<li><p><code>[...setObject]</code></p>
+</li>
+<li><p><code>Array.from(setObject)</code></p>
+</li>
+</ol>
+</li>
+<li><p>遍历器</p>
+<ul>
+<li><p>keys()</p>
+</li>
+<li><p>values()</p>
+</li>
+<li><p>entries()</p>
+</li>
+</ul>
+<p>生成的遍历器结果可以使用<code>for of</code>来循环遍历进行下一步操作。由于Set对象键名和键值相同，所以<code>keys()</code>和<code>values()</code>的结果相同。</p>
+<p>Set结构的实例默认可遍历，默认遍历器生成函数就是<code>values（）</code>方法，所以可以省略写成：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let set = new Set([&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]);</span><br><span class="line"></span><br><span class="line">for (let x of set) &#123;</span><br><span class="line">  console.log(x);</span><br><span class="line">&#125;</span><br><span class="line">// red</span><br><span class="line">// green</span><br><span class="line">// blue</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>forEach（）</p>
+<p> 和Map结构相同，Set结构的forEach（）函数同样可以接受第二个参数，作为第一个函数参数中的this</p>
+</li>
+<li><p>使用Set实现交集、并集、差集</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let a = new Set([1, 2, 3]);</span><br><span class="line">let b = new Set([4, 3, 2]);</span><br><span class="line"></span><br><span class="line">// 并集</span><br><span class="line">let union = new Set([...a, ...b]);</span><br><span class="line">// Set &#123;1, 2, 3, 4&#125;</span><br><span class="line"></span><br><span class="line">// 交集</span><br><span class="line">let intersect = new Set([...a].filter(x =&gt; b.has(x)));</span><br><span class="line">// set &#123;2, 3&#125;</span><br><span class="line"></span><br><span class="line">// 差集</span><br><span class="line">let difference = new Set([...a].filter(x =&gt; !b.has(x)));</span><br><span class="line">// Set &#123;1&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Set的一个用法</p>
+<p><strong>Set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。</strong></p>
+</li>
+</ol>
+<h3 id="weakSet"><a href="#weakSet" class="headerlink" title="weakSet"></a>weakSet</h3><p>WeakSet 的成员只能是对象，而不能是其他类型的值。</p>
+<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>在Map和Set中都出现过iterable结构这个东西，这个要看下。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Map"><span class="toc-text">1.Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WeakMap"><span class="toc-text">WeakMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Set"><span class="toc-text">2. Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#weakSet"><span class="toc-text">weakSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遗留问题"><span class="toc-text">遗留问题</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/16/javascript查漏补缺之八-索引集合类/" rel="next" title="javascript查漏补缺之八——《索引集合类》">
+          javascript查漏补缺之八——《索引集合类》
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/18/http查漏补缺之一-缓存/" rel="prev" title="http查漏补缺之一 《缓存》">
+            http查漏补缺之一 《缓存》
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

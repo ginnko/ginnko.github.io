@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="javascript查漏补缺之四——《表达式和运算符》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>javascript查漏补缺之四——《表达式和运算符》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        javascript查漏补缺之四——《表达式和运算符》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-05T16:00:00.000Z">
+        2018-07-06
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 9 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <ol>
+<li><p>假值</p>
+<p> <code>false, null, 0, NaN, &quot;&quot;, undefined</code></p>
+</li>
+<li><p>逗号操作符</p>
+<p> 对两个操作数进行求值并<strong>返回最终操作数的值</strong>。它常常用在 for 循环中，在每次循环时对多个变量进行更新。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x = [0,1,2,3,4,5,6,7,8,9]</span><br><span class="line">var a = [x, x, x, x, x];</span><br><span class="line"></span><br><span class="line">for (var i = 0, j = 9; i &lt;= j; i++, j--)</span><br><span class="line">  console.log(&apos;a[&apos; + i + &apos;][&apos; + j + &apos;]= &apos; + a[i][j]);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="3">
+<li><p>delete操作符</p>
+<p> delete不能删除使用var，let，const声明的变量。</p>
+<p> delete删除数组元素值，这个元素还存在，但是值变成了undefined,<br> 执行<code>index in array</code>返回<code>false</code>。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">let obt1 = &#123;</span><br><span class="line">  test: &apos;test1&apos;,</span><br><span class="line">  test2: &apos;test2&apos;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">let arr1 = [</span><br><span class="line">    1, 2, 3</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">let obj1 = &#123;</span><br><span class="line">  test: &apos;test&apos;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(delete obj1);//false</span><br><span class="line">console.log(obj1);//&#123;test: &quot;test&quot;&#125;</span><br><span class="line"></span><br><span class="line">console.log(delete obt1.test);//true</span><br><span class="line">console.log(obt1);//&#123;test2: &quot;test2&quot;&#125;</span><br><span class="line"></span><br><span class="line">console.log(delete arr1[1]);//true</span><br><span class="line">console.log(arr1);//[1, , 3]</span><br><span class="line">conosle.log(arr1[1]);//undefined</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>表达式和语句</p>
+<p> 表达式： 用来计算出一个值</p>
+<p> 语句： 用来使某个事情发生</p>
+</li>
+<li><p>typeof操作符</p>
+<p> 返回值为字符串形式。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typeof myFun;     // returns &quot;function&quot;</span><br><span class="line">typeof shape;     // returns &quot;string&quot;</span><br><span class="line">typeof size;      // returns &quot;number&quot;</span><br><span class="line">typeof today;     // returns &quot;object&quot;</span><br><span class="line">typeof dontExist; // returns &quot;undefined&quot;</span><br><span class="line">typeof true; // returns &quot;boolean&quot;</span><br><span class="line">typeof null; // returns &quot;object&quot; 这个要注意下</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>in操作符</p>
+<p> <strong>检查它（或其原型链）是否包含具有指定名称的属性的对象。</strong></p>
+<p> <code>prop in object</code></p>
+<p> <em>prop</em>: 一个字符串类型或者 symbol 类型的属性名或者数组索引</p>
+<p> <em>object</em>: 对象或者数组</p>
+</li>
+<li><p>instance操作符</p>
+<p> <strong>instanceof 运算符用来检测 constructor.prototype 是否存在于参数 object 的原型链上。</strong></p>
+<p> <code>object instanceof constructor</code></p>
+</li>
+<li><p>基本表达式</p>
+<ol>
+<li><p>this</p>
+<p> 下面这两种用法之前没有留意过诶。</p>
+<ol>
+<li><p>作为一个DOM事件处理函数</p>
+<p> 当函数被用作事件处理函数时，它的this指向触发事件的元素。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 被调用时，将关联的元素变成蓝色</span><br><span class="line">function bluify(e)&#123;</span><br><span class="line">console.log(this === e.currentTarget); // 总是 true</span><br><span class="line"></span><br><span class="line">// 当 currentTarget 和 target 是同一个对象时为 true</span><br><span class="line">console.log(this === e.target);        </span><br><span class="line">this.style.backgroundColor = &apos;#A5D9F3&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取文档中的所有元素的列表</span><br><span class="line">var elements = document.getElementsByTagName(&apos;*&apos;);</span><br><span class="line"></span><br><span class="line">// 将bluify作为元素的点击监听函数，当元素被点击时，就会变成蓝色</span><br><span class="line">for(var i=0 ; i&lt;elements.length ; i++)&#123;</span><br><span class="line">elements[i].addEventListener(&apos;click&apos;, bluify, false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>作为一个内联事件处理函数</p>
+<p> 当代码被内联on-event 处理函数调用时，它的this指向监听器所在的DOM元素。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=&quot;alert(this.tagName.toLowerCase());&quot;&gt;</span><br><span class="line">Show this</span><br><span class="line">&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">//alert 会显示button</span><br></pre></td></tr></table></figure>
+<p> 还有下面这种用法…感觉之前完全没有想过。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function validate(obj, lowval, hival)&#123;</span><br><span class="line">if ((obj.value &lt; lowval) || (obj.value &gt; hival))</span><br><span class="line">    console.log(&quot;Invalid Value!&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;Enter a number between 18 and 99:&lt;/p&gt;</span><br><span class="line">&lt;input type=&quot;text&quot; name=&quot;age&quot; size=3 onChange=&quot;validate(this, 18, 99);&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>扩展语句</p>
+<p> <strong>注意！！！</strong>在数组或函数中使用展开语法时，该语法只可用于可迭代对象！！！！！</p>
+<ol>
+<li><p>函数调用</p>
+<p> <code>myFunction(...iterableObj);</code></p>
+<ol>
+<li><p>普通函数调用时等价于apply的方式</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function myFunction(x, y, z) &#123; &#125;</span><br><span class="line">var args = [0, 1, 2];</span><br><span class="line">myFunction.apply(null, args);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>    2. 在new表达式中应用时，不能直接使用数组+apply的方式（apply 执行的是调用 [[Call]] , 而不是构造 [[Construct]]），这时，使用扩展语句就要方便的多
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var dateFields = [1970，0，1]; // 1970年1月1日</span><br><span class="line">var d = new Date（... dateFields）;</span><br></pre></td></tr></table></figure>
+
+
+2. 字面量数组构造或字符串
+
+    `[...iterableObj, &apos;4&apos;, ...&apos;hello&apos;, 6];`
+
+    1. 利用扩展语法构造字面量数组
+
+    2. 数组拷贝
+
+        扩展语法与`Object.assign()`执行的都是浅拷贝（只遍历一层）。所以才会出现下述结果：
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a = [[1], [2], [3]];</span><br><span class="line">var b = [...a];</span><br><span class="line">b.shift().shift(); // 1</span><br><span class="line">// Now array a is affected as well: [[], [2], [3]]</span><br></pre></td></tr></table></figure>
+
+
+    3. 使用`扩展语句`和`Array.concat`有相同的效果
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用Array.concat</span><br><span class="line">var arr1 = [0, 1, 2];</span><br><span class="line">var arr2 = [3, 4, 5];</span><br><span class="line">// 将 arr2 中所有元素附加到 arr1 后面并返回</span><br><span class="line">var arr3 = arr1.concat(arr2);</span><br><span class="line"></span><br><span class="line">//使用扩展语法</span><br><span class="line">var arr1 = [0, 1, 2];</span><br><span class="line">var arr2 = [3, 4, 5];</span><br><span class="line">var arr3 = [...arr1, ...arr2];</span><br></pre></td></tr></table></figure>
+
+    4. 使用`扩展语句`和`Array.unshift`有相同的效果
+
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用unshift函数</span><br><span class="line">var arr1 = [0, 1, 2];</span><br><span class="line">var arr2 = [3, 4, 5];</span><br><span class="line">// 将 arr2 中的元素插入到 arr1 的开头</span><br><span class="line">Array.prototype.unshift.apply(arr1, arr2) // arr1 现在是 [3, 4, 5, 0, 1, 2]</span><br><span class="line"></span><br><span class="line">//使用扩展语法</span><br><span class="line">var arr1 = [0, 1, 2];</span><br><span class="line">var arr2 = [3, 4, 5];</span><br><span class="line">arr1 = [...arr2, ...arr1]; // arr1 现在为 [3, 4, 5, 0, 1, 2]</span><br></pre></td></tr></table></figure>
+
+3. 构造字面量对象时,进行克隆或者属性拷贝
+
+    `let objClone = { ...obj };`
+
+    1. **使用`扩展语句`和`Object.assign`有相同的效果**；
+
+    2. `Object.assign`仅会针对对象自身的可枚举的属性进行操作；
+
+    3. `Object.assign`会触发`setter`，而展开语句不会。
+
+        关于这条，触发了`setter`又如何，有什么特殊的影响？感觉没有诶。。。MDN的`Object.assign`页面上有下述描述：
+
+        &gt;该方法使用源对象的[[Get]]和目标对象的[[Set]]，所以它会调用相关 getter 和 setter。因此，它分配属性，而不仅仅是复制或定义新的属性。如果合并源包含getter，这可能使其不适合将新属性合并到原型中。为了将属性定义（包括其可枚举性）复制到原型，应使用Object.getOwnPropertyDescriptor()和Object.defineProperty() 。
+
+        sowhat？暂时搁置。
+</code></pre>
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/04/javascript查漏补缺之二-语法与类型/" rel="next" title="javascript查缺补漏之二 ——《语法与类型》">
+          javascript查缺补漏之二 ——《语法与类型》
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/06/chrome调试技巧/" rel="prev" title="chrome开发者工具使用技巧">
+            chrome开发者工具使用技巧
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

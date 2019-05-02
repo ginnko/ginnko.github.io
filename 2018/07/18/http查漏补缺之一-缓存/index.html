@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="http,缓存,">
+  
+
+  
+    <meta name="description" content="http查漏补缺之一 《缓存》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>http查漏补缺之一 《缓存》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        http查漏补缺之一 《缓存》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-17T16:00:00.000Z">
+        2018-07-18
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http/">http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 14 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>下面主要关于代理服务器的缓存。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ" target="_blank" rel="noopener">mdn地址</a></p>
+<a id="more"></a>
+<ol>
+<li><p>http缓存</p>
+<p> 使用<code>Cache-Control</code>控制缓存，不同值之间使用逗号和空格分割。</p>
+<ol>
+<li><p>强制确认缓存</p>
+<p> <code>Cache-Control: no-cache</code> ：每次有请求发出时，缓存会将此请求发到服务器（译者注：该请求应该会带有与本地缓存相关的验证字段），服务器端会验证请求中所描述的缓存是否过期，若未过期（注：实际就是返回304），则缓存才使用本地缓存副本。</p>
+<p> <em>MDN的页面请求头中都带有这个消息头，比如这个<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ" target="_blank" rel="noopener">页面</a>。</em></p>
+</li>
+<li><p>缓存过期机制</p>
+<p> <code>Cache-Control: max-age=31536000</code>：max-age是距离请求发起的时间的秒数。针对应用中那些不会改变的文件，通常可以手动设置一定的时长以保证缓存有效，例如图片、css、js等静态资源。</p>
+<p> <em>比如这个<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ" target="_blank" rel="noopener">页面</a>的css文件</em></p>
+<p> <img src="/images/http/1.png" alt="缓存过期时间"></p>
+</li>
+<li><p>禁止进行缓存</p>
+<p> <code>Cache-Control: no-store</code></p>
+</li>
+<li><p>缓存验证确认</p>
+<p> <code>Cache-Control: must-revalidate</code></p>
+<p> 如果缓存的响应头信息里含有”Cache-control: must-revalidate”的定义，在浏览的过程中（感觉此处的浏览过程中指的是正常的接到响应）也会触发缓存验证。</p>
+</li>
+</ol>
+</li>
+<li><p>Expires</p>
+<p> Expires响应头包含日期/时间，即在此时间之后，响应过期。</p>
+<p> 如果在<code>Cache-Control</code>相应头设置了 <em>max-age</em> 那么Expires头会被忽略。</p>
+</li>
+<li><p>缓存新鲜度</p>
+<p> 由于缓存只有有限的空间用于存储资源副本，所以缓存会定期地将一些副本删除，这个过程叫做缓存驱逐。</p>
+<p> 服务器更新一个资源时，不可能直接通知客户端及其缓存，所以双方必须为该资源约定一个过期时间，在该过期时间之前，该资源（缓存副本）就是新鲜的，当过了过期时间后，该资源（缓存副本）则变为陈旧的。</p>
+<p> 驱逐算法用于将陈旧的资源（缓存副本）替换为新鲜的，注意，一个陈旧的资源（缓存副本）是不会直接被清除或忽略的，当客户端发起一个请求时，缓存检索到已有一个对应的陈旧资源（缓存副本），则缓存会先将此请求附加一个<code>If-None-Match</code>头，然后发给目标服务器，以此来检查该资源副本是否是依然还是算新鲜的，若服务器返回了 <code>304 (Not Modified)</code>（该响应不会有带有实体信息），<strong>则表示此资源副本是新鲜的</strong>，这样一来，可以节省一些带宽。若服务器通过 If-None-Match 或 If-Modified-Since判断后发现已过期，那么会带有该资源的实体内容返回。</p>
+<p> 见下图描述：</p>
+<p> <img src="/images/http/HTTPStaleness.png" alt="缓存新鲜度"></p>
+</li>
+<li><p>计算缓存寿命</p>
+<ol>
+<li><p>当有比如<code>Cache-control: max-age=N的请求头</code>这种的特定头，相应的缓存的寿命就是N。</p>
+</li>
+<li><p>如果没有 <code>Cache-control</code>请求头，会去查看是否包含<code>Expires</code>属性，通过比较Expires的值和头里面Date属性的值来判断是否缓存还有效。<code>Expires</code>表示一个日期时间，如果<code>Date</code>表示的日期和时间大于<code>Expires</code>则表示缓存已经过期。</p>
+</li>
+<li><p>如果既没有<code>Cache-control</code>， 也没有<code>Expires</code>，就会查找头里的<code>Last-Modified</code>信息。如果有，缓存的寿命就等于头里面Date的值减去Last-Modified的值除以10。Date表示消息生成的日期和时间。</p>
+<p><img src="/images/http/2.png" alt="第三种计算缓存时间的方法"></p>
+</li>
+</ol>
+</li>
+<li><p>ff和chrome查看缓存的方法</p>
+<ul>
+<li><p>Firefox: Navigate to about:cache.</p>
+</li>
+<li><p>Chrome: Navigate to chrome://cache.</p>
+</li>
+</ul>
+</li>
+<li><p>计算过期时间</p>
+<p> MDN上给出的计算公式如下：</p>
+<blockquote>
+<p>expirationTime = responseTime + freshnessLifetime - currentAge</p>
+</blockquote>
+<p> 其中，</p>
+<ul>
+<li><p>responseTime：表示浏览器接收到此响应的那个时间点。（感觉这项应该是在浏览器的某处找到）</p>
+</li>
+<li><p>freshnessLifetime： 表示缓存的寿命。</p>
+</li>
+<li><p>currentAge： 感觉对应响应头中的age，表示消息对象在缓存代理服务器中存贮的时长</p>
+<p>这样 <em>寿命</em> - <em>已经存在的时间</em> + <em>最近一次到达浏览器的时间</em> 就得到未来缓存过期的时间。</p>
+</li>
+</ul>
+</li>
+<li><p>资源加速</p>
+<p> 下面这个要问一下。</p>
+<blockquote>
+<p>更多地利用缓存资源，可以提高网站的性能和相应速度。为了优化缓存，过期时间设置得尽量长是一种很好的策略。对于定期或者频繁更新的资源，这么做是比较稳妥的，但是对于那些长期不更新的资源会有点问题。这些固定的资源在一定时间内受益于这种长期保持的缓存策略，但一旦要更新就会很困难。特指网页上引入的一些js/css文件，当它们变动时需要尽快更新线上资源。</p>
+</blockquote>
+<blockquote>
+<p>web开发者发明了一种 Steve Sounders 称作加速（译者注：revving）的技术[1] 。不频繁更新的文件会使用特定的命名方式：在URL后面（通常是文件名后面）会加上版本号。加上版本号后的资源就被视作一个完全新的独立的资源，同时拥有一年甚至更长的缓存过期时长。但是这么做也存在一个弊端，所有引用这个资源的地方都需要更新链接。web开发者们通常会采用自动化构建工具在实际工作中完成这些琐碎的工作。当低频更新的资源（js/css）变动了，只用在高频变动的资源文件（html）里做入口的改动。</p>
+</blockquote>
+<blockquote>
+<p>这种方法还有一个好处：同时更新两个缓存资源不会造成部分缓存先更新而引起新旧文件内容不一致。对于互相有依赖关系的css和js文件，避免这种不一致性是非常重要的。</p>
+</blockquote>
+<blockquote>
+<p>加在加速文件后面的版本号不一定是一个正式的版本号字符串，如1.1.3这样或者其他固定自增的版本数。它可以是任何防止缓存碰撞的标记例如hash或者时间戳。</p>
+</blockquote>
+</li>
+</ol>
+<ol start="8">
+<li><p>缓存验证</p>
+<p> 缓存验证出发的方法：</p>
+<ol>
+<li><p>用户点击刷新按钮时会开始缓存验证;</p>
+</li>
+<li><p>如果缓存的响应头信息里含有”Cache-control: must-revalidate”的定义，在浏览的过程中也会触发缓存验证。（已在上面做了解释）</p>
+</li>
+<li><p>在浏览器偏好设置里设置Advanced-&gt;Cache为强制验证缓存也能达到相同的效果。</p>
+<p>只要出发了缓存验证在请求中就会带有条件<code>If-None-Match</code>或<code>If-Modified-Since</code>（？），不带条件的请求就会重新获取资源。</p>
+</li>
+</ol>
+</li>
+<li><p>缓存过期后的处理方法</p>
+<p> 当缓存的文档过期后，需要进行<strong>缓存验证</strong>或者<strong>重新获取资源</strong>。</p>
+<ul>
+<li><p>缓存校验</p>
+<p>  触发条件： <strong>只有在服务器返回强校验器或者弱校验器时才会进行验证。</strong></p>
+<ol>
+<li><p>如果资源请求的响应头里含有ETag, 客户端可以在后续的请求的头中带上 If-None-Match 头来验证缓存。</p>
+</li>
+<li><p>Last-Modified 响应头可以作为一种弱校验器。说它弱是因为它只能精确到一秒。如果响应头里含有这个信息，客户端可以在后续的请求中带上 If-Modified-Since 来验证缓存。</p>
+<p>结果：<strong>当向服务端发起缓存校验的请求时，服务端会返回 200 ok表示返回正常的结果或者 304 Not Modified(不返回body)表示浏览器可以使用本地缓存文件。304的响应头也可以同时更新缓存文档的过期时间。</strong></p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>带Vary头的响应</p>
+<ol>
+<li><p>Vary HTTP 响应头决定了对于后续的请求头，如何判断是请求一个新的资源还是使用缓存的文件。</p>
+<p> <img src="/images/http/HTTPVary.png" alt="Vary头的使用"></p>
+</li>
+<li><p>使用vary头有利于内容服务的动态多样性。</p>
+<p> 例如，使用Vary: User-Agent头，缓存服务器需要通过UA判断是否使用缓存的页面。如果需要区分移动端和桌面端的展示内容，利用这种方式就能避免在不同的终端展示错误的布局。(但这样的话岂不是要写移动和桌面端两份文件，对于前端就是包袱啊！！！不如媒体查询来的方便！！！)</p>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/16/javascript查漏补缺之九-带键的集合/" rel="next" title="javascript查漏补缺之九 ——《带键的集合》">
+          javascript查漏补缺之九 ——《带键的集合》
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/18/javascript查漏补缺之十-使用对象/" rel="prev" title="javascript查漏补缺之十——《使用对象》">
+            javascript查漏补缺之十——《使用对象》
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

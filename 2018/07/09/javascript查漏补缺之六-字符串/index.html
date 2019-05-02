@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="javascript查漏补缺之六——《字符串》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>javascript查漏补缺之六——《字符串》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        javascript查漏补缺之六——《字符串》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-08T16:00:00.000Z">
+        2018-07-09
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 11 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide" target="_blank" rel="noopener">译文链接</a></p>
+<a id="more"></a>
+<ol>
+<li><p>String对象方法</p>
+<ol>
+<li><p><code>String.prototype.charAt()</code>：从一个字符串中返回指定的字符。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var anyString = &quot;Brave new world&quot;;</span><br><span class="line"></span><br><span class="line">console.log(&quot;The character at index 0   is &apos;&quot; + anyString.charAt(0)   + &quot;&apos;&quot;);</span><br><span class="line">console.log(&quot;The character at index 1   is &apos;&quot; + anyString.charAt(1)   + &quot;&apos;&quot;);</span><br><span class="line">console.log(&quot;The character at index 2   is &apos;&quot; + anyString.charAt(2)   + &quot;&apos;&quot;);</span><br><span class="line">console.log(&quot;The character at index 3   is &apos;&quot; + anyString.charAt(3)   + &quot;&apos;&quot;);</span><br><span class="line">console.log(&quot;The character at index 4   is &apos;&quot; + anyString.charAt(4)   + &quot;&apos;&quot;);</span><br><span class="line">console.log(&quot;The character at index 999 is &apos;&quot; + anyString.charAt(999) + &quot;&apos;&quot;);</span><br><span class="line"></span><br><span class="line">//输出结果：</span><br><span class="line">The character at index 0 is &apos;B&apos;</span><br><span class="line">The character at index 1 is &apos;r&apos;</span><br><span class="line">The character at index 2 is &apos;a&apos;</span><br><span class="line">The character at index 3 is &apos;v&apos;</span><br><span class="line">The character at index 4 is &apos;e&apos;</span><br><span class="line">The character at index 999 is &apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.charCodeAt(index)</code>: 能正确返回一个两个字节组成的字符的码点值。</p>
+</li>
+<li><p><code>String.prototype.pointCodeAt(index)</code>： 能正确返回一个四个字节组成的字符的码点值。</p>
+</li>
+<li><p><code>String.prototype.indexOf()</code>: indexOf() 方法返回调用  String 对象中第一次出现的指定值的索引，开始在 fromIndex进行搜索。如果未找到该值，则返回-1。<strong>这个方法区分大小写</strong>。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&apos;Blue Whale&apos;.indexOf(&apos;lu&apos;)</span><br><span class="line">//1</span><br><span class="line"></span><br><span class="line">//判断某个字符串是否存在于另一个字符串中</span><br><span class="line">&quot;Blue Whale&quot;.indexOf(&quot;Blue&quot;) !== -1; // true</span><br><span class="line">&quot;Blue Whale&quot;.indexOf(&quot;Bloe&quot;) !== -1; // false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.lastIndexOf()</code>: lastIndexOf() 方法返回指定值在调用该方法的字符串中最后出现的位置，如果没找到则返回 -1。从该字符串的后面向前查找，从 fromIndex 处开始。</p>
+<p> 其中， fromIndex从调用该方法字符串的此位置处开始查找。可以是任意整数。默认值为 str.length。如果为负值，则被看作 0。如果 fromIndex &gt; str.length，则 fromIndex 被看作 str.length。</p>
+</li>
+<li><p><code>String.prototype.startsWith()</code>: 用来判断当前字符串是否以另外一个给定的子字符串开头，返回true或false。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str = &apos;To be, or not to be, that is a question.&apos;;</span><br><span class="line"></span><br><span class="line">alert(str.startsWith(&apos;To be&apos;))//true</span><br><span class="line">alert(str.startsWith(&apos;not to be&apos;))//false</span><br><span class="line">alert(str.startsWith(&apos;not to be&apos;, 10))//true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.endWith()</code>: endsWith()方法用来判断当前字符串是否是以另外一个给定的子字符串“结尾”的，根据判断结果返回 true 或 false。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;To be, or not to be, that is the question.&quot;;</span><br><span class="line"></span><br><span class="line">alert( str.endsWith(&quot;question.&quot;) );  // true</span><br><span class="line">alert( str.endsWith(&quot;to be&quot;) );      // false</span><br><span class="line">alert( str.endsWith(&quot;to be&quot;, 19) );  // true</span><br><span class="line"></span><br><span class="line">注意最后一个alert，结束位置是19而不是18,19表示的是be后面的那个逗号。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.includes()</code>: 判断一个字符串中是否包含另一个字符串，返回true或false。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var str = &apos;To be, or not to be, that is the question.&apos;;</span><br><span class="line"></span><br><span class="line">console.log(str.includes(&apos;To be&apos;));       // true</span><br><span class="line">console.log(str.includes(&apos;question&apos;));    // true</span><br><span class="line">console.log(str.includes(&apos;nonexistent&apos;)); // false</span><br><span class="line">console.log(str.includes(&apos;To be&apos;, 1));    // false</span><br><span class="line">console.log(str.includes(&apos;TO BE&apos;));       // false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.concat()</code>:字符串拼接函数，由于性能问题，mdn建议使用<code>+</code>代替这个函数拼接字符串。自己写代码好像还真没用过这个函数。</p>
+</li>
+<li><p><code>String.fromCharCode()</code>：这个函数是String类的静态方法，必须这样使用。返回<strong>字符串</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.fromCharCode(65,66,67)//&apos;ABC&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.fromCodePoint()</code>: 这个函数同样是String类的静态方法。参数是高位码点。</p>
+</li>
+<li><p><code>String.prototype.split(seperator[,limit])</code>: 使用指定的分隔符字符串将一个String对象分割成字符串数组，以将字符串分隔为子字符串，以确定每个拆分的位置。separator 可以是一个字符串或正则表达式。</p>
+<ul>
+<li><p>例1：使用空格作为Seperator</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Webkit Moz O ms Khtml&quot;.split( &quot; &quot; )   // [&quot;Webkit&quot;, &quot;Moz&quot;, &quot;O&quot;, &quot;ms&quot;, &quot;Khtml&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例2：使用正则表达式作为Seperator,正则表达式不需要加<code>g</code>标识符。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var myString = &quot;Hello 1 word. Sentence number 2.&quot;;</span><br><span class="line">var splits = myString.split(/(\d)/);</span><br><span class="line"></span><br><span class="line">console.log(splits);</span><br><span class="line"></span><br><span class="line">//[ &quot;Hello &quot;, &quot;1&quot;, &quot; word. Sentence number &quot;, &quot;2&quot;, &quot;.&quot; ]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>例3：设置第二个参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var myString = &quot;Hello World. How are you doing?&quot;;</span><br><span class="line">var splits = myString.split(&quot; &quot;, 3);</span><br><span class="line"></span><br><span class="line">console.log(splits);</span><br><span class="line"></span><br><span class="line">//[&quot;Hello&quot;, &quot;World.&quot;, &quot;How&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.slice(begin[, end])</code>:返回一个子字符串，提取范围是[begin, end),其中end为可选参数，如果begin或end为负值，则实际为length+begin/length+end。</p>
+</li>
+<li><p><code>String.prototype.substring(begin[, end]</code>: 返回一个子字符串。类似上面的slice方法。当begin&gt;end时，会交换begin和end的位置执行。</p>
+</li>
+<li><p><code>String.prototype.substr(start[, length])</code>：返回一个字符串中从指定位置开始到指定字符数的字符。</p>
+</li>
+<li><p><code>String.prototype.match()</code>： <code>match（）</code>函数是<strong>字符对象</strong>的方法！！！</p>
+<ul>
+<li><p>接受一个<strong>正则表达式</strong></p>
+<ol>
+<li><p>正则表达式没有加<code>g</code>时，返回的数组会带有一个<code>index</code>属性，表示匹配结果的索引；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var reg = /matc(h)/;</span><br><span class="line"></span><br><span class="line">var str = &apos;this is a match function test.&apos;;</span><br><span class="line"></span><br><span class="line">var re = str.match(reg);</span><br><span class="line"></span><br><span class="line">re;</span><br><span class="line"></span><br><span class="line">// [&quot;match&quot;, &quot;h&quot;, index: 10, input: &quot;this is a match function test.&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果加了<code>g</code>，则只会返回匹配项组成的数组（不包含括号）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var reg = /matc(h)/g;</span><br><span class="line"></span><br><span class="line">var str = &apos;this is a match function test.&apos;;</span><br><span class="line"></span><br><span class="line">var re = str.match(reg);</span><br><span class="line"></span><br><span class="line">re;</span><br><span class="line"></span><br><span class="line">// [&quot;match&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><code>String.prototype.replace()</code>:replace() 方法返回一个由替换值替换一些或所有匹配的模式后的新字符串。模式可以是一个字符串或者一个正则表达式, 替换值可以是一个字符串或者一个每次匹配都要调用的函数。(自己写代码有用到这个函数多次，还算熟)。</p>
+<blockquote>
+<p>str.replace(regexp|substr, newSubStr|function)</p>
+</blockquote>
+<ol>
+<li>第二个参数是<strong>字符串</strong>时, 可以使用下图中所示变量名。对于最后一个变量名<code>$n</code>，要特别说明下，第一个括号用1表示而不是0。</li>
+</ol>
+<p><img src="/images/js/3.png" alt="特殊变量名"></p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//交换一个字符串中两个单词的位置</span><br><span class="line"></span><br><span class="line">var re = /(\w+)\s(\w+)/;</span><br><span class="line">var str = &quot;John Smith&quot;;</span><br><span class="line">var newstr = str.replace(re, &quot;$2, $1&quot;);</span><br><span class="line">// Smith, John</span><br><span class="line">console.log(newstr);</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="2">
+<li>第二个参数是<strong>函数</strong>时，每次匹配成功都会调用这个函数，将返回结果作为替代字符串。</li>
+</ol>
+<p><img src="/images/js/4.png" alt="函数参数"></p>
+</li>
+<li><p><code>String.prototype.search()</code>: 如果匹配成功，则 search() 返回正则表达式在字符串中首次匹配项的索引。否则，返回 -1。</p>
+<p>使用<strong>-1</strong>来判断是否有匹配成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function testinput(re, str)&#123;</span><br><span class="line">var midstring;</span><br><span class="line">if (str.search(re) != -1)&#123;</span><br><span class="line">    midstring = &quot; contains &quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    midstring = &quot; does not contain &quot;;</span><br><span class="line">&#125;</span><br><span class="line">console.log (str + midstring + re);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>String.prototype.repeat()</code>：记得以前看python的时候好像字符串和乘号能直接翻倍字符串，js中好像没有这种功能。</p>
+</li>
+<li><p><code>String.prototype.trim()</code>: <strong>trim方法</strong>只会删除开头和结尾的空白，对于字符中的空白无能为力。</p>
+</li>
+</ol>
+</li>
+<li><p>模板字符串</p>
+<ol>
+<li>换行：这个超方便。超方便！</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/07/javascript查漏补缺之五-数字和日期/" rel="next" title="javascript查漏补缺之五——《数字和日期》">
+          javascript查漏补缺之五——《数字和日期》
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/15/javascript查漏补缺之七-正则表达式/" rel="prev" title="javascript查漏补缺之七——《正则表达式》">
+            javascript查漏补缺之七——《正则表达式》
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

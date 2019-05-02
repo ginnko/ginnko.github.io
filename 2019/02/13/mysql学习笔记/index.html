@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="mysql,">
+  
+
+  
+    <meta name="description" content="mysql基础学习笔记">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>mysql基础学习笔记 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        mysql基础学习笔记
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-02-12T16:00:00.000Z">
+        2019-02-13
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 43 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h1 id="mysql基础学习笔记"><a href="#mysql基础学习笔记" class="headerlink" title="mysql基础学习笔记"></a>mysql基础学习笔记</h1><p>学习视频：<a href="https://www.bilibili.com/video/av19538278?t=47&amp;p=32" target="_blank" rel="noopener">https://www.bilibili.com/video/av19538278?t=47&amp;p=32</a></p>
+<p>视频中用到的资料：<a href="https://blog.csdn.net/qq_27229113/article/details/75206309" target="_blank" rel="noopener">https://blog.csdn.net/qq_27229113/article/details/75206309</a></p>
+<p>这套视频详细介绍了增删改查，左连接，子查询，视图，简单介绍了事务，引擎的区别。关于这套教程的一些想法：老师是真的教得好。还会讲一些项目、字段的设计、字符集之类的话题，感觉平时自己只是随便取出数据就用来控制或是显示了，没有怎么细想过，现在感觉理解上有些不一样了，也说不好哪儿不一样，总之感觉进步了一点点。</p>
+<p>orm vs 原生sql：</p>
+<ol>
+<li><a href="https://stackoverflow.com/questions/3360304/orm-vs-traditional-database-query-which-are-their-fields" target="_blank" rel="noopener">https://stackoverflow.com/questions/3360304/orm-vs-traditional-database-query-which-are-their-fields</a></li>
+<li><a href="https://stackoverflow.com/questions/494816/using-an-orm-or-plain-sql" target="_blank" rel="noopener">https://stackoverflow.com/questions/494816/using-an-orm-or-plain-sql</a></li>
+<li><a href="https://blog.logrocket.com/why-you-should-avoid-orms-with-examples-in-node-js-e0baab73fa5" target="_blank" rel="noopener">https://blog.logrocket.com/why-you-should-avoid-orms-with-examples-in-node-js-e0baab73fa5</a></li>
+<li><a href="https://medium.com/ameykpatil/why-orm-shouldnt-be-your-best-bet-fffb66314b1b" target="_blank" rel="noopener">https://medium.com/ameykpatil/why-orm-shouldnt-be-your-best-bet-fffb66314b1b</a></li>
+</ol>
+<p>决定后面的练习写sql了。</p>
+<a id="more"></a>
+<hr>
+<h3 id="解决乱码的办法"><a href="#解决乱码的办法" class="headerlink" title="解决乱码的办法"></a>解决乱码的办法</h3><p><code>set names gbk</code></p>
+<h3 id="一个建表语句"><a href="#一个建表语句" class="headerlink" title="一个建表语句"></a>一个建表语句</h3><p>create table class(<br>  id int primary key auto_increment,<br>  sname varchar(10) not null default ‘’,<br>  gender char(1) not null default ‘’,<br>  company varchar(20) not null default ‘’,<br>  salary decimal(6,2) not null default 0.00,<br>  fanbu smallint not null default 0<br>) engine myisam charset utf8;</p>
+<h3 id="增的操作"><a href="#增的操作" class="headerlink" title="增的操作"></a>增的操作</h3><ol>
+<li>往哪张表</li>
+<li>往哪几列</li>
+<li>添加哪些值</li>
+</ol>
+<p>insert into class<br>(id,sname,gender,company,salary,fanbu)<br>values<br>(1,’张三’,’男’,’百度’,8888.67,234);</p>
+<!-- 增多行 -->
+<p>insert into class<br>(sname,company,salary)<br>values<br>(‘刘备’,’皇室成员’,15.28),<br>(‘孙策’,’江东集团’,56.34),<br>(‘曹操’,’宦官后裔’,88.56);</p>
+<h3 id="删的操作"><a href="#删的操作" class="headerlink" title="删的操作"></a>删的操作</h3><p>删除就是指删除整行，不存在删除某几列</p>
+<ol>
+<li>删哪张表</li>
+<li>删哪行</li>
+</ol>
+<p>delete from class where salary&gt;8000;</p>
+<p>delete from class where salary&gt;8000 and gender=’女’;</p>
+<h3 id="改的操作"><a href="#改的操作" class="headerlink" title="改的操作"></a>改的操作</h3><ol>
+<li>改哪张表</li>
+<li>该哪几列</li>
+<li>改成什么值</li>
+<li>在哪一行生效</li>
+</ol>
+<p>update class<br>set<br>gender=’女’,<br>company=’千度’<br>where id=2;</p>
+<p>update class<br>set fanbu=150<br>where gender=’男’ and salary&gt;8000;</p>
+<p>update class<br>set fanbu=100<br>where 1;</p>
+<h3 id="查的操作"><a href="#查的操作" class="headerlink" title="查的操作"></a>查的操作</h3><ol>
+<li>从哪张表查</li>
+<li>查哪几列</li>
+<li>满足哪些条件</li>
+</ol>
+<p>select * from class; // 查class表中的所有数据</p>
+<p>select sname,gender from class where id&lt;5; //查class表中id&lt;5的sname和gender列</p>
+<p>select * from class where id=3; // 从class表中查id=3的所有列</p>
+<p>select sname,gender from class; //从class表中查sname，gender两列的所有行</p>
+<h3 id="后面要学"><a href="#后面要学" class="headerlink" title="后面要学"></a>后面要学</h3><ol>
+<li>如何自己建表</li>
+<li>如何修改表（增加减少列等）</li>
+<li>多表联查</li>
+<li>子查询</li>
+<li>触发器</li>
+<li>事务</li>
+<li>存储过程</li>
+<li>备份恢复</li>
+</ol>
+<h3 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h3><p>建表的过程就是一个 <strong>声明字段</strong> 的过程.</p>
+<p><strong>存储同样的数据，不同的列类型所占据的空间和效率是不一样的，这就是建表前学习列类型的意义。重点学列类型的存储范围和占据的字节大小。</strong></p>
+<p>为什么建表时，加<em>not null default ‘’/0</em>？</p>
+<p>答：不想让表中出现null值。</p>
+<p>为什么不想要null值？</p>
+<p>答：1.不好比较，null是一种类型，比较时只能用专门的is null和is not null来比较，碰到运算符一律返回null；2.效率不高，不利于提高索引效果。因此 <strong>在建表时往往声明not null default 0/‘’</strong>。</p>
+<p>比较null要用专门的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from test where sname is null;</span><br><span class="line">select * from test where sname is not null;</span><br></pre></td></tr></table></figure>
+<p>mysql三大列类型</p>
+<ul>
+<li><p>数值型</p>
+<ul>
+<li><p>整型</p>
+<ul>
+<li>Tinyint<ul>
+<li>占据空间：1个字节</li>
+<li>存储范围：-128~127（0~255）</li>
+<li>参数：(M) unsigned zerofill</li>
+<li>默认有符号</li>
+</ul>
+</li>
+<li>Smallint</li>
+<li>Mediumint</li>
+<li>bigint</li>
+</ul>
+</li>
+<li><p>小数(浮点型、定点型)</p>
+<ul>
+<li>M：精度（小数所有位数）</li>
+<li>D：标度（小数后位数）</li>
+<li>范围：float能存10^38.10^-38</li>
+<li>占据空间：M&lt;=24，占4个字节，否则占8个字节</li>
+<li>定点：定点数是把整数部分和小数部分分开存储的，比float精确。float有时会损失精度，如果像银行这样的敏感字段，建议用decimal</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>补码规则</p>
+</li>
+</ul>
+<p>计算机中的负数，不是按照后面的绝对值位乘-1得到的，而是用补码规则换算的。</p>
+<p>负数 = 绝对值位 - 128</p>
+<p>1111 1111 =========&gt; -1</p>
+<p>1000 0000 =========&gt; -128</p>
+<ul>
+<li><p>字符串类型</p>
+<ul>
+<li>char：定长类型，对于char(M)，M代表宽度（占用空间，限制的是字符不是字节），0&lt;=M&lt;=255之间，表示能输M个字符，不够M个长度在尾部用空格补齐，能通过数学计算出位置。从利用率的角度，能达到100%。在存取特点上，char型如果不够M个字符，内部用空格补齐，取出时再把右侧空格删掉，这意味着如果右侧本身有空格，将会丢失。速度上定长类型快一些。</li>
+<li>varchar：变长类型，对于varchar(M)，M代表宽度（占用空间，限制的是字符不是字节），0&lt;=M&lt;=65535(以ascii字符为例，utf8 22000左右)。varchar(100)能存0-100个字符。每个varchar前还有1-2个字符用来表示当前字符的长度，从利用率的角度，到不了100%。</li>
+<li>Text：文本类型，可以存比较大的文本段，搜索速度稍慢。如果不是特别大的内容，建议使用char、varchar来代替。</li>
+<li>Blob：是二进制类型，用来存储图像，音频等二进制信息。<strong>Blob在于防止因为字符集的问题，导致信息丢失。比如一张图片中有0xFF字节，这个在ascii字符集中认为非法，在入库的时候被过滤。</strong></li>
+<li>日期类型：5.7版本的mysql的date类型不支持0为默认值，具体原因参考<a href="https://blog.csdn.net/chenshun123/article/details/79676567" target="_blank" rel="noopener">这里</a>。date类型能存储的范围是<code>1000-01-01~9999-12-31</code>。</li>
+<li>时间类型</li>
+<li>日期时间类型：输入格式YYYY-mm-dd HH:mm:ss。但一般使用时间戳来存储。</li>
+<li>时间戳类型：timestamp</li>
+<li>年份类型：year 1901-2155 255个年份+0000一个错误年份</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h3><ul>
+<li><p>新增列语法：</p>
+<ol>
+<li>alter table 表名 add 列名称 列类型 列参数;(加在最后)</li>
+<li>alter table 表名 add 列名称 列类型 列参数 after 指定列;(加在指定列后面)</li>
+<li>alter table 表名 add 列名称 列类型 列参数 first；（加在第一行）</li>
+</ol>
+</li>
+<li><p>删除列语法：</p>
+<ol>
+<li>alter table 表名 drop 类名;</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>修改列语法：</p>
+<ol>
+<li>alter table 表名 modify 列明 新类型 新参数;（此方法不能该表名）</li>
+</ol>
+</li>
+<li><p>修改列明和列类型语法：</p>
+<ol>
+<li>alter table 表名 change 旧列名 新列名 新参数；</li>
+</ol>
+</li>
+</ul>
+<h3 id="查询建表语句"><a href="#查询建表语句" class="headerlink" title="查询建表语句"></a>查询建表语句</h3><p>show create table 表名;</p>
+<h3 id="从一个表中将特定几列的数据拷入另一个表中"><a href="#从一个表中将特定几列的数据拷入另一个表中" class="headerlink" title="从一个表中将特定几列的数据拷入另一个表中"></a>从一个表中将特定几列的数据拷入另一个表中</h3><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p><strong>使用某个具体的字段来数的话，如果这个字段下某一行的值为null，使用count时，不计入数量。使用count(*)数绝对的行数。</strong></p>
+<p><strong>用count(*)和count(1)谁好呢？</strong></p>
+<p><strong>对于myisam引擎的表来说没有区别，这种表内部有一个计数器用来维护行数。对于Innodb引擎的表来说，用count(*)直接读行数效率很低，因为innodb真的要去数一遍</strong></p>
+<p><em>以下查询基于<a href="https://blog.csdn.net/qq_27229113/article/details/75206309" target="_blank" rel="noopener">这里</a>的数据。</em></p>
+<ol>
+<li><p>基础查询 <strong>where</strong> 的练习</p>
+<p> 1.1 主键为32的商品id、商品名称和商城内售价</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods where goods_id=32;</span><br></pre></td></tr></table></figure>
+<p> 1.2 类型不是3的商品id、类型id、商品名称、商城内售价</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where cat_id!=3;</span><br></pre></td></tr></table></figure>
+<p> 1.3 商城内价格高于3000块的商品的商品id、类型id、商品名称、商城内售价</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where shop_price&gt;3000;</span><br></pre></td></tr></table></figure>
+<p> 1.4 商城内价格低于或等于100块的商品的商品id、类型id、商品名称、商城内售价</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where shop_price&lt;=100;</span><br></pre></td></tr></table></figure>
+<p> 1.5 查询分类为4和11的商品，不许用or</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name.shop_price from goods where cat_id in (4,11);</span><br></pre></td></tr></table></figure>
+<p> 1.6 查询大于等于100块小于等于500块的商品，不能用逻辑与and</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where shop_price between 100 and 500;</span><br></pre></td></tr></table></figure>
+<p> 1.7 取出不再分类为3且不在分类为11中的商品，用not in 和 and 分别实现</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 用not in实现 --&gt;</span><br><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where cat_id not in (3,11);</span><br><span class="line"></span><br><span class="line">&lt;!-- 用and实现 --&gt;</span><br><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where cat_id != 3 and cat_id != 11;</span><br></pre></td></tr></table></figure>
+<p> 1.8 取出价格大于100且小于300或者大于4000且小于5000的商品</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where (shop_price&gt;100 and shop_price&lt;300) or (shop_price&gt;4000 and shop_price&lt;5000);</span><br></pre></td></tr></table></figure>
+<p> 1.9 取出分类3下的价格小于1000或者大于3000，同时点击量大于等于5的商品</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where (cat_id=3) and (shop_price&lt;1000 or shop_price&gt;3000) and (click&gt;=5);</span><br></pre></td></tr></table></figure>
+<p> 1.10 查出名字以诺开头的商品</p>
+<p> 模糊查询 关键字 <strong>like</strong></p>
+<p> 在查询字段后加 <strong>%(百分号匹配任意个字符)</strong></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where goods_name like &apos;诺记%&apos;;</span><br></pre></td></tr></table></figure>
+<p> 使用 <strong>_</strong>匹配任意个单个字符</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,cat_id,goods_name,shop_price from goods where goods_name like &apos;诺记__&apos;;</span><br></pre></td></tr></table></figure>
+<p> 1.11 查出在商城中购买商品比市场价省多少钱</p>
+<p> 将字段名字看作是变量，既然是变量就可以参与运算</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,(market_price-shop_price) as discount from goods where cat_id&gt;10;</span><br></pre></td></tr></table></figure>
+<p> 1.12 查出本店价比市场价省的钱，而且省200以上的商品</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,(market_price-shop_price) as discount from goods where (market_price-shop_price)&gt;200;</span><br></pre></td></tr></table></figure>
+<p> 此处where中不能使用discount是因为where是在原表中发挥作用，原表中没有discount的字段，结果表中才有discount的字段，继续筛结果表中的数据要使用 <strong>having</strong>。</p>
+<p> 1.13 将20-19之间的数改为20,30-39之间的数改为30</p>
+<p> 把num当成变量看，num/10取整再乘以10。。。麻的，真妥么想不到诶。。。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update cv set num=floor(num/10)*10 where num between 20 and 40;</span><br></pre></td></tr></table></figure>
+<p> <strong>大胆的把列看成变量，参与运算，甚至调用函数来处理，常用的函数有substring()、concat（）</strong></p>
+</li>
+<li><p>分组 <strong>group</strong> 查询</p>
+</li>
+</ol>
+<p>group by cat_id 从语义上来分析，select的列只能是cat_id/max/min/avg/sum/count()这种统计类型的列。使用select *从语义上分析就不对，严格说不符合sql标准</p>
+<pre><code>2.1 查询出最贵的商品价格
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select max(shop_price) from goods;</span><br></pre></td></tr></table></figure>
+
+2.2 查询出最便宜的商品的价格
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select min(shop_price) from goods;</span><br></pre></td></tr></table></figure>
+
+2.3 查询出最小的商品id
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select min(goods_id) from goods;</span><br></pre></td></tr></table></figure>
+
+2.4 查询所有商品总库存量
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(goods_num) from goods;</span><br></pre></td></tr></table></figure>
+
+2.5 查询所有商品的平均价格
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select avg(shop_price) from goods;</span><br></pre></td></tr></table></figure>
+
+2.6 查询有多少种商品
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from goods;</span><br></pre></td></tr></table></figure>
+
+2.7 计算分类3下的所有商品的库存量之和
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(goods_number) from goods where cat_id=3;</span><br></pre></td></tr></table></figure>
+
+2.8 一条语句计算每个分组下的库存量之和
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,sum(goods_number) from goods group by cat_id;</span><br></pre></td></tr></table></figure>
+
+2.9 按商品分类分组，计算每个分类下的商品的平均价格
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,avg(shop_price) from goods group by cat_id;</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="3">
+<li><p>having查询</p>
+<p> sql语句的查询筛选过程：先根据where查询出满足条件的行，列和原表的列一样，得到一个中间表，再在这个中间表的基础上进行列之间的计算以及分组group，得到的结果集再通过having进行下一步的操作得到最终结果集。</p>
+<p> 3.1 查询出每个商品积压的货款</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,shop_price * goods_number from goods;</span><br></pre></td></tr></table></figure>
+<p> 3.2 查询该店积压的总货款</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(shop_price * goods_number) as sum from goods;</span><br></pre></td></tr></table></figure>
+<p> 3.3 查询每个分类下挤压的货款</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,sum(shop_price*goods_number) as sum from goods group by cat_id;</span><br></pre></td></tr></table></figure>
+<p> 3.4 查询加压货款超过2万以及积压的货款</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,sum(shop_price*goods_number) as sum from goods group by cat_id having sum&gt;20000;</span><br></pre></td></tr></table></figure>
+<p> 3.5 查询比市场价省钱200块以上的商品以及该商品省的钱</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,(market_price-shop_price) as discount from goods having discount&gt;200;</span><br></pre></td></tr></table></figure>
+<p> 3.6 查询2门及2门以上不及格者的平均成绩</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//写错了。。。。。。</span><br><span class="line">//因为count函数不管传入的是什么都数</span><br><span class="line">select name,avg(score) as average,count(score&lt;60) as gks from result group by name having gks&gt;=2;</span><br><span class="line"></span><br><span class="line">&lt;!-- 正确结果：利用布尔值正确返回1错误返回0 --&gt;</span><br><span class="line"></span><br><span class="line">select name,avg(score),sum(score&lt;60) as gks from result group by name having gks&gt;=2;</span><br><span class="line"></span><br><span class="line">&lt;!-- 另一种方法 --&gt;</span><br><span class="line">&lt;!-- 先筛选出名字，得到一张表，根据这张表继续筛选 --&gt;</span><br><span class="line">&lt;!-- 三层嵌套 --&gt;</span><br><span class="line"></span><br><span class="line">select name,avg(score) from result where name in (select name from (select name,count(1) as gks from result where score&lt;60 group by name having gks&gt;=2)as tmp) group by name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排序</p>
+</li>
+</ol>
+<p>排序发生在得到最终的结果集（拿到原始筛选数据）之后，排序是针对最终结果集的，也就是说order要放在where/group by/having后面，顺序不能乱。</p>
+<p>排序的语法：</p>
+<p>order by 结果集中的列名1 desc/asc,结果集中的列名2 desc/asc (<strong>注意：这样写有排序先后，先按列名1排序，再按列名2排序</strong>)</p>
+<pre><code>4.1 取出分类4下的商品，并按价格由高到低排序。
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods where cat_id=4 order by shop_price desc;</span><br></pre></td></tr></table></figure>
+
+4.2 按分类升序排列，同一个分类下的商品，再按商品的价格降序排列
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods order by cat_id asc,shop_price desc;</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="5">
+<li>limit限制条数</li>
+</ol>
+<p>limit用在语句的最后，起到限制条目的作用。</p>
+<p>limit[offset,] N，其中：</p>
+<p>offset：偏移量，如果不写，相当于0<br>N：取出条目</p>
+<pre><code>5.1 取出本店价格最高的前三名
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods order by shop_price desc limit 0,3;</span><br></pre></td></tr></table></figure>
+
+5.2 查询本店价格最高的第三名到第五名
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods order by shop_price desc limit 2,3;</span><br></pre></td></tr></table></figure>
+
+5.3 取商品价格最高的一件商品
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price from goods order by shop_price desc limit 1;</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="6">
+<li><p>子查询</p>
+<ol>
+<li><p>where型子查询：将内层查询的结果作为外层查询的条件。</p>
+<p>典型题：查询最大商品、最贵商品</p>
+<p>如果where列=（内层sql），则内层sql返回的必是单行单列，也就是单个值<br>如果where列 in (内层sql)，则内层sql只返回单列，可以多行</p>
+</li>
+<li><p>from型子查询</p>
+<p>这里插入一个重要概念</p>
+<p><strong>查询模型</strong></p>
+</li>
+<li><p>列就是变量，在每一行上，列的值都在变化</p>
+</li>
+<li>where条件是表达式，在哪一行上表达式为真，哪一行就取出来</li>
+<li><p>查询结果集可以当成表看</p>
+<p>from型子查询：内层sql的查询结果，当成一张临时表，供外层sql再次查询。</p>
+</li>
+<li><p>exists型子查询</p>
+<p>exists型子查询：把外层sql的结果拿到内层sql去测试，如果内层sql成立，则该行被取出。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>练习题</p>
+<pre><code>6.1 查询出每个分类下id号最大的一条商品
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 仅想出这种嵌套的方法 --&gt;</span><br><span class="line">select goods_id,goods_name,cat_id from goods where goods_id in (select max(goods_id) from goods group by cat_id) order by cat_id asc;</span><br></pre></td></tr></table></figure>
+
+6.2 查出本店最新的商品，要求不用排序
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name from goods where goods_id=(select max(goods_id) from goods);</span><br><span class="line"></span><br><span class="line">&lt;!-- select max(goods_id) from goods 这条语句返回的就是最大值 --&gt;</span><br></pre></td></tr></table></figure>
+
+6.3 查出有商品的分类号和分类名
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,cat_name from category where exists (select * from goods where goods.cat_id=category.cat_id);</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="表与集合的关系"><a href="#表与集合的关系" class="headerlink" title="表与集合的关系"></a>表与集合的关系</h3><p>一张表就是一个集合</p>
+<p>每一行就是一个元素</p>
+<p>在数据库中，用 <strong>,(逗号)</strong>将两个表名隔开即可完成两张表笛卡尔积查询</p>
+<p>比如查询商品表和分类表，得到商品名称、库存、价格和分类名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,cat_name from goods,category where goods.cat_id=category.cat_id;</span><br></pre></td></tr></table></figure>
+<p>但是这样做效率低。</p>
+<p><em>两张表全相乘，比如A表10000行数据，B表10000万行数据，都不算大，但是两表全相乘，在内存中生成一个非常大的数据。10000\</em>10000行。另外索引没用上。*</p>
+<p>先记下来：<strong>两张表联查之后没有索引</strong></p>
+<h3 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h3><p>假设A表在左，不动，B表在A表的右边滑动，A表与B表通过一个关系来筛选B表的行。</p>
+<p>语法：</p>
+<p><strong>A left join B on 条件</strong>，条件为真，则B表对应的行取出。</p>
+<p><strong>A left join B on 条件</strong>这个部分形成的也是一个结果集，可以看成一张表，设为c。既如此，可以对c表进行查询，where\group\having\order by\limit照常可以使用。同样，C看成表之后还可以继续和其他表进行左连接。</p>
+<p><strong>直接使用上面的语句会报语法错误诶…貌似5.7版本不能单独使用，和select一块儿使用就可以通过…</strong></p>
+<p>问：C表可以查询的列有哪些？<br>答：AB两表的列都可以查询。</p>
+<p>练习：</p>
+<ol>
+<li><p>取出第4个分类下的商品以及商品的分类名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select goods_id,goods_name,shop_price,cat_name from (goods left join category on goods.cat_id = category.cat_id) where goods.cat_id = 4;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>左连接、右连接、内连接的区别</li>
+</ul>
+<p>左右连接可以互换</p>
+<p>A left join B &lt;=&gt; B right join A</p>
+<p><em>注意：既然左右连接可以互换，尽量用左连接，处于移植时兼容性方面的考虑。</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select boy.*,girl.* from boy inner join girl on boy.other = girl.other;</span><br></pre></td></tr></table></figure>
+<p>从集合的角度看，内连接是左右连接的交集。</p>
+<p><em>外连接是左右连接的并集，但是在mysql中不支持外连接。</em></p>
+<p>作业题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 表结构 --&gt;</span><br><span class="line"></span><br><span class="line">Match 赛程表</span><br><span class="line">字段名称	字段类型	描述</span><br><span class="line">matchID	int	主键</span><br><span class="line">hostTeamID	int	主队的ID</span><br><span class="line">guestTeamID	int	客队的ID</span><br><span class="line">matchResult	varchar(20)	比赛结果，如（2:0）</span><br><span class="line">matchTime	date	比赛开始时间</span><br><span class="line"></span><br><span class="line">Team 参赛队伍表</span><br><span class="line">字段名称	字段类型	描述</span><br><span class="line">teamID	int	主键</span><br><span class="line">teamName	varchar(20)	队伍名称</span><br><span class="line"></span><br><span class="line">&lt;!-- 表数据 --&gt;</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from m;</span><br><span class="line">+-----+------+------+------+------------+</span><br><span class="line">| mid | hid | gid | mres | matime |</span><br><span class="line">+-----+------+------+------+------------+</span><br><span class="line">| 1 | 1 | 2 | 2:0 | 2006-05-21 |</span><br><span class="line">| 2 | 2 | 3 | 1:2 | 2006-06-21 |</span><br><span class="line">| 3 | 3 | 1 | 2:5 | 2006-06-25 |</span><br><span class="line">| 4 | 2 | 1 | 3:2 | 2006-07-21 |</span><br><span class="line">+-----+------+------+------+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line">mysql&gt; select * from t;</span><br><span class="line">+------+----------+</span><br><span class="line">| tid | tname |</span><br><span class="line">+------+----------+</span><br><span class="line">| 1 | 国安 |</span><br><span class="line">| 2 | 申花 |</span><br><span class="line">| 3 | 传智联队 |</span><br><span class="line">+------+----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">&lt;!-- 查出 2006-6-1 到2006-7-1之间举行的所有比赛，并且用以下形式列出：</span><br><span class="line">拜仁 2：0 不来梅 2006-6-21 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 想出的答案 --&gt;</span><br><span class="line"></span><br><span class="line">select team.teamName,matchResult,tmpTeam.teamName,matchTime from ((matchResult left join team on hostTeamId=teamId) left join team as tmpTeam on guestTeamId=tmpTeam.teamId) where matchTime between &apos;2006-06-01&apos; and &apos;2006-07-01&apos;;</span><br><span class="line"></span><br><span class="line">+--------------+-------------+--------------+------------+</span><br><span class="line">| teamName     | matchResult | teamName     | matchTime  |</span><br><span class="line">+--------------+-------------+--------------+------------+</span><br><span class="line">| 申花         | 1:2         | 传智联队     | 2006-06-21 |</span><br><span class="line">| 传智联队     | 2:5         | 国安         | 2006-06-25 |</span><br><span class="line">+--------------+-------------+--------------+------------+</span><br></pre></td></tr></table></figure>
+<p><em>注意：要把第二次左连接用到的team表名起一个别名，否则会报错。</em></p>
+<p><em>注意：match是mysql的关键字。</em></p>
+<h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><p>合并2条或多条语句的结果。</p>
+<p>语法：sql1 union sql2</p>
+<p>问：内否从2张表查询完再union呢？<br>答：可以，union合并的是“结果集”，不区分在哪一张表。</p>
+<p>问：取自于2张表，通过别名让2个结果集的列一致，如果取出的结果集，列名字不一样，还能否union？<br>答：可以，以第一张表的列名为准。</p>
+<p>问：union满足什么条件就可以用了？<br>答：只要结果集中的列数一致就可以。</p>
+<p>问：列的类型不一致也可以嘛？<br>答：见上题。</p>
+<p>问：union后的结果集可否再排序呢？<br>答：可以。</p>
+<p>问：使用union语句时，内层的排序有时发挥效果有时不发挥效果，这是问什么？<br>答：内层的order by语句单独使用时，不影响结果集，仅排序，在执行期间就被mysql的代码分析器给优化掉了，内层的order by必须能够影响结果集时才有意义，比如配合limit使用。</p>
+<p>问：如果union后的结果有重复（即某2行或n行的值都一样），怎么办？<br>答：这种情况是比较常见的默认会去重。</p>
+<p>问：如果不想去重怎么办？<br>答：union all</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>如果mysql函数和javascript函数都实现某个功能，优先使用哪一个？</p>
+<ol>
+<li><p>mysql的函数肯定是要影响查询速度。应该在建表时通过合理的表结构减少函数的使用合理的表结构减少函数的使用；</p>
+</li>
+<li><p>如果确实要使用函数，比如时间的格式化，优先放在业务逻辑层，即用javascript处理；</p>
+</li>
+<li><p>在查询时使用了函数，最大的一个坏处是索引无法使用，比如date_format(A)，则A列的索引将无法使用。在where函数中，使用了索引，where查询的是函数处理后的条件，索引失效。</p>
+</li>
+</ol>
+<h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3><p>视图View可以看成一张虚拟表，是表通过某种运算得到的一个投影，表的变化会影响到视图。</p>
+<p>视图的定义一直存在，但不占用空间。</p>
+<p>对于一些简单的视图，它在发挥作用的过程中，并没有建立临时表，而只是把条件存起来，下次查询，把条件一合并，直接去查表。</p>
+<p>问：建视图的时候要指定视图的列名与列类型么？<br>答：不要，它只是一个投影，是一种关系，会继承原表的字段。</p>
+<ul>
+<li>创建视图的语法</li>
+</ul>
+<p>既然视图只是表的某种查询的投影，所以主要步骤在于查询表上，查询的结果命名为视图就可以了。</p>
+<p><strong>create view 视图名字 as select语句</strong></p>
+<ul>
+<li><p>视图有什么用</p>
+<ol>
+<li>可以简化查询；</li>
+<li>可以更精细的权限控制，比如某张用户表，2个网站搞合作，可以查询对方网站的用户，需要向对方开放用户表的权限，但是又不想开放用户表中的密码字段，可以使用视图；</li>
+<li>数据多，分表时可以用到。比如小说站，article表，1000万篇，分成article1、article2…article5，查询小说时，不知道在哪张表上，可以创建一个五张表合在一起的视图一次型查出。</li>
+</ol>
+</li>
+<li><p>表与视图数据变化时的相互影响问题</p>
+<ol>
+<li>表的数据变化，视图跟着变</li>
+<li>视图的数据发生变化时，满足视图的数据和表的数据一一对应，类似函数和反函数的关系时，会影响到原表</li>
+</ol>
+</li>
+</ul>
+<p><em>注意：一一对应指的是根据select关系，从表中取出的行，只能计算出视图中确定的一行，反之，视图中任意抽一行，能够反推出表中确定的一行</em><br><em>注意：order by limit得到的结果与表不是一一对应的</em></p>
+<ul>
+<li>删除视图</li>
+</ul>
+<p><code>drop view 表名</code></p>
+<h3 id="algorithm"><a href="#algorithm" class="headerlink" title="algorithm"></a>algorithm</h3><ul>
+<li><p>视图合并查询条件 vs 临时表</p>
+<ol>
+<li><p>如果将创建的视图看作临时表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmp = select * from godds where shop_price &gt; 300;</span><br><span class="line">select * from tmp where shop_price &lt; 500;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果没有临时表，查这个视图，还有没有可能完成</p>
+<p>可以。查原表，把建视图时的条件和查询视图的条件叠加起来，直接去查原表。</p>
+</li>
+</ol>
+</li>
+<li><p>这两种方式哪个快</p>
+<ol>
+<li>建表：查询=&gt;形成临时表=&gt;查询临时表</li>
+<li>叠加：合并条件=&gt;查询表</li>
+</ol>
+</li>
+<li><p>到底是创建临时表还是合并语句，就由algorithm来决定，当它的值为：</p>
+<ol>
+<li>merge：合并查询语句</li>
+<li>temptable：临时表</li>
+<li><p>undefined：未定义，由系统判断</p>
+<p>合并条件的视图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create algorithm=merge view v2</span><br><span class="line">as</span><br><span class="line">select * from goods where shop_price&gt;300;</span><br></pre></td></tr></table></figure>
+<p>建临时表的视图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 复杂查询 --&gt;</span><br><span class="line">&lt;!-- 比如建立平均价格视图 --&gt;</span><br><span class="line">create algorithm=temptable view v3</span><br><span class="line">as</span><br><span class="line">select goods_id,cat_id,goods_name,shop_price</span><br><span class="line">from goods</span><br><span class="line">order by cat_id asc,shop_price desc;</span><br></pre></td></tr></table></figure>
+<p>由系统来决定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果拿不准就写algorithm=undefined，由系统来决定</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h3><ul>
+<li>字符集的概念</li>
+</ul>
+<p>2进制编码到字符的映射就是字符集。</p>
+<ul>
+<li>一些字符集</li>
+</ul>
+<p>ascii、ansi、gb2312、gbk、unicode、utf-8。</p>
+<p>从容量上来看：GB2312&lt;GBK&lt;UTF-8</p>
+<ul>
+<li>unicode和utf-8的关系</li>
+</ul>
+<p>unicode用4个字节来编号，有2^32种组合。</p>
+<p>unicode只负责分配编号，而且都是用4个字节来分配编号。</p>
+<p>utf-8在不改变编号的基础上简化字节，把高位浪费的0值，用一定的规则舍弃。</p>
+<p><strong>unicode和utf-8的关系就像源文件和压缩文件的关系。由给定的unicode字符可=&gt;utf-8的二进制值，反过来，由utf-8的二进制值=&gt;unicode字符。</strong></p>
+<ul>
+<li>utf8的长度</li>
+</ul>
+<p>变长，否则压缩就没有意义了。</p>
+<ul>
+<li>如何截取utf8（各国语言都有），无乱码？</li>
+</ul>
+<p>从头开始，取1个字节。通过位运算，计算连续的1的个数。如果为0，则截取1个字节，如果为N，则截取N个字节。</p>
+<ul>
+<li>GBK是如何转为UTF-8的？</li>
+</ul>
+<p>GBK也是和unicode有对应关系的，GBK=&gt;unicode=&gt;utf8。</p>
+<ul>
+<li><p>乱码原因</p>
+<ol>
+<li>可修复的情况：解码时与实际编码不一致</li>
+<li>不可修复的情况：传输过程中，编码不一致，导致字节丢失</li>
+</ol>
+</li>
+<li><p>客户端和服务器端的编码转换</p>
+</li>
+</ul>
+<p>客户端与服务器之间存在一个 <strong>连接器</strong>。客户端的字符先发给连接器，连接器选择一种编码将其转换，临时存储，之后再次转换成服务器需要的编码，并最终存储在服务器。</p>
+<p>告诉连接器客户端使用GBK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set character_set_client=gbk;</span><br></pre></td></tr></table></figure>
+<p>告诉连接器使用utf8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set character_set_connection=utf8;</span><br></pre></td></tr></table></figure>
+<p>告诉连接器如果返回值，返回GBK结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set character_set_results=gbk;</span><br></pre></td></tr></table></figure>
+<p>如果上面三个参数都设置成GBK，可以简写，简写成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set names gbk;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用上面三个设置的一个基本原则</li>
+</ul>
+<p>服务器字符集容量 &gt;= 连接器字符集容量 &gt;= 客户端字符集容量</p>
+<ul>
+<li><p>保证下面三者字符集的一直就绝不会出现乱码的可能</p>
+<ol>
+<li>网页文件本身编码</li>
+<li>meta信息</li>
+<li>client/connection/results的指定</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql基础学习笔记"><span class="toc-text">mysql基础学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决乱码的办法"><span class="toc-text">解决乱码的办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个建表语句"><span class="toc-text">一个建表语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增的操作"><span class="toc-text">增的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删的操作"><span class="toc-text">删的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改的操作"><span class="toc-text">改的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查的操作"><span class="toc-text">查的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后面要学"><span class="toc-text">后面要学</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建表"><span class="toc-text">建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改表"><span class="toc-text">修改表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询建表语句"><span class="toc-text">查询建表语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从一个表中将特定几列的数据拷入另一个表中"><span class="toc-text">从一个表中将特定几列的数据拷入另一个表中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询"><span class="toc-text">查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表与集合的关系"><span class="toc-text">表与集合的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#左连接"><span class="toc-text">左连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#union"><span class="toc-text">union</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图"><span class="toc-text">视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm"><span class="toc-text">algorithm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符集"><span class="toc-text">字符集</span></a></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/01/06/2019-1-6-generator/" rel="next" title="generator函数初步学习">
+          generator函数初步学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/04/08/new-feature/" rel="prev" title="ES6之后添加的日常开发用的到的新特性">
+            ES6之后添加的日常开发用的到的新特性
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

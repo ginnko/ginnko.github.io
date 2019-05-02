@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="jsonp,">
+  
+
+  
+    <meta name="description" content="对使用jsonp进行跨域获取数据的三个项目的总结">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>对使用jsonp进行跨域获取数据的三个项目的总结 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        对使用jsonp进行跨域获取数据的三个项目的总结
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-06-12T16:00:00.000Z">
+        2017-06-13
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jsonp/">jsonp</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 3 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇是对使用API搜集需要的数据并传回到app中的总结。涉及三个应用：<a href="https://codepen.io/ginnko/full/WjgbMM/" target="_blank" rel="noopener">random quote</a>、<a href="https://codepen.io/ginnko/full/mmzqVj/" target="_blank" rel="noopener">local weather</a>以及<a href="https://codepen.io/ginnko/full/Omadzj/" target="_blank" rel="noopener">wikipedia viewer</a>。实质是利用jsonp进行跨域请求。</p>
+<a id="more"></a>
+<h2 id="1-jsonp的介绍和使用"><a href="#1-jsonp的介绍和使用" class="headerlink" title="1. jsonp的介绍和使用"></a>1. jsonp的介绍和使用</h2><p><a href="http://www.cnblogs.com/dowinning/archive/2012/04/19/json-jsonp-jquery.html" target="_blank" rel="noopener">这篇文章</a>是我目前见过的对jsonp最清晰和简单的描述，感谢这位大神！</p>
+<h2 id="2-random-quote"><a href="#2-random-quote" class="headerlink" title="2. random quote"></a>2. <a href="https://codepen.io/ginnko/full/WjgbMM/" target="_blank" rel="noopener">random quote</a></h2><p>第一次接触api的应用，由于今年6月codepen开始全面使用https协议，所以原本使用http的api已经无法正常显示，目前没有找到好的解决办法。<br>使用的api地址如下：</p>
+<blockquote>
+<p><a href="http://api.forismatic.com/api/1.0/?method=getQuote&amp;format=jsonp&amp;lang=en&amp;jsonp=" target="_blank" rel="noopener">http://api.forismatic.com/api/1.0/?method=getQuote&amp;format=jsonp&amp;lang=en&amp;jsonp=</a>?</p>
+</blockquote>
+<p><strong>endpoint：</strong> <a href="http://api.forismatic.com/api/1.0/" target="_blank" rel="noopener">http://api.forismatic.com/api/1.0/</a><br><strong>?：</strong> 端点和参数的分割<br><strong>=：</strong> 匹配参数和参数值<br><strong>&amp;：</strong> 连接两个不同的参数<br><strong>jsonp=？：</strong> jsonp是callback，即获得回调函数名的参数名，等号后面可以写回调函数名，写？则会由jQuery自动处理。</p>
+<p>一个简单的实践：  </p>
+<pre><code>function randomQuote() {
+    var url = &quot;http://api.forismatic.com/api/1.0/?method=getQuote&amp;format=jsonp&amp;lang=en&amp;jsonp=?&quot;;
+    $.getJSON(url, function(json) {
+      $(&quot;#quote&quot;).text(json.quoteText);
+      $(&quot;#author&quot;).text(&quot;--&quot; + json.quoteAuthor);
+    });
+}
+</code></pre><p>返回的数据依照相应的参数名进行调用即可。  </p>
+<h2 id="3-local-weather"><a href="#3-local-weather" class="headerlink" title="3. local weather"></a>3. <a href="https://codepen.io/ginnko/full/mmzqVj/" target="_blank" rel="noopener">local weather</a></h2><p>这个应用使用了两个api。<br>获取天气数据使用了darksky的api：  </p>
+<blockquote>
+<p>“<a href="https://api.darksky.net/forecast/37afbe1af1965b09f5c7e0c6f710fc34/&quot;" target="_blank" rel="noopener">https://api.darksky.net/forecast/37afbe1af1965b09f5c7e0c6f710fc34/&quot;</a> + latitude + “,” + longitude + “/?units=auto&amp;callback=?”  </p>
+</blockquote>
+<p>获取位置数据使用了google map的api：</p>
+<blockquote>
+<p>google_map_url = “<a href="https://maps.googleapis.com/maps/api/geocode/json?latlng=&quot;" target="_blank" rel="noopener">https://maps.googleapis.com/maps/api/geocode/json?latlng=&quot;</a> + latitude + “,” + longitude + “&amp;key=xxxxxxx&amp;language=en”</p>
+</blockquote>
+<p>其中的latitude和longitude是使用<strong>navigator.geolocation.getCurrentPosition()</strong>获取的，详细文档点击<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation" target="_blank" rel="noopener">此处</a>，简单的使用方法如下：</p>
+<pre><code>navigator.geolocation.getCurrentPosition(function(position) {
+    var latitude;
+    var longitude;
+    latitude = position.coords.latitude; 
+    longitude = position.coords.longitude; 
+    //其他函数
+}
+</code></pre><h2 id="4-wikipedia-viewer"><a href="#4-wikipedia-viewer" class="headerlink" title="4. wikipedia viewer"></a>4. <a href="https://codepen.io/ginnko/full/Omadzj/" target="_blank" rel="noopener">wikipedia viewer</a></h2><p>Wikipedia的api使用起来感觉相当复杂，点击此处的<a href="https://www.mediawiki.org/wiki/API:Main_page" target="_blank" rel="noopener">使用文档</a>。下面是应用中对地址的具体表示：  </p>
+<blockquote>
+<p>var url = “<a href="https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;format=json&amp;prop=extracts&amp;utf8=&amp;srlimit=10&amp;srsearch=&quot;" target="_blank" rel="noopener">https://en.wikipedia.org/w/api.php?action=query&amp;list=search&amp;format=json&amp;prop=extracts&amp;utf8=&amp;srlimit=10&amp;srsearch=&quot;</a>; </p>
+</blockquote>
+<p>var val = $(“#search”).val() + “&amp;callback=?”;  </p>
+<blockquote>
+</blockquote>
+<p>url += val;</p>
+<h2 id="5-实际跨域调用"><a href="#5-实际跨域调用" class="headerlink" title="5. 实际跨域调用"></a>5. 实际跨域调用</h2><p>使用jQuery的getJson函数。</p>
+<blockquote>
+<p>$.getJSON(google_map_url, function(json){//});</p>
+</blockquote>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-jsonp的介绍和使用"><span class="toc-text">1. jsonp的介绍和使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-random-quote"><span class="toc-text">2. random quote</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-local-weather"><span class="toc-text">3. local weather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-wikipedia-viewer"><span class="toc-text">4. wikipedia viewer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-实际跨域调用"><span class="toc-text">5. 实际跨域调用</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/06/12/sumary about some projects/" rel="next" title="几个小项目总结">
+          几个小项目总结
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/06/13/Regular Express/" rel="prev" title="RegExp">
+            RegExp
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

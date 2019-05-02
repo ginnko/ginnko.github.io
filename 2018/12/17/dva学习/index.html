@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="Dva,">
+  
+
+  
+    <meta name="description" content="Dva初步学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>Dva初步学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Dva初步学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-12-16T16:00:00.000Z">
+        2018-12-17
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dva/">Dva</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>这篇博客摘自<a href="https://dvajs.com/guide/" target="_blank" rel="noopener">此处</a>，是从方便自己理解的角度整理了下。</p>
+<h3 id="Dva的本质"><a href="#Dva的本质" class="headerlink" title="Dva的本质"></a>Dva的本质</h3><p>Dva = React-Router + Redux + Redux-saga</p>
+<a id="more"></a>
+<h3 id="Dva中的数据流向"><a href="#Dva中的数据流向" class="headerlink" title="Dva中的数据流向"></a>Dva中的数据流向</h3><p>数据的改变通常是通过用户交互行为或者浏览器行为（如路由跳转等）触发的，当此类行为会改变数据的时候，可以通过<code>dispatch</code>发起一个action，如果是同步行为会直接通过<code>reducers</code>改变<code>State</code>，如果是异步行为（副作用）会先触发<code>Effects</code>然后流向<code>Reducers</code>最终改变<code>State</code>。</p>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>state操作的时候每次都要当做不可变数据来对待，保证每次都是全新的对象，没有引用关系，这样才能保证State的独立性，便于测试和追踪变化。</p>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><h3 id="dispatch函数"><a href="#dispatch函数" class="headerlink" title="dispatch函数"></a>dispatch函数</h3><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><p>这个函数接受两个参数：之前已经累积运算的结果和当前要被累积的值，返回的是一个新的累积结果。该函数把一个集合归并成一个单值。感觉这也是Reducer名字的来源。  </p>
+<h3 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h3><p>这个要好好看看，对这个不太熟悉。</p>
+<p>Effect是一个Generator函数，内部使用yield关键字，标识每一步的操作。</p>
+<blockquote>
+<p>Effect被称为副作用，在我们的应用中，最常见的就是异步操作。它来自于函数编程的概念，之所以叫副作用是因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。</p>
+</blockquote>
+<blockquote>
+<p>dva为了控制副作用的操作，底层引入了redux-sagas做异步流程控制，由于采用了generator的相关概念，所以将异步转成同步写法，从而键effects转为纯函数</p>
+</blockquote>
+<p>后面要学的东西：</p>
+<ol>
+<li>redux-sagas</li>
+<li><del>generator-将异步转为同步写法</del></li>
+<li>纯函数好像是个<a href="https://github.com/MostlyAdequate/mostly-adequate-guide" target="_blank" rel="noopener">狼人</a></li>
+</ol>
+<h3 id="Subscription"><a href="#Subscription" class="headerlink" title="Subscription"></a>Subscription</h3><p>Subscription语义是订阅，用于订阅一个数据源，然后根据条件dispatch需要的action。数据源可以是当前的时间、服务器的websocket连接、keyboard输入、geolocation变化、history路由变化等。</p>
+<p>给了一个栗子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> key form <span class="string">'keymaster'</span>;</span><br><span class="line"></span><br><span class="line">add.model(&#123;</span><br><span class="line">  namespace: <span class="string">'count'</span>,</span><br><span class="line">  subscriptions: &#123;</span><br><span class="line">    keyEvent(&#123;dispatch&#125;) &#123;</span><br><span class="line">      key(<span class="string">'ctrl+up'</span>, () =&gt; &#123;dispatch(&#123;<span class="attr">type</span>: <span class="string">'add'</span>&#125;)&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h3><p>dva实例提供了router方法来控制路由，使用的是react-router。</p>
+<h3 id="Route-Components"><a href="#Route-Components" class="headerlink" title="Route Components"></a>Route Components</h3><p>在Dva中，我们将Container Components约束为Route Components，因为在Dva中，我么通常以页面维度来设计Container Components。</p>
+<p>所以在Dva中，通常需要connect Mode的组件都是Router Components，组织在<code>/routes/</code>目录下，而<code>/components/</code>目录下则是纯组件。</p>
+<h3 id="dva的结构"><a href="#dva的结构" class="headerlink" title="dva的结构"></a>dva的结构</h3><p><a href="https://dvajs.com/guide/introduce-class.html#dva-%E5%BA%94%E7%94%A8%E7%9A%84%E6%9C%80%E7%AE%80%E7%BB%93%E6%9E%84%EF%BC%88%E5%B8%A6-model" target="_blank" rel="noopener">见这里</a></p>
+<ol>
+<li>创建应用</li>
+<li>注册Model</li>
+<li>注册视图</li>
+<li>启动应用</li>
+</ol>
+<h3 id="关于Model对象"><a href="#关于Model对象" class="headerlink" title="关于Model对象"></a>关于Model对象</h3><ol>
+<li><p>所有的应用逻辑都定义在app.model这个对象上面</p>
+</li>
+<li><p>Model对象的属性</p>
+<ul>
+<li>namespace：当前Model的名称，整个应用的state，由多个小的Model的state以namespace为key合成</li>
+<li>state：该Model当前的状态。数据保存在这里，直接决定了视图层的输出</li>
+<li>reducers：Action处理器，处理同步动作，用来算出最新的state</li>
+<li>effects：Action处理器，处理异步动作</li>
+</ul>
+</li>
+</ol>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*" target="_blank" rel="noopener">参考MDN</a></p>
+<blockquote>
+<p>Calling a generator function does not execute its body immediately; an iterator object for the function is returned instead. When the iterator’s next() method is called, the generator function’s body is executed until the first yield expression, which specifies the value to be returned from the iterator or, with yield*, delefates to another generator function. The next() method returns an object with a value property containing the yielded value and a done property which indicates whether the generator has yielded its last value as a boolean. Calling the next() method with an argument will resume the generator function execution, replacing the yield expression where execution was paused with the arguments from next().</p>
+</blockquote>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dva的本质"><span class="toc-text">Dva的本质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dva中的数据流向"><span class="toc-text">Dva中的数据流向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#State"><span class="toc-text">State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Action"><span class="toc-text">Action</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispatch函数"><span class="toc-text">dispatch函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reducer"><span class="toc-text">Reducer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Effect"><span class="toc-text">Effect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subscription"><span class="toc-text">Subscription</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router"><span class="toc-text">Router</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Route-Components"><span class="toc-text">Route Components</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dva的结构"><span class="toc-text">dva的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于Model对象"><span class="toc-text">关于Model对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generator"><span class="toc-text">Generator</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/12/17/pure-component/" rel="next" title="React纯组件">
+          React纯组件
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/01/06/2019-1-6-generator/" rel="prev" title="generator函数初步学习">
+            generator函数初步学习
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="javascript查缺补漏之三 —— 《循环和函数》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>javascript查缺补漏之三 —— 《循环和函数》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        javascript查缺补漏之三 —— 《循环和函数》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-03T16:00:00.000Z">
+        2018-07-04
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <ol>
+<li><p>break</p>
+<ol>
+<li>当在循环中执行break时，会立即终止当前所在的循环。比如下面这几行代码：</li>
+</ol>
+</li>
+</ol>
+<a id="more"></a>
+<pre><code>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">for (i = 0; i &lt; 3; i++) &#123;</span><br><span class="line">    for ( j = 0; j &lt; 3; j++) &#123;</span><br><span class="line">        if (i === 0) &#123;</span><br><span class="line">            console.log(&apos;最里面:&apos;, i);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        console.log(&apos;里面：&apos;, i);</span><br><span class="line">    &#125;</span><br><span class="line">    console.log(&apos;外面：&apos;, i);</span><br><span class="line">&#125;</span><br><span class="line">console.log(&apos;最外面&apos;);</span><br><span class="line"></span><br><span class="line">//输出顺序：</span><br><span class="line">    最里面: 0</span><br><span class="line">    外面： 0</span><br><span class="line">    里面： 1</span><br><span class="line">    外面： 1</span><br><span class="line">    里面： 2</span><br><span class="line">    外面： 2</span><br><span class="line">    最外面</span><br></pre></td></tr></table></figure>
+
+    说明break只跳出了内层循环（所在循环），并没有跳出外面包裹的循环。
+
+2. break label 语法
+
+    自己从来没有使用过这种语法，但通过下面这个列子感觉这个语法还是蛮方便的：
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var x = 0;</span><br><span class="line">var z = 0</span><br><span class="line">labelCancelLoops: while (true) &#123;</span><br><span class="line">console.log(&quot;外部循环: &quot; + x);</span><br><span class="line">x += 1;</span><br><span class="line">z = 1;</span><br><span class="line">while (true) &#123;</span><br><span class="line">    console.log(&quot;内部循环: &quot; + z);</span><br><span class="line">    z += 1;</span><br><span class="line">    if (z === 10 &amp;&amp; x === 10) &#123;</span><br><span class="line">    break labelCancelLoops;</span><br><span class="line">    &#125; else if (z === 10) &#123;</span><br><span class="line">    break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//如果满足 z === 10 &amp;&amp; x === 10 的条件，整个循环就会结束，就是使用了break labelCancelLoops 这条语法。</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="2">
+<li><p><code>for in</code> vs <code>for of</code> vs <code>for</code></p>
+<ol>
+<li><p>for…in 语句循环一个指定的变量来循环一个对象<strong>所有可枚举</strong>的属性。</p>
+</li>
+<li><p>for…of语句在可迭代的对象上创建了一个循环(包括Array, Map, Set, 参数对象（ arguments） 等等)</p>
+</li>
+<li><p>数组适合用传统for循环来操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let arr = [3, 5, 7];</span><br><span class="line">arr.foo = &quot;hello&quot;;</span><br><span class="line"></span><br><span class="line">for (let i in arr) &#123;</span><br><span class="line">console.log(i); // logs &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for (let i of arr) &#123;</span><br><span class="line">console.log(i); // logs &quot;3&quot;, &quot;5&quot;, &quot;7&quot; // 注意这里没有 hello</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for (let i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">console.log(i); //logs &quot;0&quot;, &quot;1&quot;, &quot;2&quot;// 注意这里没有 foo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，传统for循环和for of循环的结果相似。</p>
+</li>
+</ol>
+</li>
+<li><p>函数表达式</p>
+<p> 函数表达式也可以提供函数名，并且可以用于在函数内部代指其本身，或者在调试器堆栈跟踪中识别该函数。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var factorial = function fac(n) &#123;return n&lt;2 ? 1 : n*fac(n-1)&#125;;</span><br><span class="line"></span><br><span class="line">console.log(factorial(3));</span><br></pre></td></tr></table></figure>
+<p> 注意下面代码中<code>square</code>并非函数名，下面这个函数是匿名函数。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var square = function(number) &#123; return number * number; &#125;;</span><br><span class="line">var x = square(4); // x gets the value 16</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Arguments对象</p>
+<p> arguments 是一个对应于传递给函数的参数的类数组对象。</p>
+<p> arguments对象是所有<strong>非箭头</strong>函数中都可用的局部变量。可以使用arguments对象在函数中引用函数的参数。</p>
+<p> arguments的元素可读可写。</p>
+</li>
+<li><p>apply()函数</p>
+<p> <code>func.apply(thisArg, [argsArray])</code>，其中<code>[argsArray]</code>可以为数组也可以是类数组</p>
+</li>
+<li><p>类数组</p>
+<p> 只要有一个 length 属性和[0…length) 范围的整数属性。比如：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;length&apos;: 2, &apos;0&apos;: &apos;eat&apos;, &apos;1&apos;: &apos;bananas&apos;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查找一系列数字中的最大最小值</p>
+<ol>
+<li><p>使用apply和原生Math.max()、Math.min()方法</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [5, 6, 2, 3, 7];</span><br><span class="line">var max = Math.max.apply(null, numbers);</span><br><span class="line">var min = Math.min.apply(null, numbers);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用数组扩展符</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1, 2, 3];</span><br><span class="line">var max = Math.max(...arr);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>类数组转为数组</p>
+<ol>
+<li><p>方法1： 对性能有影响<br> <code>Array.prototype.slice.call(arguments)</code>，这行代码的意思是将slice方法绑定在arguments对象上。</p>
+<p> 简写形式:</p>
+<p> <code>[].slice.call(arguments)</code>，依然是将slice方法绑定在arguments对象上。</p>
+</li>
+<li><p>方法2：</p>
+<p> <code>const args = Array.from(arguments);</code></p>
+</li>
+<li><p>方法3：使用扩展运算符</p>
+<p> <code>var args = [...arguments];</code></p>
+</li>
+</ol>
+</li>
+<li><p><code>arguments.length</code> vs <code>function.length</code></p>
+<p> arguments.length：表示实际传入函数的参数的个数；</p>
+<p> function.length: 指该函数有多少个必须要传入的参数，即形参的个数。形参的数量不包括剩余参数个数，仅包括第一个具有默认值之前的参数个数。</p>
+</li>
+<li><p>剩余参数 vs 默认参数 vs 解构赋值</p>
+<ol>
+<li><p>剩余参数</p>
+<p> 如果函数的最后一个命名参数以…为前缀，则它将组成一个数组。<strong>剩余参数是货真价实的数组而arguments对象只是类数组。</strong></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function foo(...args) &#123;</span><br><span class="line">return args;</span><br><span class="line">&#125;</span><br><span class="line">foo(1, 2, 3);//[1, 2, 3]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认参数</p>
+<p> <strong>默认参数是在函数被调用时解析的</strong>，所以如果默认参数是可变动的，则每次的结果可能是不一样的。</p>
+</li>
+<li><p>解构赋值</p>
+<p> <strong>数组的解构赋值</strong>:目测是按数组元素的顺序。（此处仅记录了数组的解构赋值）。</p>
+<ol>
+<li><p>利用数组的解构赋值可以轻松交换值。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = 1, b = 3;</span><br><span class="line">[a, b] = [b, a];</span><br><span class="line">console.log(a);//3</span><br><span class="line">console.log(b);//1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析一个从函数返回的数组</p>
+<p> 这个自己写代码已经遇到过多次返回数组的情况，但是都使用的传统获取数组对应位置的元素的方法，明显使用数组解构更简洁。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function f() &#123;</span><br><span class="line">return [1, 2];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a, b; </span><br><span class="line">[a, b] = f(); </span><br><span class="line">console.log(a); // 1</span><br><span class="line">console.log(b); // 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>忽略一些值</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function f() &#123;</span><br><span class="line">return [1, 2, 3];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var [a, , b] = f();</span><br><span class="line">console.log(a); // 1</span><br><span class="line">console.log(b); // 3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将剩余数组赋值给一个变量</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var [a, ...b] = [1, 2, 3];</span><br><span class="line">console.log(a); // 1</span><br><span class="line">console.log(b); // [2, 3]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>5. 用正则表达式匹配提取值
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var url = &quot;https://developer.mozilla.org/en-US/Web/JavaScript&quot;;</span><br><span class="line"></span><br><span class="line">var parsedURL = /^(\w+)\:\/\/([^\/]+)\/(.*)$/.exec(url);</span><br><span class="line">console.log(parsedURL); // [&quot;https://developer.mozilla.org/en-US/Web/JavaScript&quot;, &quot;https&quot;, &quot;developer.mozilla.org&quot;, &quot;en-US/Web/JavaScript&quot;]</span><br><span class="line"></span><br><span class="line">var [, protocol, fullhost, fullpath] = parsedURL;</span><br><span class="line"></span><br><span class="line">console.log(protocol); // &quot;https&quot;</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="11">
+<li><p>函数递归</p>
+<p>递归函数就使用了堆栈：函数堆栈。</p>
+<ol>
+<li><p>应用1：获取树结构中所有的节点</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function walkTree(node) &#123;</span><br><span class="line">if (node == null) // </span><br><span class="line">    return;</span><br><span class="line">// do something with node</span><br><span class="line">for (var i = 0; i &lt; node.childNodes.length; i++) &#123;</span><br><span class="line">    walkTree(node.childNodes[i]);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>箭头函数</p>
+<p>箭头函数会捕捉闭包上下文的this值，以词法方式绑定this。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line">this.age = 0;</span><br><span class="line"></span><br><span class="line">setInterval(() =&gt; &#123;</span><br><span class="line">    this.age++; // |this| properly refers to the person object</span><br><span class="line">&#125;, 1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/03/javascript查漏补缺之一-流程控制与错误处理/" rel="next" title="javascript查缺补漏之一 ——《流程控制与错误处理》">
+          javascript查缺补漏之一 ——《流程控制与错误处理》
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/04/javascript查漏补缺之二-语法与类型/" rel="prev" title="javascript查缺补漏之二 ——《语法与类型》">
+            javascript查缺补漏之二 ——《语法与类型》
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

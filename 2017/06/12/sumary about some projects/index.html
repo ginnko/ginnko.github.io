@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,function,variable,">
+  
+
+  
+    <meta name="description" content="几个小项目总结">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>几个小项目总结 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        几个小项目总结
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-06-11T16:00:00.000Z">
+        2017-06-12
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/function/">function</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/variable/">variable</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h2 id="Tic-Tac-Toe游戏"><a href="#Tic-Tac-Toe游戏" class="headerlink" title="Tic Tac Toe游戏"></a><a href="https://codepen.io/ginnko/full/dRPXGv/" target="_blank" rel="noopener">Tic Tac Toe游戏</a></h2><h3 id="1-变量作用域"><a href="#1-变量作用域" class="headerlink" title="1. 变量作用域"></a>1. 变量作用域</h3><p>在计算器、番茄闹钟和这个项目中，都遇到了在for循环中用var定义一个循环变量后，即便出了for循环的范围依然可以使用的情况，现在返回头，从廖大角虫的<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014344993159773a464f34e1724700a6d5dd9e235ceb7c000" target="_blank" rel="noopener">教程</a>里再明确一下变量作用域。</p>
+<a id="more"></a>
+<ul>
+<li>今后在第一行都写上’use strict’，强制要求通过var申明变量。</li>
+<li>若两个不同的函数各自中声明了相同名字的变量，该变量只在各自的函数体内起作用。</li>
+<li><p>JavaScript的变量作用域是函数内部，<strong>在for循环等语句块中无法定义具有局部作用域的变量</strong>。比如： </p>
+<pre><code>function foo() {
+    for(var i=0; i&lt;100; i++){
+    //
+    }
+    i += 100; //在for循环外仍然可以使用i！！！
+}
+
+在语句块中使用let声明局部变量：
+function foo() {
+    for(let i=0; i&lt;100; i++){
+    //
+    }
+    i += 100; //在for循环外仍然可以使用i！！！
+}
+</code></pre></li>
+<li><p>名字空间：</p>
+<pre><code>//唯一的全局变量
+var MYAPP = {};
+//其他变量
+MYAPP.name = &apos;myapp&apos;;
+MYAPP.version = 1.0;
+//其它函数
+MYAPP.foo = function(){
+    return &quot;foo&quot;;
+};
+</code></pre></li>
+</ul>
+<h3 id="2-布尔值"><a href="#2-布尔值" class="headerlink" title="2. 布尔值"></a>2. 布尔值</h3><p>false不能用具体某个数字表示：-1 ！== false</p>
+<h3 id="3-遇到的具体问题"><a href="#3-遇到的具体问题" class="headerlink" title="3. 遇到的具体问题"></a>3. 遇到的具体问题</h3><ul>
+<li>Tag div 没有disable这个属性</li>
+<li><p>当使用jQuery时，开关click事件可以使用on， off函数，需要一个callback函数。当依次执行关闭、自动开启、手动开启操作时，为避免多次开启，采用下面的方法。<a href="https://codepen.io/ginnko/pen/dRPXGv" target="_blank" rel="noopener">实例</a>：place函数、another函数以及reset函数。</p>
+<pre><code>$(&quot;.pit&quot;).off(&quot;click&quot;);//prevent from being disturbed by the same execution in another function
+ $(&quot;.pit&quot;).on(&quot;click&quot;, place);
+</code></pre></li>
+<li><p>数组的push（）函数，如果参数是一个数组，那么结果将是一个二维数组，如果改动这个二维数组中的元素，则原来那个作为参数传入的数组中的相应元素也会被改动，push（）函数执行的是浅复制操作。</p>
+</li>
+</ul>
+<h2 id="番茄时钟"><a href="#番茄时钟" class="headerlink" title="番茄时钟"></a><a href="https://codepen.io/ginnko/full/EXxXJw/" target="_blank" rel="noopener">番茄时钟</a></h2><h3 id="1-关于延时函数"><a href="#1-关于延时函数" class="headerlink" title="1. 关于延时函数"></a>1. 关于延时函数</h3><p>这个项目里主要用了setInterval()和clearInterval()两个函数，必须成对出现，可<strong>反复延迟执行</strong>传入setInterval的函数直到遇到清除函数。把setInterval()的返回值赋给某个变量，入下列中的id作为唯一标识，并使用id传入clearInterval()停止循环过程。以下代码出自此项目</p>
+<pre><code>function countSession(){
+if(timeSession &lt; 0){
+  st = 1;
+  clearInterval(id);//停止循环过程，但此清除函数不是针对下面的SetInterval()函数，详见项目中的代码
+  set();
+  optimize(timeRelax);
+  timeRelax--;
+  i++;
+  id = setInterval(countRelax, 1000);//每延迟一秒执行一次countRelax函数
+  $(&quot;circle&quot;).attr(&quot;fill&quot;, &quot;#00FF00&quot;);
+  $(&quot;#progress&quot;).text(&quot;break&quot;);
+  flag = true;
+ }else{
+var arr = calculate(timeSession);
+$(&quot;#show&quot;).text(arr[0] + &quot;:&quot; + arr[1]);
+$(&quot;path&quot;).attr(&quot;stroke-dasharray&quot;, &quot;&quot; + i*stepSession + &quot;,&quot; + (251.2-i*stepSession));
+timeSession--;
+i++;
+st = 0;
+flag = true;
+}
+</code></pre><p>}</p>
+<h3 id="2-关于svg标签"><a href="#2-关于svg标签" class="headerlink" title="2. 关于svg标签"></a>2. 关于svg标签</h3><p>svg标签的使用点击<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Paths" target="_blank" rel="noopener">此处</a>以下代码中，circle标签用来表示大圆，path标签用来表示随着时间变化的外环，text标签用来表示圆内的说明。这个项目参考了<a href="https://codepen.io/web-tiki/full/qEGvMN/" target="_blank" rel="noopener">web-tiki</a>的项目，感谢web-tiki大神。</p>
+<pre><code>&lt;svg role=&quot;button&quot; id=&quot;svg&quot; viewbox=&quot;0 0 100 100&quot;&gt;
+    &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;45&quot; fill=&quot;#FF4500&quot;/&gt;
+    &lt;path fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-width=&quot;5&quot; stroke=&quot;#fff&quot; stroke-dasharray=&quot;0 251.2&quot;
+      d=&quot;M50 10
+         a 40 40 0 0 1 0 80
+         a 40 40 0 0 1 0 -80&quot;/&gt;
+    &lt;text id=&quot;show&quot; x=&quot;50&quot; y=&quot;50&quot; text-anchor=&quot;middle&quot; dy=&quot;7&quot; font-size=&quot;15&quot;&gt;START&lt;/text&gt;
+    &lt;text id=&quot;progress&quot; x=&quot;50&quot; y=&quot;75&quot; text-anchor=&quot;middle&quot; font-size=&quot;10&quot;&gt;&lt;/text&gt;
+&lt;/svg&gt;
+</code></pre><h3 id="3-role属性"><a href="#3-role属性" class="headerlink" title="3. role属性"></a>3. role属性</h3><p>role属性位于某个标签内，当拥有某个属性值后会使所在标签具有属性值得某些功能。比如上述代码中的svg标签，role=”button”是的svg标签拥有了click事件。</p>
+<h2 id="JavaScrip计算器"><a href="#JavaScrip计算器" class="headerlink" title="JavaScrip计算器"></a><a href="https://codepen.io/ginnko/full/EXxXJw/" target="_blank" rel="noopener">JavaScrip计算器</a></h2><h3 id="1-RegExp"><a href="#1-RegExp" class="headerlink" title="1. RegExp"></a>1. RegExp</h3><p>这个项目中使用了RegExp的exec()函数，详见这篇<a href>总结</a>。</p>
+<h3 id="2-this-amp-this"><a href="#2-this-amp-this" class="headerlink" title="2. this &amp; $(this)"></a>2. this &amp; $(this)</h3><p>this:表示一个html元素， this.title<br>$(this):表示一个jQuery对象， $(this).attr(“title”)</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tic-Tac-Toe游戏"><span class="toc-text">Tic Tac Toe游戏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-变量作用域"><span class="toc-text">1. 变量作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-布尔值"><span class="toc-text">2. 布尔值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-遇到的具体问题"><span class="toc-text">3. 遇到的具体问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#番茄时钟"><span class="toc-text">番茄时钟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-关于延时函数"><span class="toc-text">1. 关于延时函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-关于svg标签"><span class="toc-text">2. 关于svg标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-role属性"><span class="toc-text">3. role属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScrip计算器"><span class="toc-text">JavaScrip计算器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-RegExp"><span class="toc-text">1. RegExp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-this-amp-this"><span class="toc-text">2. this &amp; $(this)</span></a></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/04/27/JavaScript-summary-of-JSON-Ajax-promise/" rel="next" title="Ajax和Promise的简单理解">
+          Ajax和Promise的简单理解
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/06/13/using api/" rel="prev" title="对使用jsonp进行跨域获取数据的三个项目的总结">
+            对使用jsonp进行跨域获取数据的三个项目的总结
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

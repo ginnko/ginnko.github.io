@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="async函数使用方法">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>async函数使用方法 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        async函数使用方法
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-12-14T16:00:00.000Z">
+        2018-12-15
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function#Simple_example" target="_blank" rel="noopener">MDN的一个使用实例，有讲顺序启动，并行启动之类的常用方法，其他的感觉讲的不如下面的资料清楚</a></p>
+</li>
+<li><p><a href="http://exploringjs.com/es2016-es2017/ch_async-functions.html" target="_blank" rel="noopener">自己写的这篇博客里说到的主要概念和理解都出自这篇材料，写的很好</a></p>
+</li>
+<li><p><a href="https://medium.freecodecamp.org/avoiding-the-async-await-hell-c77a0fb71c4c" target="_blank" rel="noopener">这篇材料讲述了避免async/await hell的一个主要解决途径就是分离启动promise和resolve promise这两个过程</a></p>
+</li>
+</ol>
+<a id="more"></a>
+<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><ol>
+<li><p>描述了涉及async函数的主要概念，包括：</p>
+<ul>
+<li>async函数的返回值Promise对象的创建工作过程</li>
+<li>await操作符的作用</li>
+<li>async函数中return和await的区别</li>
+</ul>
+</li>
+<li><p>描述了顺序启动和并行启动的方法</p>
+</li>
+<li>描述了是否使用await的区别</li>
+</ol>
+<h2 id="有待补充和学习的"><a href="#有待补充和学习的" class="headerlink" title="有待补充和学习的"></a>有待补充和学习的</h2><ol>
+<li>async的原理</li>
+<li>async函数的一些复杂的使用场景</li>
+<li>其他异步执行方法，promise、yield的深入理解</li>
+</ol>
+<h2 id="对async函数使用的理解"><a href="#对async函数使用的理解" class="headerlink" title="对async函数使用的理解"></a>对async函数使用的理解</h2><ol>
+<li>局限在async函数内部，利用await</li>
+<li>利用async函数的返回值promise对象</li>
+</ol>
+<h2 id="async函数是如何工作的"><a href="#async函数是如何工作的" class="headerlink" title="async函数是如何工作的"></a>async函数是如何工作的</h2><ol>
+<li><p>The result of an async function is always a Promise p. That Promise is created when starting the execution of the async function.</p>
+</li>
+<li><p>The body is executed. Execution may finish permanently via return or throw. Or it may finish temporarily via await, in which case execution will usually continue later on.</p>
+</li>
+<li><p>The Promise p is returned.</p>
+</li>
+</ol>
+<p>When executing the body of the async function, <code>return x resolves the Promise p with x</code>, while throw err rejects p with err.</p>
+<h2 id="await的本质"><a href="#await的本质" class="headerlink" title="await的本质"></a>await的本质</h2><p>waiting for a Promsie to be settled.</p>
+<ol>
+<li><p>if the Promise is fulfilled, the result of await is the fulfillment value（也就是说，此刻的结果是普通的值，而不是一个promsie对象， 比如下面的示例：）</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> otherAsyncFunc();</span><br><span class="line">  <span class="built_in">console</span>.log(reuslt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//上面这个函数完全等价于</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> otherAsyncFunc()</span><br><span class="line">  .then(<span class="function"><span class="params">reuslt</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If the promise is rejected， await throws the rejection value。这个同样有两种处理方式，一种是在async函数内部使用try…catch来解决，另一种是传到async函数外，使用catch来解决。</p>
+</li>
+<li><p>await后面是个常数，则会以这种形式返回返回值：<code>Promise.resolve(value)</code></p>
+</li>
+</ol>
+<h2 id="async函数中的return"><a href="#async函数中的return" class="headerlink" title="async函数中的return"></a>async函数中的return</h2><p>Resolving a Promise is a standard operation. return uses it to resolve the Promise p of an async function.</p>
+<ol>
+<li><p>Returning a non-Promise value fulfills p with that value</p>
+</li>
+<li><p>Returning a Promise means that p now mirrors the state of that Promise</p>
+</li>
+</ol>
+<h2 id="是否使用await"><a href="#是否使用await" class="headerlink" title="是否使用await"></a>是否使用await</h2><ol>
+<li><p>在返回语句中不使用await</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个函数的返回值使用的是上面第二种情况</span></span><br><span class="line"><span class="comment">// 效率高</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> anotherAsyncFunc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在返回语句中使用await</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下面这个函数的返回语句中会发生先解包（await解包），在包装（return 会再次包装成Promise.resolve的过程）</span></span><br><span class="line"><span class="comment">// 效率低</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> anotherAsyncFunc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="async函数使用的几种场景（出自上述参考资料1）"><a href="#async函数使用的几种场景（出自上述参考资料1）" class="headerlink" title="async函数使用的几种场景（出自上述参考资料1）"></a>async函数使用的几种场景（出自上述参考资料1）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> resolveAfter2Seconds = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"starting slow promise"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve(<span class="number">20</span>);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"slow promise is done"</span>);</span><br><span class="line">    &#125;, <span class="number">2000</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> resolveAfter1Second = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"starting fast promise"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve(<span class="number">10</span>);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"fast promise is done"</span>);</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sequentialStart = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'==SEQUENTIAL START=='</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// If the value of the expression following the await operator is not a Promise, it's converted to a resolved Promise.</span></span><br><span class="line">  <span class="keyword">const</span> slow = <span class="keyword">await</span> resolveAfter2Seconds();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> fast = <span class="keyword">await</span> resolveAfter1Second();</span><br><span class="line">  <span class="built_in">console</span>.log(slow);</span><br><span class="line">  <span class="built_in">console</span>.log(fast);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> concurrentStart = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'==CONCURRENT START with await=='</span>);</span><br><span class="line">  <span class="keyword">const</span> slow = resolveAfter2Seconds(); <span class="comment">// starts timer immediately</span></span><br><span class="line">  <span class="keyword">const</span> fast = resolveAfter1Second();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> slow);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> fast); <span class="comment">// waits for slow to finish, even though fast is already done!</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> stillConcurrent = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'==CONCURRENT START with Promise.all=='</span>);</span><br><span class="line">  <span class="built_in">Promise</span>.all([resolveAfter2Seconds(), resolveAfter1Second()]).then(<span class="function">(<span class="params">messages</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(messages[<span class="number">0</span>]); <span class="comment">// slow</span></span><br><span class="line">    <span class="built_in">console</span>.log(messages[<span class="number">1</span>]); <span class="comment">// fast</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> parallel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'==PARALLEL with Promise.then=='</span>);</span><br><span class="line">  resolveAfter2Seconds().then(<span class="function">(<span class="params">message</span>)=&gt;</span><span class="built_in">console</span>.log(message));</span><br><span class="line">  resolveAfter1Second().then(<span class="function">(<span class="params">message</span>)=&gt;</span><span class="built_in">console</span>.log(message));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要内容"><span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有待补充和学习的"><span class="toc-text">有待补充和学习的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对async函数使用的理解"><span class="toc-text">对async函数使用的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async函数是如何工作的"><span class="toc-text">async函数是如何工作的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await的本质"><span class="toc-text">await的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async函数中的return"><span class="toc-text">async函数中的return</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是否使用await"><span class="toc-text">是否使用await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async函数使用的几种场景（出自上述参考资料1）"><span class="toc-text">async函数使用的几种场景（出自上述参考资料1）</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/11/11/个人简历/" rel="next" title="个人简历">
+          个人简历
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/12/17/pure-component/" rel="prev" title="React纯组件">
+            React纯组件
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

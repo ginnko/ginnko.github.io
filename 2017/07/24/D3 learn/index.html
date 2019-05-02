@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="D3,">
+  
+
+  
+    <meta name="description" content="D3学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>D3学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        D3学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-07-23T16:00:00.000Z">
+        2017-07-24
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/D3/">D3</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 15 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇是D3的学习总结。由于Freecodecamp的D3新版教程还没有上线，D3的基础学习资料是自己从网上搜集来跟着学的，然后完成了Freecodecamp上的5个小项目。</p>
+<a id="more"></a>
+<h3 id="基础学习"><a href="#基础学习" class="headerlink" title="基础学习"></a>基础学习</h3><ol>
+<li><p><a href="https://github.com/d3/d3/wiki/Tutorials" target="_blank" rel="noopener">这里</a>是D3官方给出的一些教程，我看了Introductions &amp; Core Concepts部分的前10篇，全部是D3的作者Mike Bostock大神写，其中<a href="https://bost.ocks.org/mike/join/" target="_blank" rel="noopener">Thinking with Joins</a>以及<a href="https://bost.ocks.org/mike/selection/" target="_blank" rel="noopener">How Selections Work</a>这两篇看过之后豁然开朗，大概明白了D3为何要写成这样，比如先引用不存在的节点再创造节点。D3做出来的东西真的很惊艳，是我最喜欢的一个库（虽然我也没接触几个…）。<a href="https://codepen.io/ginnko/pen/MoqwPr" target="_blank" rel="noopener">basic bar</a>、<a href="https://codepen.io/ginnko/pen/bRmorb" target="_blank" rel="noopener">letter frequencies</a>、<a href="https://codepen.io/ginnko/pen/GEwqxp" target="_blank" rel="noopener">general update 1</a>、<a href="https://codepen.io/ginnko/pen/YQRGNG" target="_blank" rel="noopener">general update 2</a>、<a href="https://codepen.io/ginnko/pen/eRQdxY" target="_blank" rel="noopener">general update 3</a>、<a href="https://codepen.io/ginnko/pen/pwxVGM" target="_blank" rel="noopener">circle</a>这6个练习是跟着Mike Bostock大神的教程自己敲进去的代码实现。上述给出的教程链接感觉很重要，日后遗忘可以进行参考。</p>
+</li>
+<li><p>使用codepen写练习有时需要外部获取数据文件，比如图片、json文件、tsv文件。对于图片，使用google drive和dropbox均可以达到目的，google drive使用<a href="http://gdurl.com/" target="_blank" rel="noopener">gdurl</a>或<a href="https://sites.google.com/site/gdocs2direct/" target="_blank" rel="noopener">这个</a>均可以生成永久链接（gdurl有时会生成http形式的链接，在codepen中无法使用）。而json文件、tsv文件存储在google drive中无法使用ajax技术获取，目前的办法是存储在dropbox，生成分享链接，稍作修改，作为最后的url。<br>正确的url: <code>https://dl.dropboxusercontent.com/s/</code> + <strong>hfgg7cdoedkv1he/ky-counties.json(dropbox生成的链接中包含这部分，相应替换)</strong> + <code>?dl=1</code>。</p>
+</li>
+<li><p>这里插一段题外话，这三个月的自学让自己发现，那种从非常基础的底层理论入手，全面学习后再进行各项练习的学习方法或许真的不适合自己，当然这也是对特定的学科，特定阶段而言。比如学习语法，就需要全面了解一下常用基础语法，才能顺利进行下一步。但是更重要的进一步的提升需要的是大量的练习，从目的出发，反向学习需要的东西，更有效率。目前发现对于语言（机器语言、自然语言）的学习，这种方法对自己特别有效。但对于写程序而言，这么说似乎有些耍小聪明，毕竟计算机科学是一套完整的理论的体系，还有大量的基础等着我去学习，任重道远。</p>
+</li>
+</ol>
+<p>下面是freecodecamp中的5个项目练习，主要记录自己遇到的一些问题，解决办法，没有解决的问题以及一些感想。</p>
+<h3 id="Visualize-Data-with-a-Bar-Chart"><a href="#Visualize-Data-with-a-Bar-Chart" class="headerlink" title="Visualize Data with a Bar Chart"></a><a href="https://codepen.io/ginnko/full/YQRgxM/" target="_blank" rel="noopener">Visualize Data with a Bar Chart</a></h3><p>这个项目是利用D3做了一张柱状图，涉及的是D3的基本的标准使用方法。  </p>
+<ul>
+<li><strong>引用的库：</strong> d3标准库和d3-tip库  </li>
+<li><strong>过程：</strong> 1. 准备阶段：获取json文件的url、数据转换方式、图纸大小、坐标轴的比例和转换；2.画图阶段：利用d3.json获取数据，完善坐标轴标尺，绘制图形、坐标轴、标题等。  </li>
+<li><p><strong>遇到的问题：</strong><br>1.时间数据的转换<br><code>var parseTime = d3.timeParse(&quot;%Y-%m-%d&quot;);</code><br><code>var timeFormat = d3.timeFormat(%Y-%m);</code><br>利用上面两行代码将以string格式表示的时间数据和js中的时间类型相互转换，更多的转换类型点击<a href="https://github.com/d3/d3-scale/blob/master/README.md#band_bandwidth" target="_blank" rel="noopener">这里</a>。可以在使用数据前统一对数据进行预处理，如下。</p>
+<pre><code>var data = json.data;
+data.forEach(function(d){
+d[0] = parseTime(d[0]);
+d[1] = +d[1];
+});
+</code></pre><p>2.比例尺<br>这个项目使用了三种比例尺，时间、线性、序数比例尺，对应d3.scaleTime(用来设置横坐标轴)、d3.scaleLinear（用来设置纵坐标轴以及图形的y值定位）以及d3.scaleBand（用来设置图形的宽度以及图形x值定位）。同时利用<strong>d3.scaleBand</strong>和<strong>d3.scaleTime</strong>来进行图形x方向定位和宽度设置时，图纸宽度的选择是关键！<code>图纸有效宽度/数据数量 = 一个整数</code>，否则画出的bar之间会有间距。其实，只是用d3.scaleBand可以实现目的，在后面的项目中有用法。<br>3.绑定问题<br>将g绑定到svg后，再绑定数据时，不用使用tag名称，会出现数据绑定不全的问题，此时应使用class名称来绑定。具体原因没有找到说法。  </p>
+</li>
+</ul>
+<h3 id="Visualize-Data-with-a-Scatterplot-Graph"><a href="#Visualize-Data-with-a-Scatterplot-Graph" class="headerlink" title="Visualize Data with a Scatterplot Graph "></a><a href="https://codepen.io/ginnko/pen/mwvmdW" target="_blank" rel="noopener">Visualize Data with a Scatterplot Graph </a></h3><p>这个项目的图形是用circle表示的，和bar大同小异。  </p>
+<ul>
+<li><strong>遇到的问题</strong><br>1.在固定的位置用来显示tip：先创建一个固定位置，然后在具体操作代码处稍作调整。<br>创建固定位置：  <pre><code>chart.call(tip);
+var show = chart.append(&quot;g&quot;)
+.attr(&quot;id&quot;, &quot;show&quot;)
+.attr(&quot;cx&quot;, &quot;5&quot;)
+.attr(&quot;cy&quot;, &quot;5&quot;);
+</code></pre>调整代码：<br><code>.on(&quot;mouseover&quot;, function(d){tip.show(d,document.getElementById(&quot;show&quot;))})</code></li>
+</ul>
+<h3 id="Visualize-Data-with-a-Heat-Map"><a href="#Visualize-Data-with-a-Heat-Map" class="headerlink" title="Visualize Data with a Heat Map "></a><a href="https://codepen.io/ginnko/pen/bRZeWy?editors=0010" target="_blank" rel="noopener">Visualize Data with a Heat Map </a></h3><p>这个项目用来表示地表温度，画出来有些震撼，基本没有遇到难点。  </p>
+<h3 id="Show-National-Contiguity-with-a-Force-Directed-Graph"><a href="#Show-National-Contiguity-with-a-Force-Directed-Graph" class="headerlink" title="Show National Contiguity with a Force Directed Graph "></a><a href="https://codepen.io/ginnko/pen/xreaEp" target="_blank" rel="noopener">Show National Contiguity with a Force Directed Graph </a></h3><p>这张图使用了d3的force layout。说实话，对force layout的学习并不深入，很多东西还不太明白，此处只记录了force的基本实现过程，其他同上。  </p>
+<ul>
+<li><strong>引用的库：</strong>d3标准库  </li>
+<li><strong>参考文档：</strong><a href="https://github.com/d3/d3/blob/master/API.md#forces-d3-force" target="_blank" rel="noopener">官方文档</a>、<a href="https://bl.ocks.org/mbostock/f584aa36df54c451c94a9d0798caed35" target="_blank" rel="noopener">实例1</a>、<a href="https://bl.ocks.org/mbostock/950642" target="_blank" rel="noopener">实例2</a>、<a href="https://css-tricks.com/css-sprites/" target="_blank" rel="noopener">sprite</a>  </li>
+<li><p><strong>注意：</strong><br>1.div使用left、right属性来定位<br>2.为了在svg中使用css-sprite, link和node要放在同一个div内<br>html：</p>
+<pre><code>&lt;div id=&quot;root&quot; width=&quot;900px&quot; height=&quot;600px&quot;&gt;
+  &lt;h2&gt;Force Directed Graph of State Contiguity&lt;/h2&gt;
+  &lt;div id=&quot;node&quot; &gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>js:</p>
+<pre><code>var link = svg.append(&quot;g&quot;)
+.attr(&quot;class&quot;, &quot;links&quot;)
+.selectAll(&quot;line&quot;)
+.data(graph.links)
+.enter().append(&quot;line&quot;)
+.attr(&quot;stroke-width&quot;, 1);
+
+var node = d3.select(&quot;#node&quot;)
+.selectAll(&quot;.flag&quot;)
+.data(graph.nodes)
+.enter().append(&quot;div&quot;)
+.attr(&quot;class&quot;, function(d){
+  return &quot;flag flag-&quot; + d.code;
+})
+</code></pre><p>2.这个练习没有使用d3-tip库来实现tooltip，方法如下</p>
+<pre><code>var tip = d3.select(&quot;#root&quot;)
+.append(&quot;div&quot;)
+.attr(&quot;class&quot;, &quot;tooltip&quot;)
+.style(&quot;opacity&quot;, 0);  
+...
+.on(&quot;mouseover&quot;, function(d) {
+  tip.transition()
+    .duration(200)
+    .style(&quot;opacity&quot;, .9);
+  tip.html(d.country)
+    .style(&quot;left&quot;, (d3.event.pageX) + &quot;px&quot;)
+    .style(&quot;top&quot;, (d3.event.pageY) + &quot;px&quot;);
+})
+.on(&quot;mouseout&quot;, function(d) {
+  tip.transition()
+    .style(&quot;opacity&quot;, 0);
+</code></pre><p>3.css的设置，涉及绝对位置显示和居中的问题</p>
+<pre><code>svg{
+  border: 1px black solid;
+  display: block;
+  margin: auto;
+}
+#node{
+  position: absolute;
+  margin:auto;
+  width: 900px;
+  left: 0;
+  right: 0;
+}
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  color: white;
+  background: steelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+.flag {
+    position: absolute;
+    width: 16px;
+    height: 11px;
+    background: url(&apos;http://gdurl.com/R0x1&apos;) no-repeat;
+}
+</code></pre></li>
+<li><p><strong>过程：</strong><br>1.创建一个force模拟对象</p>
+<pre><code>var simulation = d3.forceSimulation()
+.force(&quot;link&quot;, d3.forceLink().id(function(d){return d.index;}))
+.force(&quot;charge&quot;, d3.forceManyBody())
+.force(&quot;center&quot;, d3.forceCenter(width / 2, height / 2))
+.force(&quot;y&quot;, d3.forceY(0))
+.force(&quot;x&quot;, d3.forceX(0));
+</code></pre><p>2.数据绑定</p>
+<pre><code>simulation
+  .nodes(graph.nodes)
+  .on(&quot;tick&quot;, ticked);
+
+simulation.force(&quot;link&quot;)
+  .links(graph.links);
+</code></pre><p>3.正常创建link和node</p>
+<pre><code>var link = svg.append(&quot;g&quot;)
+.attr(&quot;class&quot;, &quot;links&quot;)
+.selectAll(&quot;line&quot;)
+.data(graph.links)
+.enter().append(&quot;line&quot;)
+.attr(&quot;stroke-width&quot;, 1);
+
+var node = d3.select(&quot;#node&quot;)
+.selectAll(&quot;.flag&quot;)
+.data(graph.nodes)
+.enter().append(&quot;div&quot;)
+.attr(&quot;class&quot;, function(d){
+  return &quot;flag flag-&quot; + d.code;
+})
+.call(d3.drag()
+      .on(&quot;start&quot;, dragstarted)
+      .on(&quot;drag&quot;, dragged)
+      .on(&quot;end&quot;, dragended))
+.on(&quot;mouseover&quot;, function(d) {
+  tip.transition()
+    .duration(200)
+    .style(&quot;opacity&quot;, .9);
+  tip.html(d.country)
+    .style(&quot;left&quot;, (d3.event.pageX) + &quot;px&quot;)
+    .style(&quot;top&quot;, (d3.event.pageY) + &quot;px&quot;);
+})
+.on(&quot;mouseout&quot;, function(d) {
+  tip.transition()
+    .style(&quot;opacity&quot;, 0);
+</code></pre><p>4.对node和link的操作</p>
+<pre><code>  function ticked(){
+  link
+    .attr(&quot;x1&quot;, function(d){return d.source.x;})
+    .attr(&quot;y1&quot;, function(d){return d.source.y;})
+    .attr(&quot;x2&quot;, function(d){return d.target.x;})
+    .attr(&quot;y2&quot;, function(d){return d.target.y;});
+  node
+    .style(&quot;left&quot;, function(d){return d.x + &quot;px&quot;;})
+    .style(&quot;top&quot;, function(d){return d.y + &quot;px&quot;;});
+}
+</code></pre><h3 id="Map-data-across-the-globe"><a href="#Map-data-across-the-globe" class="headerlink" title="Map data across the globe"></a><a href="https://codepen.io/ginnko/pen/LLwyvv" target="_blank" rel="noopener">Map data across the globe</a></h3><p>使用D3来绘制地图，做完这个项目，我意识到D3绘图是一层一层画的，不同的内容位于不同的图层，后画的内容显示在上层。开始做项目之前，先跟着下面的两个教程预热了一下，画了<a href="https://codepen.io/ginnko/pen/yXdYQd" target="_blank" rel="noopener">波士顿老鼠分布地图</a>和<a href="https://codepen.io/ginnko/pen/gRNzRB" target="_blank" rel="noopener">美国失业情况地图</a>。  </p>
+</li>
+<li><strong>教程：</strong><a href="https://github.com/topojson/topojson/wiki/Gallery" target="_blank" rel="noopener">地图gallery</a>，<a href="http://duspviz.mit.edu/d3-workshop/mapping-data-with-d3/" target="_blank" rel="noopener">DUSPviz</a>  </li>
+<li><strong>涉及的库：</strong>D3标准库，topojson库，D3 queue库  </li>
+<li><strong>重要概念：</strong>1.projection: 自己理解为某种模板，用来处理地理坐标和图纸坐标的关系；2.topojson：用来处理数据的一种方法，主要用了其中的topojson.feature()（用来转换数据）和topojson.mesh()（转换同时筛选数据）；3.queue：用于下载完所需的全部数据再执行后续的操作。  </li>
+<li><strong>过程：</strong> 1.基本设置；2.画地图；3.添加陨石数据；4；添加zoom  </li>
+<li><p><strong>遇到的问题：</strong><br>1.大圆遮挡了小圆<br>使用sort方法对数据进行了从大到小的排序，利用后画的图形在上层的特点。</p>
+<pre><code>data.sort(function(a, b){
+  if(a.properties.mass &gt; b.properties.mass)
+    return -1;
+  else if(a.properties.mass &lt; b.properties.mass)
+    return 1;
+  return 0;
+});  
+</code></pre><p>2.append数据时，遇到null的情况处理办法</p>
+<pre><code>.attr(&quot;cx&quot;, function(m){return m.geometry == null ? projection([0, 0])[0] : projection(m.geometry.coordinates)[0];})
+.attr(&quot;cy&quot;, function(m){return m.geometry == null ? projection([0, 0])[0] : projection(m.geometry.coordinates)[1];})
+.attr(&quot;fill&quot;, function(m, i){return color(i);})
+.attr(&quot;r&quot;, function(m){return m.geometry == null ? 0 : size(Math.sqrt(m.properties.mass));})  
+</code></pre><p>3.使用zoom</p>
+<pre><code>var zoom = d3.zoom()
+.scaleExtent([1, 8])
+.on(&quot;zoom&quot;, zoomed);
+
+function zoomed(){
+  var transform = d3.zoomTransform(this);
+  g.attr(&quot;transform&quot;, transform);
+  d3.selectAll(&quot;circle&quot;).attr(&quot;transform&quot;, transform);
+}
+
+svg.call(zoom);  
+</code></pre><p>4.svg的居中</p>
+<pre><code>svg
+  border: 1px solid black
+  display: block
+  margin: auto
+</code></pre></li>
+</ul>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础学习"><span class="toc-text">基础学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualize-Data-with-a-Bar-Chart"><span class="toc-text">Visualize Data with a Bar Chart</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualize-Data-with-a-Scatterplot-Graph"><span class="toc-text">Visualize Data with a Scatterplot Graph </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualize-Data-with-a-Heat-Map"><span class="toc-text">Visualize Data with a Heat Map </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Show-National-Contiguity-with-a-Force-Directed-Graph"><span class="toc-text">Show National Contiguity with a Force Directed Graph </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map-data-across-the-globe"><span class="toc-text">Map data across the globe</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/06/19/React learn/" rel="next" title="React学习">
+          React学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/11/20/ubuntu使用/" rel="prev" title="ubuntu系统使用记录">
+            ubuntu系统使用记录
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>

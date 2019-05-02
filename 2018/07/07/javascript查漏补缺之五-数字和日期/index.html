@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="javascript查漏补缺之五——《数字和日期》">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>javascript查漏补缺之五——《数字和日期》 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        javascript查漏补缺之五——《数字和日期》
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-07-06T16:00:00.000Z">
+        2018-07-07
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Numbers_and_dates" target="_blank" rel="noopener">译文地址</a></p>
+<ol>
+<li><p>js中数字的范围和类型</p>
+<p>范围： -(2^53 - 1) ~ (2^53 - 1)</p>
+<p>类型： 普通数字， +Infinity， -Infinity， NaN</p>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="2">
+<li><p>数字对象属性和方法的引用</p>
+<p>属性包括最大值、最小值、非数、正无穷、负无穷、比较值、最大安全数、最小安全数。</p>
+<p><img src="/images/js/1.png" alt="数字对象属性"></p>
+<p>方法调用的时候要使用<code>Number.</code>的形式，忘记这个在哪儿看到的了，总之就是有好处就对了。</p>
+<p><img src="/images/js/2.png" alt="数字对象的方法"></p>
+</li>
+<li><p>实现精确四舍五入保留小数位数的方法</p>
+<ol>
+<li><p><code>Number.prototype.toFixed()</code>：这个写在数字对象原型上的方法就可以做到，只不过会返回字符串形式的结果。（负数因为操作符的优先级问题，在不加括号的情况下不会返回字符串形式）</p>
+</li>
+<li><p>使用这种方法保留小数后几（3）位：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const rounded = Math.round(output * 1000) / 1000;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>Math对象的方法</p>
+<p> Math对象不可以自定义。</p>
+<ol>
+<li><p><code>floor（）</code>往下舍;</p>
+</li>
+<li><p><code>ceil（）</code>往上进;</p>
+</li>
+<li><p><code>round（）</code>四舍五入，只可保证整数部分是精确的;</p>
+</li>
+<li><p><code>trunc（）</code>截掉数字的小数部分。</p>
+</li>
+<li><p><code>random（）</code>返回一个浮点,  伪随机数在范围[0，1)， <strong>不能使用它们来处理有关安全的事情。使用Web Crypto API 来代替, 和更精确的window.crypto.getRandomValues() 方法。</strong></p>
+<ol>
+<li><p>得到一个大于等于0，小于1之间的随机数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function getRandom() &#123;</span><br><span class="line">  return Math.random();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>得到一个两数之间的随机数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function getRandomArbitrary(min, max) &#123;</span><br><span class="line">  return Math.random() * (max - min) + min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>得到一个两数之间的随机整数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function getRandomInt(min, max) &#123;</span><br><span class="line">  min = Math.ceil(min);</span><br><span class="line">  max = Math.floor(max);</span><br><span class="line">  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>得到一个两数之间的随机整数，包括两个数在内</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function getRandomIntInclusive(min, max) &#123;</span><br><span class="line">  min = Math.ceil(min);</span><br><span class="line">  max = Math.floor(max);</span><br><span class="line">  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>日期对象</p>
+<ol>
+<li><p>如果不使用<em>new</em>调用<code>Date()</code>,则返回的是当前日期时间的字符串。</p>
+</li>
+<li><p>使用<em>new</em>调用<code>new Date()</code>。使用这种方式创建的时间对象都可以使用Date对象的相关方法进行操作。</p>
+<ol>
+<li><p>如果不传入参数，则返回当前日期时间的时间对象;</p>
+</li>
+<li><p>传入<code>1995, 11, 25, 9, 30, 0</code>表示传入的是1995年11月25日9点30分0秒。</p>
+</li>
+</ol>
+</li>
+<li><p>Date对象的常用方法</p>
+<ol>
+<li><p><code>Date.prototype.getDate()</code>: 根据本地时间返回指定日期对象的月份中的第几天（1-31）。</p>
+</li>
+<li><p><code>Date.prototype.getDay()</code>: 根据本地时间返回指定日期对象的星期中的第几天（0-6）。</p>
+</li>
+<li><p><code>Date.prototype.getFullYear()</code>: 根据本地时间返回指定日期对象的年份。</p>
+</li>
+<li><p><code>Date.prototype.getHours()</code>: 根据本地时间返回指定日期对象的小时（0-23）。</p>
+</li>
+<li><p><code>Date.prototype.getSeconds()</code>: 根据本地时间返回指定日期对象的秒数（0-59）。</p>
+</li>
+<li><p><code>Date.prototype.getMinutes()</code>: 根据本地时间返回指定日期对象的分钟（0-59）。</p>
+</li>
+<li><p><code>Date.prototype.getMonth()</code>: 根据本地时间返回指定日期对象的月份（0-11）。</p>
+</li>
+<li><p><code>Date.prototype.toDateString()</code>: 返回一个人类可读的日期字符串，比如 <em>“Mon Jul 09 2018”</em> 。</p>
+</li>
+<li><p><code>Date.prototype.toLocalDateString()</code>： 返回一个 <em>“2018/7/9”</em> 这样形式的日期字符串。术语叫<strong>该字符串格式与系统设置的地区关联</strong>。</p>
+</li>
+<li><p><code>Date.prototype.toLocaleString()</code>:<br>返回一个 <em>“2018/7/9 上午10:48:34”</em> 这样形式的日期字符串。术语叫<strong>该字符串与系统设置的地区关联</strong>。</p>
+</li>
+<li><p><code>Date.prototype.toLocaleTimeString()</code>:返回一个 <em>“上午10:48:34”</em> 这样形式的时间字符串。</p>
+</li>
+<li><p><code>Date.prototype.toString()</code>: 返回 <em>“Mon Jul 09 2018 10:48:34 GMT+0800 (CST)”</em> 这种形式的字符串。感觉上面那种 <em>toLocale</em> 形式的更有用些。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/07/06/chrome调试技巧/" rel="next" title="chrome开发者工具使用技巧">
+          chrome开发者工具使用技巧
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/07/09/javascript查漏补缺之六-字符串/" rel="prev" title="javascript查漏补缺之六——《字符串》">
+            javascript查漏补缺之六——《字符串》
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+</body>
+</html>
