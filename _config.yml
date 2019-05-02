@@ -80,7 +80,7 @@ theme: xoxo
 deploy:
   type: git
   repo: git@github.com:ginnko/ginnko.github.io.git
-  branch: deploy
+  branch: gh-pages
 
 search:
   path: search.xml
