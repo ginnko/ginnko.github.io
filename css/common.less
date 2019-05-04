@@ -213,6 +213,33 @@ body {
   align-items: center;
   justify-content: center;
 
+  // left ads
+  .left-ads-container {
+    .ads-left {
+      display: none;
+      a:hover {
+        color: @light-blue;
+      }
+      @media screen and (min-width: 1260px) {
+        display: block;
+        position: relative;
+        margin-left: -15px;
+        max-height: calc(~"100vh - 150px");
+        width: 200px;
+        top: 25%;
+        font-size: 12px;
+        padding: 10px;
+        overflow-y: auto;
+        overflow-x: auto;
+        border-radius: 4px;
+        background-color: #F6F6F6;
+      }
+      @media screen and (max-width: 1260px) {
+        display: none!important;
+      }
+    }
+  }
+
   .toc-container {
     .toc-article {
       display: none;
