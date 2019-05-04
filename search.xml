@@ -310,6 +310,25 @@
     
     
     <entry>
+      <title>css查漏补缺之七-BFC2</title>
+      <link href="/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E4%B8%83-bfc2/"/>
+      <url>/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E4%B8%83-bfc2/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://www.cnblogs.com/xiaohuochai/p/5248536.html" target="_blank" rel="noopener">链接</a></p><h3 id="文档流"><a href="#文档流" class="headerlink" title="文档流"></a>文档流</h3><p>常说的文档流可以分为<code>定位流</code>，<code>浮动流</code>，<code>普通流</code>三种。而<code>普通流</code>其实就是指BFC中的FC（formatting context），直译过来就是格式化上下文，<strong>它是页面上的一块渲染区域，有一套渲染规则，决定了其子元素如何布局以及和其他元素之间的关系和作用。</strong>常见的FC有BFC，IFC，GFC，FFC。BFC是block formatting context，也就是块级格式化上下文，是用于布局块级盒子的一块渲染区域。</p><a id="more"></a><h3 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h3><p>BFC是页面上的一个隔离的独立容器，<strong>容器里面的子元素不会影响到外面的元素，反之亦然</strong>。它与普通的块框类似，但不同之处在于：</p><ol><li><p>可以阻止元素被浮动元素覆盖</p></li><li><p>高度计算是会包含浮动元素，解决父元素高度坍塌的问题</p></li><li><p>属于同一个BFC的两个相邻块级资源素的上下外边距会发生坍塌的现象，所以当两个相邻块级子元素分属于不同的BFC时可以阻止外边距坍塌。</p></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> css </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>css查漏补缺之六-普通流</title>
       <link href="/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E5%85%AD-normal-flow/"/>
       <url>/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E5%85%AD-normal-flow/</url>
@@ -334,25 +353,6 @@
       <url>/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E5%85%AB-flexbox/</url>
       
         <content type="html"><![CDATA[<p><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox" target="_blank" rel="noopener">链接</a></p><p>flex是一维布局方法，将flex items在row方向上布局或是在column方向上布局。flex item会伸缩来适应剩余空间或空间不够的情况。<strong>成为flex-items的元素可以认为是一个 <em>块级盒子</em>。</strong></p><h3 id="设置在-flexbox-上的属性"><a href="#设置在-flexbox-上的属性" class="headerlink" title="设置在 flexbox 上的属性"></a>设置在 flexbox 上的属性</h3><ol><li>display: box</li><li>flex-direction: row | column | row-reverse | column-reverse</li><li><p>flex-wrap: wrap </p><p> 当flex items数量过多，导致超出flex box的时候，上面这个属性会让flex items分布在多行显示，消除溢出flex box的问题。</p></li><li><p>flex-flow = flex-direction + flex-wrap</p><p> 上面的设置可以写成： <code>flex-flow: row wrap;</code></p></li></ol><a id="more"></a><h3 id="设置在-flex-items-上的属性"><a href="#设置在-flex-items-上的属性" class="headerlink" title="设置在 flex items 上的属性"></a>设置在 flex items 上的属性</h3><ol><li><p>flex: 1 200px;</p><p> 第1个无单位的属性表示元素将在主轴上占据多少空间（设置完padding和margin后留下的剩余空间）。</p><p> 第2个<code>200px</code>参数表明最小尺寸。</p><p> 上面这个属性的意思是：每一个flex item首先会给<code>200px</code>的可用空间。之后，剩余的空间将按照比例<code>1</code>来分。</p></li><li><p>flex是一个缩写属性，最多能设置三个值（<strong>mdn上建议使用缩写形式</strong>）：</p><ul><li>flex-grow：无单位的比例</li><li>flex-shrink： 无单位的比例</li><li>flex-basis： 最小空间</li></ul></li><li><p>align-items:控制flex items如何在交叉轴上摆放，可以取得值有：</p><ul><li>stretch：默认值，将会拉伸flex items的高度和父元素相同</li><li>center：flex items将保持固有尺寸，但是会沿着交叉轴居中</li><li>flex-start/flex-end：定位在交叉轴的start/end位置</li></ul></li><li><p>justify-content：控制flex items在主轴上如何摆放，可以取得值有：</p><ul><li>flex-start(默认值):从主轴的start处开始</li><li>flex-end：从主轴的end处开始</li><li>center：定位在主轴的中间</li><li>space-around: 在每个元素的左右两侧都留相同的空间，导致最靠边的两个元素左右两侧距离边框有距离，且元素和元素之间的空间要比刚说的这个空间大。整个主轴的空间被这些flex items瓜分。</li><li>space-between: 最外侧的两个元素靠近边框的一侧没有多余的空间，整个主轴的空间被flex items瓜分，剩余的空间都分布在flex items之间了。</li></ul></li><li><p>order:</p><ul><li>默认值： 0</li><li>数值越大排序越靠后</li></ul></li></ol><h3 id="Nested-flex-boxes"><a href="#Nested-flex-boxes" class="headerlink" title="Nested flex boxes"></a>Nested flex boxes</h3><p>这个已经用过多次了</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> css </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>css查漏补缺之七-BFC2</title>
-      <link href="/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E4%B8%83-bfc2/"/>
-      <url>/2018/09/05/css%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA%E4%B9%8B%E4%B8%83-bfc2/</url>
-      
-        <content type="html"><![CDATA[<p><a href="https://www.cnblogs.com/xiaohuochai/p/5248536.html" target="_blank" rel="noopener">链接</a></p><h3 id="文档流"><a href="#文档流" class="headerlink" title="文档流"></a>文档流</h3><p>常说的文档流可以分为<code>定位流</code>，<code>浮动流</code>，<code>普通流</code>三种。而<code>普通流</code>其实就是指BFC中的FC（formatting context），直译过来就是格式化上下文，<strong>它是页面上的一块渲染区域，有一套渲染规则，决定了其子元素如何布局以及和其他元素之间的关系和作用。</strong>常见的FC有BFC，IFC，GFC，FFC。BFC是block formatting context，也就是块级格式化上下文，是用于布局块级盒子的一块渲染区域。</p><a id="more"></a><h3 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h3><p>BFC是页面上的一个隔离的独立容器，<strong>容器里面的子元素不会影响到外面的元素，反之亦然</strong>。它与普通的块框类似，但不同之处在于：</p><ol><li><p>可以阻止元素被浮动元素覆盖</p></li><li><p>高度计算是会包含浮动元素，解决父元素高度坍塌的问题</p></li><li><p>属于同一个BFC的两个相邻块级资源素的上下外边距会发生坍塌的现象，所以当两个相邻块级子元素分属于不同的BFC时可以阻止外边距坍塌。</p></li></ol>]]></content>
       
       
       
@@ -979,25 +979,6 @@
     
     
     <entry>
-      <title>ubuntu系统使用记录</title>
-      <link href="/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/"/>
-      <url>/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/</url>
-      
-        <content type="html"><![CDATA[<p><strong>本文是ubuntu使用方法汇总。</strong></p><a id="more"></a><h3 id="资料列表"><a href="#资料列表" class="headerlink" title="资料列表"></a>资料列表</h3><ol><li><a href="https://jingyan.baidu.com/article/60ccbceb18624464cab197ea.html" target="_blank" rel="noopener">双系统安装</a></li><li><a href="http://www.jianshu.com/p/2b24cd430a7d" target="_blank" rel="noopener">ubuntu下安装nodejs</a></li><li><a href="http://blog.csdn.net/txl910514/article/details/52136821" target="_blank" rel="noopener">ubuntu安装webstorm</a></li><li><a href="https://www.cnblogs.com/netfoxman/p/5994697.html" target="_blank" rel="noopener">ubuntu下多个python版本切换</a></li><li><a href="http://blog.csdn.net/wangjingfei/article/details/5614203" target="_blank" rel="noopener">ubuntu安装中文字体</a></li><li><a href="http://blog.csdn.net/kevinhg/article/details/5934462" target="_blank" rel="noopener">ubuntu下deb包的安装方法</a></li><li><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">ubuntu下科学上网配置</a></li><li><a href="https://blog.csdn.net/u011630575/article/details/48030663" target="_blank" rel="noopener">ubuntu下给指令设置别名</a></li></ol><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>上述第7个链接只是<strong>shadowsocks-qt5</strong>的安装，火狐浏览器安装FoxyProxy Standard插件，并进行如下配置：</p><ul><li>Proxy Type: SOCKS5</li><li>IP address: 127.0.0.1</li><li>Port: 1080</li></ul></li></ol><h3 id="系统问题"><a href="#系统问题" class="headerlink" title="系统问题"></a>系统问题</h3><ol><li><p><strong>Kernel Panic -not syncing:VFS:Unable to mount foot fs on Unknown-block(0,0)</strong></p><ul><li>症状： 开机启动卡在紫色界面无法进入桌面，在重启后自动运行一系列代码，最后出现上述错误</li><li>原因： 查到的相关信息表明是由于系统的什么核升级没有升级完全导致</li><li>参考： <a href="https://askubuntu.com/questions/41930/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block0-0" target="_blank" rel="noopener">Kernel Panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)</a></li><li>解决办法：<ol><li>在选择系统的界面进入ubuntu高级选项，然后尝试各个可用版本的<code>recover mode</code>;</li><li>进入<code>recover mode</code>后，不需要点击任何选项，直接<code>tab</code>键进入最下面，点<code>enter</code>，之后可能还得<code>enter</code>，然后会自动执行一串命令行代码，进入当前版本的桌面；</li><li>启动终端；</li><li><code>uname -r</code>查看当前版本；</li><li><code>update-initramfs -u -k version</code>重新恢复/升级安装当前版本</li><li><code>update-grub</code>更新grub</li></ol></li></ul></li><li><p><strong>stdout no space left on device</strong></p><ul><li>症状： 恢复上述版本安装的时候可能会出现这个错误，怀疑平时更新不成功说没有地方也是这个原因。<strong>这个叫移除ubuntu系统中旧版内核，搜索可以这样搜</strong>。</li><li>原因： 就是某个盘给的空间可能小了，然后还存在多个版本，地儿不够，以后再说吧，懒得整</li><li>参考：<br><a href="https://askubuntu.com/questions/929305/gzip-stdout-no-space-left-on-device-e-mkinitramfs-failure-cpio-141-gzip-1/929681#929681" target="_blank" rel="noopener">gzip: stdout: No space left on device E: mkinitramfs failure cpio 141 gzip</a><br><a href="https://askubuntu.com/questions/223248/gzip-stdout-no-space-left-on-device-while-upgrading-the-kernel" target="_blank" rel="noopener">gzip: stdout: No space left on device” while upgrading the kernel</a></li><li>解决办法：<ol><li><code>uname -r</code>查看当前版本；</li><li><code>ls /boot</code>查看所有版本；</li><li><code>sudo apt-get autoremove linux-image-old-version</code>删除不需要的版本释放空间</li></ol></li></ul></li><li><p><strong>启动桌面不显示工具栏</strong></p><ol><li><p>尝试重启，依次输入下面的命令<br><code>ctrl_alt+f1</code></p><p><code>sudo service lightdm restart</code></p></li><li><p>重启不行就重装unity（这是个what），依次输入下面的命令<br><code>sudo apt-get update</code></p><p><code>sudo apt-get install --reinstall ubuntu-desktop</code></p><p><code>sudo apt-get install unity</code></p></li></ol></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> ubuntu </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>sphinx</title>
       <link href="/2017/11/20/sphinx/"/>
       <url>/2017/11/20/sphinx/</url>
@@ -1009,6 +990,25 @@
         <tags>
             
             <tag> sphinx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ubuntu系统使用记录</title>
+      <link href="/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/"/>
+      <url>/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<p><strong>本文是ubuntu使用方法汇总。</strong></p><a id="more"></a><h3 id="资料列表"><a href="#资料列表" class="headerlink" title="资料列表"></a>资料列表</h3><ol><li><a href="https://jingyan.baidu.com/article/60ccbceb18624464cab197ea.html" target="_blank" rel="noopener">双系统安装</a></li><li><a href="http://www.jianshu.com/p/2b24cd430a7d" target="_blank" rel="noopener">ubuntu下安装nodejs</a></li><li><a href="http://blog.csdn.net/txl910514/article/details/52136821" target="_blank" rel="noopener">ubuntu安装webstorm</a></li><li><a href="https://www.cnblogs.com/netfoxman/p/5994697.html" target="_blank" rel="noopener">ubuntu下多个python版本切换</a></li><li><a href="http://blog.csdn.net/wangjingfei/article/details/5614203" target="_blank" rel="noopener">ubuntu安装中文字体</a></li><li><a href="http://blog.csdn.net/kevinhg/article/details/5934462" target="_blank" rel="noopener">ubuntu下deb包的安装方法</a></li><li><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">ubuntu下科学上网配置</a></li><li><a href="https://blog.csdn.net/u011630575/article/details/48030663" target="_blank" rel="noopener">ubuntu下给指令设置别名</a></li></ol><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>上述第7个链接只是<strong>shadowsocks-qt5</strong>的安装，火狐浏览器安装FoxyProxy Standard插件，并进行如下配置：</p><ul><li>Proxy Type: SOCKS5</li><li>IP address: 127.0.0.1</li><li>Port: 1080</li></ul></li></ol><h3 id="系统问题"><a href="#系统问题" class="headerlink" title="系统问题"></a>系统问题</h3><ol><li><p><strong>Kernel Panic -not syncing:VFS:Unable to mount foot fs on Unknown-block(0,0)</strong></p><ul><li>症状： 开机启动卡在紫色界面无法进入桌面，在重启后自动运行一系列代码，最后出现上述错误</li><li>原因： 查到的相关信息表明是由于系统的什么核升级没有升级完全导致</li><li>参考： <a href="https://askubuntu.com/questions/41930/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block0-0" target="_blank" rel="noopener">Kernel Panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)</a></li><li>解决办法：<ol><li>在选择系统的界面进入ubuntu高级选项，然后尝试各个可用版本的<code>recover mode</code>;</li><li>进入<code>recover mode</code>后，不需要点击任何选项，直接<code>tab</code>键进入最下面，点<code>enter</code>，之后可能还得<code>enter</code>，然后会自动执行一串命令行代码，进入当前版本的桌面；</li><li>启动终端；</li><li><code>uname -r</code>查看当前版本；</li><li><code>update-initramfs -u -k version</code>重新恢复/升级安装当前版本</li><li><code>update-grub</code>更新grub</li></ol></li></ul></li><li><p><strong>stdout no space left on device</strong></p><ul><li>症状： 恢复上述版本安装的时候可能会出现这个错误，怀疑平时更新不成功说没有地方也是这个原因。<strong>这个叫移除ubuntu系统中旧版内核，搜索可以这样搜</strong>。</li><li>原因： 就是某个盘给的空间可能小了，然后还存在多个版本，地儿不够，以后再说吧，懒得整</li><li>参考：<br><a href="https://askubuntu.com/questions/929305/gzip-stdout-no-space-left-on-device-e-mkinitramfs-failure-cpio-141-gzip-1/929681#929681" target="_blank" rel="noopener">gzip: stdout: No space left on device E: mkinitramfs failure cpio 141 gzip</a><br><a href="https://askubuntu.com/questions/223248/gzip-stdout-no-space-left-on-device-while-upgrading-the-kernel" target="_blank" rel="noopener">gzip: stdout: No space left on device” while upgrading the kernel</a></li><li>解决办法：<ol><li><code>uname -r</code>查看当前版本；</li><li><code>ls /boot</code>查看所有版本；</li><li><code>sudo apt-get autoremove linux-image-old-version</code>删除不需要的版本释放空间</li></ol></li></ul></li><li><p><strong>启动桌面不显示工具栏</strong></p><ol><li><p>尝试重启，依次输入下面的命令<br><code>ctrl_alt+f1</code></p><p><code>sudo service lightdm restart</code></p></li><li><p>重启不行就重装unity（这是个what），依次输入下面的命令<br><code>sudo apt-get update</code></p><p><code>sudo apt-get install --reinstall ubuntu-desktop</code></p><p><code>sudo apt-get install unity</code></p></li></ol></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> ubuntu </tag>
             
         </tags>
       

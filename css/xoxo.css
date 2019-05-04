@@ -303,6 +303,11 @@ body {
     max-width: 880px;
   }
 }
+.container .goodle-ads-below-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
 .recent-posts {
   margin: 0 auto;
   max-width: 800px;
