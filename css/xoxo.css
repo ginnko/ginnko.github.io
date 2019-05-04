@@ -416,8 +416,7 @@ body {
 @media screen and (min-width: 1260px) {
   .post-container .left-ads-container .ads-left {
     margin-left: -230px;
-    position: absolute;
-    top: 20%;
+    margin-top: 200px;
   }
 }
 @media screen and (max-width: 1260px) {
