@@ -16,7 +16,7 @@ if (is_home()) pageTitle+= config.subtitle;
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
   <%-partial('partials/google-analytics.ejs') %>
-  <%-partial('partials/google-ads.ejs') %>
+  <!-- <%-partial('partials/google-ads.ejs') %> -->
   
   <% if (page.tags && page.tags.length) { %>
     <meta name="keywords" content="<% page.tags.forEach(function(tag) { %><%= tag.name %>,<% }); %>" />

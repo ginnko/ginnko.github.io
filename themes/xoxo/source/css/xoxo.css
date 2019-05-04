@@ -131,10 +131,6 @@ footer .bottom-item:hover {
   background-color: rgba(0, 0, 0, 0.3);
   box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
-::-moz-selection {
-  background: #64B5F6;
-  color: #fff;
-}
 ::selection {
   background: #64B5F6;
   color: #fff;
@@ -416,6 +412,16 @@ body {
       align-items: center;
   -ms-flex-pack: center;
       justify-content: center;
+}
+@media screen and (min-width: 1260px) {
+  .post-container .left-ads-container .ads-left {
+    margin-left: -230px;
+  }
+}
+@media screen and (max-width: 1260px) {
+  .post-container .left-ads-container .ads-left {
+    display: none!important;
+  }
 }
 .post-container .toc-container .toc-article {
   display: none;
