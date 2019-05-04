@@ -979,25 +979,6 @@
     
     
     <entry>
-      <title>ubuntu系统使用记录</title>
-      <link href="/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/"/>
-      <url>/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/</url>
-      
-        <content type="html"><![CDATA[<p><strong>本文是ubuntu使用方法汇总。</strong></p><a id="more"></a><h3 id="资料列表"><a href="#资料列表" class="headerlink" title="资料列表"></a>资料列表</h3><ol><li><a href="https://jingyan.baidu.com/article/60ccbceb18624464cab197ea.html" target="_blank" rel="noopener">双系统安装</a></li><li><a href="http://www.jianshu.com/p/2b24cd430a7d" target="_blank" rel="noopener">ubuntu下安装nodejs</a></li><li><a href="http://blog.csdn.net/txl910514/article/details/52136821" target="_blank" rel="noopener">ubuntu安装webstorm</a></li><li><a href="https://www.cnblogs.com/netfoxman/p/5994697.html" target="_blank" rel="noopener">ubuntu下多个python版本切换</a></li><li><a href="http://blog.csdn.net/wangjingfei/article/details/5614203" target="_blank" rel="noopener">ubuntu安装中文字体</a></li><li><a href="http://blog.csdn.net/kevinhg/article/details/5934462" target="_blank" rel="noopener">ubuntu下deb包的安装方法</a></li><li><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">ubuntu下科学上网配置</a></li><li><a href="https://blog.csdn.net/u011630575/article/details/48030663" target="_blank" rel="noopener">ubuntu下给指令设置别名</a></li></ol><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>上述第7个链接只是<strong>shadowsocks-qt5</strong>的安装，火狐浏览器安装FoxyProxy Standard插件，并进行如下配置：</p><ul><li>Proxy Type: SOCKS5</li><li>IP address: 127.0.0.1</li><li>Port: 1080</li></ul></li></ol><h3 id="系统问题"><a href="#系统问题" class="headerlink" title="系统问题"></a>系统问题</h3><ol><li><p><strong>Kernel Panic -not syncing:VFS:Unable to mount foot fs on Unknown-block(0,0)</strong></p><ul><li>症状： 开机启动卡在紫色界面无法进入桌面，在重启后自动运行一系列代码，最后出现上述错误</li><li>原因： 查到的相关信息表明是由于系统的什么核升级没有升级完全导致</li><li>参考： <a href="https://askubuntu.com/questions/41930/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block0-0" target="_blank" rel="noopener">Kernel Panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)</a></li><li>解决办法：<ol><li>在选择系统的界面进入ubuntu高级选项，然后尝试各个可用版本的<code>recover mode</code>;</li><li>进入<code>recover mode</code>后，不需要点击任何选项，直接<code>tab</code>键进入最下面，点<code>enter</code>，之后可能还得<code>enter</code>，然后会自动执行一串命令行代码，进入当前版本的桌面；</li><li>启动终端；</li><li><code>uname -r</code>查看当前版本；</li><li><code>update-initramfs -u -k version</code>重新恢复/升级安装当前版本</li><li><code>update-grub</code>更新grub</li></ol></li></ul></li><li><p><strong>stdout no space left on device</strong></p><ul><li>症状： 恢复上述版本安装的时候可能会出现这个错误，怀疑平时更新不成功说没有地方也是这个原因。<strong>这个叫移除ubuntu系统中旧版内核，搜索可以这样搜</strong>。</li><li>原因： 就是某个盘给的空间可能小了，然后还存在多个版本，地儿不够，以后再说吧，懒得整</li><li>参考：<br><a href="https://askubuntu.com/questions/929305/gzip-stdout-no-space-left-on-device-e-mkinitramfs-failure-cpio-141-gzip-1/929681#929681" target="_blank" rel="noopener">gzip: stdout: No space left on device E: mkinitramfs failure cpio 141 gzip</a><br><a href="https://askubuntu.com/questions/223248/gzip-stdout-no-space-left-on-device-while-upgrading-the-kernel" target="_blank" rel="noopener">gzip: stdout: No space left on device” while upgrading the kernel</a></li><li>解决办法：<ol><li><code>uname -r</code>查看当前版本；</li><li><code>ls /boot</code>查看所有版本；</li><li><code>sudo apt-get autoremove linux-image-old-version</code>删除不需要的版本释放空间</li></ol></li></ul></li><li><p><strong>启动桌面不显示工具栏</strong></p><ol><li><p>尝试重启，依次输入下面的命令<br><code>ctrl_alt+f1</code></p><p><code>sudo service lightdm restart</code></p></li><li><p>重启不行就重装unity（这是个what），依次输入下面的命令<br><code>sudo apt-get update</code></p><p><code>sudo apt-get install --reinstall ubuntu-desktop</code></p><p><code>sudo apt-get install unity</code></p></li></ol></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> ubuntu </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>sphinx</title>
       <link href="/2017/11/20/sphinx/"/>
       <url>/2017/11/20/sphinx/</url>
@@ -1009,6 +990,25 @@
         <tags>
             
             <tag> sphinx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ubuntu系统使用记录</title>
+      <link href="/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/"/>
+      <url>/2017/11/20/ubuntu%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<p><strong>本文是ubuntu使用方法汇总。</strong></p><a id="more"></a><h3 id="资料列表"><a href="#资料列表" class="headerlink" title="资料列表"></a>资料列表</h3><ol><li><a href="https://jingyan.baidu.com/article/60ccbceb18624464cab197ea.html" target="_blank" rel="noopener">双系统安装</a></li><li><a href="http://www.jianshu.com/p/2b24cd430a7d" target="_blank" rel="noopener">ubuntu下安装nodejs</a></li><li><a href="http://blog.csdn.net/txl910514/article/details/52136821" target="_blank" rel="noopener">ubuntu安装webstorm</a></li><li><a href="https://www.cnblogs.com/netfoxman/p/5994697.html" target="_blank" rel="noopener">ubuntu下多个python版本切换</a></li><li><a href="http://blog.csdn.net/wangjingfei/article/details/5614203" target="_blank" rel="noopener">ubuntu安装中文字体</a></li><li><a href="http://blog.csdn.net/kevinhg/article/details/5934462" target="_blank" rel="noopener">ubuntu下deb包的安装方法</a></li><li><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">ubuntu下科学上网配置</a></li><li><a href="https://blog.csdn.net/u011630575/article/details/48030663" target="_blank" rel="noopener">ubuntu下给指令设置别名</a></li></ol><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>上述第7个链接只是<strong>shadowsocks-qt5</strong>的安装，火狐浏览器安装FoxyProxy Standard插件，并进行如下配置：</p><ul><li>Proxy Type: SOCKS5</li><li>IP address: 127.0.0.1</li><li>Port: 1080</li></ul></li></ol><h3 id="系统问题"><a href="#系统问题" class="headerlink" title="系统问题"></a>系统问题</h3><ol><li><p><strong>Kernel Panic -not syncing:VFS:Unable to mount foot fs on Unknown-block(0,0)</strong></p><ul><li>症状： 开机启动卡在紫色界面无法进入桌面，在重启后自动运行一系列代码，最后出现上述错误</li><li>原因： 查到的相关信息表明是由于系统的什么核升级没有升级完全导致</li><li>参考： <a href="https://askubuntu.com/questions/41930/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block0-0" target="_blank" rel="noopener">Kernel Panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)</a></li><li>解决办法：<ol><li>在选择系统的界面进入ubuntu高级选项，然后尝试各个可用版本的<code>recover mode</code>;</li><li>进入<code>recover mode</code>后，不需要点击任何选项，直接<code>tab</code>键进入最下面，点<code>enter</code>，之后可能还得<code>enter</code>，然后会自动执行一串命令行代码，进入当前版本的桌面；</li><li>启动终端；</li><li><code>uname -r</code>查看当前版本；</li><li><code>update-initramfs -u -k version</code>重新恢复/升级安装当前版本</li><li><code>update-grub</code>更新grub</li></ol></li></ul></li><li><p><strong>stdout no space left on device</strong></p><ul><li>症状： 恢复上述版本安装的时候可能会出现这个错误，怀疑平时更新不成功说没有地方也是这个原因。<strong>这个叫移除ubuntu系统中旧版内核，搜索可以这样搜</strong>。</li><li>原因： 就是某个盘给的空间可能小了，然后还存在多个版本，地儿不够，以后再说吧，懒得整</li><li>参考：<br><a href="https://askubuntu.com/questions/929305/gzip-stdout-no-space-left-on-device-e-mkinitramfs-failure-cpio-141-gzip-1/929681#929681" target="_blank" rel="noopener">gzip: stdout: No space left on device E: mkinitramfs failure cpio 141 gzip</a><br><a href="https://askubuntu.com/questions/223248/gzip-stdout-no-space-left-on-device-while-upgrading-the-kernel" target="_blank" rel="noopener">gzip: stdout: No space left on device” while upgrading the kernel</a></li><li>解决办法：<ol><li><code>uname -r</code>查看当前版本；</li><li><code>ls /boot</code>查看所有版本；</li><li><code>sudo apt-get autoremove linux-image-old-version</code>删除不需要的版本释放空间</li></ol></li></ul></li><li><p><strong>启动桌面不显示工具栏</strong></p><ol><li><p>尝试重启，依次输入下面的命令<br><code>ctrl_alt+f1</code></p><p><code>sudo service lightdm restart</code></p></li><li><p>重启不行就重装unity（这是个what），依次输入下面的命令<br><code>sudo apt-get update</code></p><p><code>sudo apt-get install --reinstall ubuntu-desktop</code></p><p><code>sudo apt-get install unity</code></p></li></ol></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> ubuntu </tag>
             
         </tags>
       
