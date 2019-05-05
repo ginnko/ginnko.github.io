@@ -874,6 +874,11 @@ body {
 .copyright a:hover {
   color: #2196F3;
 }
+.vcomments {
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+}
 pre,
 code {
   background-color: #f6f6f6;
