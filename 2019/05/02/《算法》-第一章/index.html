@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="React,">
+    <meta name="keywords" content="algorithm,《算法》,java,">
   
 
   
-    <meta name="description" content="React纯组件">
+    <meta name="description" content="DJ双栈算术表达式求值算法">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>React纯组件 [ Ginnko&#39;s ]</title>
+  <title>DJ双栈算术表达式求值算法 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        React纯组件
+        DJ双栈算术表达式求值算法
       </h1>
       <span>
         
-        <time class="time" datetime="2018-12-16T16:00:00.000Z">
-        2018-12-17
+        <time class="time" datetime="2019-05-01T16:00:00.000Z">
+        2019-05-02
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,28 +122,25 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 2 分钟</span>
+      <span class="read">阅读耗时 4 分钟</span>
     </header>
 
     <div class="post-content">
-      <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://reactjs.org/docs/react-api.html#reactpurecomponent" target="_blank" rel="noopener">https://reactjs.org/docs/react-api.html#reactpurecomponent</a></li>
-<li><a href="https://segmentfault.com/a/1190000014979065" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014979065</a></li>
-<li><a href="https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs" target="_blank" rel="noopener">https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs</a></li>
-<li><a href="https://juejin.im/post/5b1caceb5188257d63226743" target="_blank" rel="noopener">https://juejin.im/post/5b1caceb5188257d63226743</a></li>
-</ol>
+      <p>看到p79，讲栈的一个应用——算术表达式求值，突然想起来这是来我现在这家公司面试的时候，被问的一道题。当年年少无知写计算器的时候，算术表达式求值用的是正则表达式的匹配（不涉及括号），面试给出的的答案也是这种办法。看到书里用栈来解决，真是牛逼。</p>
 <a id="more"></a>
-<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>React为了提升性能，产生了纯组件。纯组件的子组件也是纯组件。</p>
-<p>关于纯组件自己的理解：类似于纯函数，只要是一样的state和props，就必定是同样的结果，可以不用再render，直接使用上次的结果。</p>
-<p><code>React.PureComponent</code>通过减少应用中的渲染次数提升性能可以避免手写检查代码。</p>
-<p>纯组件忽略重新渲染时，会影响它和它的所有子元素，所以出组件的最佳使用场景就是展示组件，既没有子组件，也没有依赖应用的全局状态。</p>
-<p>解决纯组件的初始化问题：</p>
-<ol>
-<li>default Props</li>
-<li>向子组件中传入的函数传引用，而不是函数本身，否则会重新创建函数对象</li>
-</ol>
-<p>不要在render中创建一个新函数或对象或方法。任何包含子元素的组件，shallowEqual检查总会返回false。</p>
-<h2 id="使用细节"><a href="#使用细节" class="headerlink" title="使用细节"></a>使用细节</h2><p>这个要补充一下</p>
+<h1 id="DJ双栈算术表达式求值算法描述"><a href="#DJ双栈算术表达式求值算法描述" class="headerlink" title="DJ双栈算术表达式求值算法描述"></a>DJ双栈算术表达式求值算法描述</h1><p>这个算法是 <strong>E.W.Dijkstra</strong>大神发明，使用两个栈，一个用于保存运算符，一个用于保存操作数。（这个算法使用括号）</p>
+<ul>
+<li>将操作数压入操作数栈</li>
+<li>将运算符压入运算符栈</li>
+<li>忽略左括号</li>
+<li>遇到右括号时，弹出一个运算符，弹出所需数量的操作数，并将运算符和操作数的运算符结果压入操作数栈</li>
+</ul>
+<p>在处理完最后一个右括号之后，操作数栈上只会有一个值，就是表达式的值。</p>
+<h1 id="java实现"><a href="#java实现" class="headerlink" title="java实现"></a>java实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Evaluate</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Stack&lt;String&gt; ops = <span class="keyword">new</span> Stack&lt;String&gt;();</span><br><span class="line">    Stack&lt;Double&gt; vals = <span class="keyword">new</span> Stack&lt;Double&gt;();</span><br><span class="line">    <span class="keyword">while</span> (!StdIn.isEmpty()) &#123; </span><br><span class="line">      <span class="comment">// 读取字符,如果是运算符则压入栈</span></span><br><span class="line">      String s = StdIn.readString();</span><br><span class="line">      <span class="keyword">if</span> (s.equals(<span class="string">"("</span>));</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">"+"</span>))</span><br><span class="line">        ops.push(s);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">"-"</span>))</span><br><span class="line">        ops.push(s);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">"*"</span>))</span><br><span class="line">        ops.push(s);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">"/"</span>))</span><br><span class="line">        ops.push(s);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">"sqrt"</span>))</span><br><span class="line">        ops.push(s);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (s.equals(<span class="string">")"</span>)) &#123;</span><br><span class="line">        <span class="comment">// 如果字符为 ")",弹出运算符和操作数,计算结果并压入栈</span></span><br><span class="line">        String op = ops.pop();</span><br><span class="line">        <span class="keyword">double</span> v = vals.pop();</span><br><span class="line">        <span class="keyword">if</span>(op.equals(<span class="string">"+"</span>))</span><br><span class="line">          v = vals.pop() + v;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (op.equals(<span class="string">"-"</span>))</span><br><span class="line">          v = vals.pop() - v;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (op.equals(<span class="string">"*"</span>))</span><br><span class="line">          v = vals.pop() * v;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (op.equals(<span class="string">"/"</span>))</span><br><span class="line">          v = vals.pop() / v;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (op.equals(<span class="string">"sqrt"</span>)) v = Math.sqrt(v);</span><br><span class="line">          vals.push(v);</span><br><span class="line">      &#125; <span class="comment">// 如果字符既非运算符也不是括号,将它作为 double 值压入栈</span></span><br><span class="line">      <span class="keyword">else</span> vals.push(Double.parseDouble(s));</span><br><span class="line">    &#125;</span><br><span class="line">    StdOut.println(vals.pop());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它展示了一种重要的计算模型:将一个字符串解释为一段程序并执行该程序得到结果。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《算法》p79-p80</li>
+</ul>
 
     </div>
 
@@ -153,7 +150,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要内容"><span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用细节"><span class="toc-text">使用细节</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DJ双栈算术表达式求值算法描述"><span class="toc-text">DJ双栈算术表达式求值算法描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java实现"><span class="toc-text">java实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
   </div>
 
 
@@ -176,16 +173,16 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2018/12/17/dva学习/" rel="next" title="Dva初步学习">
-          Dva初步学习
+          <a href="/2019/04/28/promise/" rel="next" title="关于promise的理解">
+          关于promise的理解
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2019/01/06/2019-1-6-generator/" rel="prev" title="generator函数初步学习">
-            generator函数初步学习
+          <a href="/2019/05/02/迁移博客/" rel="prev" title="博客迁移">
+            博客迁移
           </a>
           <span>〉</span>
         
