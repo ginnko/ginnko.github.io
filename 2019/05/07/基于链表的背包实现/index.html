@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="React,">
+    <meta name="keywords" content="algorithm,《算法》,java,">
   
 
   
-    <meta name="description" content="React纯组件">
+    <meta name="description" content="基于链表的背包实现">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>React纯组件 [ Ginnko&#39;s ]</title>
+  <title>基于链表的背包实现 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        React纯组件
+        基于链表的背包实现
       </h1>
       <span>
         
-        <time class="time" datetime="2018-12-16T16:00:00.000Z">
-        2018-12-17
+        <time class="time" datetime="2019-05-06T16:00:00.000Z">
+        2019-05-07
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,28 +122,31 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 2 分钟</span>
+      <span class="read">阅读耗时 3 分钟</span>
     </header>
 
     <div class="post-content">
-      <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://reactjs.org/docs/react-api.html#reactpurecomponent" target="_blank" rel="noopener">https://reactjs.org/docs/react-api.html#reactpurecomponent</a></li>
-<li><a href="https://segmentfault.com/a/1190000014979065" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014979065</a></li>
-<li><a href="https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs" target="_blank" rel="noopener">https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs</a></li>
-<li><a href="https://juejin.im/post/5b1caceb5188257d63226743" target="_blank" rel="noopener">https://juejin.im/post/5b1caceb5188257d63226743</a></li>
-</ol>
+      <p>本文记录java中基于链表包的实现。有数据类型通用性，链表的大小可调整，能够迭代。</p>
 <a id="more"></a>
-<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>React为了提升性能，产生了纯组件。纯组件的子组件也是纯组件。</p>
-<p>关于纯组件自己的理解：类似于纯函数，只要是一样的state和props，就必定是同样的结果，可以不用再render，直接使用上次的结果。</p>
-<p><code>React.PureComponent</code>通过减少应用中的渲染次数提升性能可以避免手写检查代码。</p>
-<p>纯组件忽略重新渲染时，会影响它和它的所有子元素，所以出组件的最佳使用场景就是展示组件，既没有子组件，也没有依赖应用的全局状态。</p>
-<p>解决纯组件的初始化问题：</p>
+<h1 id="迭代的实现描述"><a href="#迭代的实现描述" class="headerlink" title="迭代的实现描述"></a>迭代的实现描述</h1><p>  在集合数据类型中实现迭代的步骤：</p>
 <ol>
-<li>default Props</li>
-<li>向子组件中传入的函数传引用，而不是函数本身，否则会重新创建函数对象</li>
+<li>添加并引用java的接口：<code>import java.util.Iterator</code></li>
+<li>在类声明中添加<code>implements Iterable&lt;Item&gt;</code>，这行代码保证了类必然会提供一个<code>iterator()</code>的方法。</li>
+<li><p>在背包结构的具体实现中，<code>iterator()</code>方法本身只是简单地从实现了Iterator借口的类中返回了一个对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> ListIterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上面这段代码保证了类必然会实现方法<code>hasNext()</code>，<code>next()</code>以及<code>remove()</code>供用例的foreach语法使用，这也在下面的实现中表明。</p>
+</li>
 </ol>
-<p>不要在render中创建一个新函数或对象或方法。任何包含子元素的组件，shallowEqual检查总会返回false。</p>
-<h2 id="使用细节"><a href="#使用细节" class="headerlink" title="使用细节"></a>使用细节</h2><p>这个要补充一下</p>
+<h1 id="java实现"><a href="#java实现" class="headerlink" title="java实现"></a>java实现</h1>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> edu.princeton.cs.algs4.StdIn;</span><br><span class="line"><span class="keyword">import</span> edu.princeton.cs.algs4.StdOut;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bag</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Node first;</span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    Item item;</span><br><span class="line">    Node next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">    Node oldfirst = first;</span><br><span class="line">    first = <span class="keyword">new</span> Node();</span><br><span class="line">    first.item = item;</span><br><span class="line">    first.next = oldfirst;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ListIterator();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Node current = first;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> current != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Item item = current.item;</span><br><span class="line">      current = current.next;</span><br><span class="line">      <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Bag&lt;String&gt; b = <span class="keyword">new</span> Bag&lt;String&gt;();</span><br><span class="line">    <span class="keyword">while</span> (!StdIn.isEmpty()) &#123;</span><br><span class="line">      String item = StdIn.readString();</span><br><span class="line">      <span class="keyword">if</span> (!item.equals(<span class="string">"-"</span>)) &#123;</span><br><span class="line">        b.add(item);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (String n : b) &#123;</span><br><span class="line">      StdOut.println(n+ <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="上述实现的特性"><a href="#上述实现的特性" class="headerlink" title="上述实现的特性"></a>上述实现的特性</h1><p>  满足上述描述的实现几乎达到了任意集合类数据类型的实现的最佳性能：</p>
+<ul>
+<li>每项操作的用时都与集合大小无关</li>
+<li>空间需求总是不超过集合大小乘以一个常数</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《算法》p96-p98</li>
+</ul>
 
     </div>
 
@@ -153,7 +156,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要内容"><span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用细节"><span class="toc-text">使用细节</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#迭代的实现描述"><span class="toc-text">迭代的实现描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java实现"><span class="toc-text">java实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上述实现的特性"><span class="toc-text">上述实现的特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
   </div>
 
 
@@ -176,19 +179,14 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2018/12/17/dva学习/" rel="next" title="Dva初步学习">
-          Dva初步学习
+          <a href="/2019/05/07/基于链表的下压堆栈的实现/" rel="next" title="基于链表的下压堆栈的实现">
+          基于链表的下压堆栈的实现
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2019/01/06/2019-1-6-generator/" rel="prev" title="generator函数初步学习">
-            generator函数初步学习
-          </a>
-          <span>〉</span>
-        
       </div>
     </div>
   

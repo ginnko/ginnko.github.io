@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="React,">
+    <meta name="keywords" content="algorithm,《算法》,java,">
   
 
   
-    <meta name="description" content="React纯组件">
+    <meta name="description" content="基于链表的下压堆栈的实现">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>React纯组件 [ Ginnko&#39;s ]</title>
+  <title>基于链表的下压堆栈的实现 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        React纯组件
+        基于链表的下压堆栈的实现
       </h1>
       <span>
         
-        <time class="time" datetime="2018-12-16T16:00:00.000Z">
-        2018-12-17
+        <time class="time" datetime="2019-05-06T16:00:00.000Z">
+        2019-05-07
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,28 +122,31 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 2 分钟</span>
+      <span class="read">阅读耗时 3 分钟</span>
     </header>
 
     <div class="post-content">
-      <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://reactjs.org/docs/react-api.html#reactpurecomponent" target="_blank" rel="noopener">https://reactjs.org/docs/react-api.html#reactpurecomponent</a></li>
-<li><a href="https://segmentfault.com/a/1190000014979065" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014979065</a></li>
-<li><a href="https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs" target="_blank" rel="noopener">https://www.zcfy.cc/article/why-and-how-to-use-purecomponent-in-react-js-60devs</a></li>
-<li><a href="https://juejin.im/post/5b1caceb5188257d63226743" target="_blank" rel="noopener">https://juejin.im/post/5b1caceb5188257d63226743</a></li>
-</ol>
+      <p><strong>链表</strong>在java中是非直接支持的数据结构。<strong>链表是一种递归的数据结构，它或者为空(null)，或者是指向一个结点(node)的引用，该结点含有一个泛型的元素和一个指向另一条链表的引用。</strong></p>
 <a id="more"></a>
-<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>React为了提升性能，产生了纯组件。纯组件的子组件也是纯组件。</p>
-<p>关于纯组件自己的理解：类似于纯函数，只要是一样的state和props，就必定是同样的结果，可以不用再render，直接使用上次的结果。</p>
-<p><code>React.PureComponent</code>通过减少应用中的渲染次数提升性能可以避免手写检查代码。</p>
-<p>纯组件忽略重新渲染时，会影响它和它的所有子元素，所以出组件的最佳使用场景就是展示组件，既没有子组件，也没有依赖应用的全局状态。</p>
-<p>解决纯组件的初始化问题：</p>
+<h1 id="实现描述"><a href="#实现描述" class="headerlink" title="实现描述"></a>实现描述</h1><ul>
+<li><p>结点记录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">  Item item;</span><br><span class="line">  Node next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码：</p>
 <ol>
-<li>default Props</li>
-<li>向子组件中传入的函数传引用，而不是函数本身，否则会重新创建函数对象</li>
+<li>Node类型的实例变量显示了这种数据结构的<strong>链式</strong>本质</li>
+<li>记录：为了强调我们在组织数据时只使用了Node类，没有定义任何方法且会在代码中直接引用实例变量，这种类型的类有时也被称为记录。<strong>在我们的实现中，Node和它的用例代码都会被封装在相同的类中且无法被该类的用例访问。</strong></li>
 </ol>
-<p>不要在render中创建一个新函数或对象或方法。任何包含子元素的组件，shallowEqual检查总会返回false。</p>
-<h2 id="使用细节"><a href="#使用细节" class="headerlink" title="使用细节"></a>使用细节</h2><p>这个要补充一下</p>
+</li>
+</ul>
+<h1 id="java实现"><a href="#java实现" class="headerlink" title="java实现"></a>java实现</h1>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Node first;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> N;</span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    Item item;</span><br><span class="line">    Node next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> first == <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> N;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">    Node oldfirst = first;</span><br><span class="line">    first = <span class="keyword">new</span> Node();</span><br><span class="line">    first.item = item;</span><br><span class="line">    first.next = oldfirst;</span><br><span class="line">    N++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Item item = first.item;</span><br><span class="line">    first = first.next;</span><br><span class="line">    N--;</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 待补充iterator()的实现</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Stack&lt;String&gt; s = <span class="keyword">new</span> Stack&lt;String&gt;();</span><br><span class="line">    <span class="keyword">while</span> (!StdIn.isEmpty()) &#123;</span><br><span class="line">      String item = StdIn.readString();</span><br><span class="line">      <span class="keyword">if</span> (!item.equals(<span class="string">"-"</span>)) &#123;</span><br><span class="line">        s.push(item);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!s.isEmpty()) &#123;</span><br><span class="line">        StdOut.print(s.pop() + <span class="string">" "</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    StdOut.println(<span class="string">"("</span> + s.size() + <span class="string">" left on stack)"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="上述实现的特性"><a href="#上述实现的特性" class="headerlink" title="上述实现的特性"></a>上述实现的特性</h1><p>  满足上述描述的实现几乎达到了任意集合类数据类型的实现的最佳性能：</p>
+<ul>
+<li>每项操作的用时都与集合大小无关</li>
+<li>空间需求总是不超过集合大小乘以一个常数</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《算法》p89-p94</li>
+</ul>
 
     </div>
 
@@ -153,7 +156,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要内容"><span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用细节"><span class="toc-text">使用细节</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现描述"><span class="toc-text">实现描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java实现"><span class="toc-text">java实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上述实现的特性"><span class="toc-text">上述实现的特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
   </div>
 
 
@@ -176,16 +179,16 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2018/12/17/dva学习/" rel="next" title="Dva初步学习">
-          Dva初步学习
+          <a href="/2019/05/07/集合类数据类型的实现/" rel="next" title="集合类数据类型的实现">
+          集合类数据类型的实现
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2019/01/06/2019-1-6-generator/" rel="prev" title="generator函数初步学习">
-            generator函数初步学习
+          <a href="/2019/05/07/基于链表的背包实现/" rel="prev" title="基于链表的背包实现">
+            基于链表的背包实现
           </a>
           <span>〉</span>
         
