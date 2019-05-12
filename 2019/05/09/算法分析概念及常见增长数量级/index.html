@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="css,">
+    <meta name="keywords" content="algorithm,《算法》,算法分析,">
   
 
   
-    <meta name="description" content="css查漏补缺之八-flexbox">
+    <meta name="description" content="算法分析概念及常见增长数量级">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>css查漏补缺之八-flexbox [ Ginnko&#39;s ]</title>
+  <title>算法分析概念及常见增长数量级 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        css查漏补缺之八-flexbox
+        算法分析概念及常见增长数量级
       </h1>
       <span>
         
-        <time class="time" datetime="2018-09-04T16:00:00.000Z">
-        2018-09-05
+        <time class="time" datetime="2019-05-08T16:00:00.000Z">
+        2019-05-09
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/《算法》/">《算法》</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法分析/">算法分析</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,60 +122,31 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 4 分钟</span>
+      <span class="read">阅读耗时 2 分钟</span>
     </header>
 
     <div class="post-content">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox" target="_blank" rel="noopener">链接</a></p>
-<p>flex是一维布局方法，将flex items在row方向上布局或是在column方向上布局。flex item会伸缩来适应剩余空间或空间不够的情况。<strong>成为flex-items的元素可以认为是一个 <em>块级盒子</em>。</strong></p>
-<h3 id="设置在-flexbox-上的属性"><a href="#设置在-flexbox-上的属性" class="headerlink" title="设置在 flexbox 上的属性"></a>设置在 flexbox 上的属性</h3><ol>
-<li>display: box</li>
-<li>flex-direction: row | column | row-reverse | column-reverse</li>
-<li><p>flex-wrap: wrap </p>
-<p> 当flex items数量过多，导致超出flex box的时候，上面这个属性会让flex items分布在多行显示，消除溢出flex box的问题。</p>
-</li>
-<li><p>flex-flow = flex-direction + flex-wrap</p>
-<p> 上面的设置可以写成： <code>flex-flow: row wrap;</code></p>
-</li>
-</ol>
+      <p>本文记录了书中讲述的几个关于算法分析的概念和自己的理解，以及常见的增长数量级，方便日后查阅。 </p>
 <a id="more"></a>
-<h3 id="设置在-flex-items-上的属性"><a href="#设置在-flex-items-上的属性" class="headerlink" title="设置在 flex items 上的属性"></a>设置在 flex items 上的属性</h3><ol>
-<li><p>flex: 1 200px;</p>
-<p> 第1个无单位的属性表示元素将在主轴上占据多少空间（设置完padding和margin后留下的剩余空间）。</p>
-<p> 第2个<code>200px</code>参数表明最小尺寸。</p>
-<p> 上面这个属性的意思是：每一个flex item首先会给<code>200px</code>的可用空间。之后，剩余的空间将按照比例<code>1</code>来分。</p>
-</li>
-<li><p>flex是一个缩写属性，最多能设置三个值（<strong>mdn上建议使用缩写形式</strong>）：</p>
-<ul>
-<li>flex-grow：无单位的比例</li>
-<li>flex-shrink： 无单位的比例</li>
-<li>flex-basis： 最小空间</li>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><ul>
+<li>成本模型：这个模型定义了我们所研究的算法中的基本操作。通过明确成本模型，使给定的实现所需的运行时间增长数量级和它背后算法的成本的增长数量级相同（换句话说，成本模型应该和内循环中的操作有关。）</li>
+<li>命题：表示在某个成本模型下算法的数学性质。</li>
+<li>内循环：执行最频繁的指令决定了程序执行的总时间，我们将这些指令成为程序的内循环。</li>
+<li>问题的规模：问题的规模可以是输入的大小或是某个命令行参数的值。</li>
 </ul>
-</li>
-<li><p>align-items:控制flex items如何在交叉轴上摆放，可以取得值有：</p>
+<h1 id="常见增长数量级及对应算法"><a href="#常见增长数量级及对应算法" class="headerlink" title="常见增长数量级及对应算法"></a>常见增长数量级及对应算法</h1><p>按从快到慢列出</p>
 <ul>
-<li>stretch：默认值，将会拉伸flex items的高度和父元素相同</li>
-<li>center：flex items将保持固有尺寸，但是会沿着交叉轴居中</li>
-<li>flex-start/flex-end：定位在交叉轴的start/end位置</li>
+<li>常数级别～普通语句</li>
+<li>对数级别～二分查找</li>
+<li>线性级别～使用常数时间处理输入数据中的所有元素或是基于单个for循环的程序</li>
+<li>线性对数级别～归并排序、快排</li>
+<li>平方级别～一般都有两个嵌套的for循环，比如选择排序、插入排序</li>
+<li>立方级别～一般含有三个嵌套的for循环，比如ThreeSum</li>
+<li>指数级别</li>
 </ul>
-</li>
-<li><p>justify-content：控制flex items在主轴上如何摆放，可以取得值有：</p>
-<ul>
-<li>flex-start(默认值):从主轴的start处开始</li>
-<li>flex-end：从主轴的end处开始</li>
-<li>center：定位在主轴的中间</li>
-<li>space-around: 在每个元素的左右两侧都留相同的空间，导致最靠边的两个元素左右两侧距离边框有距离，且元素和元素之间的空间要比刚说的这个空间大。整个主轴的空间被这些flex items瓜分。</li>
-<li>space-between: 最外侧的两个元素靠近边框的一侧没有多余的空间，整个主轴的空间被flex items瓜分，剩余的空间都分布在flex items之间了。</li>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《算法》p108-p130</li>
 </ul>
-</li>
-<li><p>order:</p>
-<ul>
-<li>默认值： 0</li>
-<li>数值越大排序越靠后</li>
-</ul>
-</li>
-</ol>
-<h3 id="Nested-flex-boxes"><a href="#Nested-flex-boxes" class="headerlink" title="Nested flex boxes"></a>Nested flex boxes</h3><p>这个已经用过多次了</p>
 
     </div>
 
@@ -185,7 +156,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置在-flexbox-上的属性"><span class="toc-text">设置在 flexbox 上的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置在-flex-items-上的属性"><span class="toc-text">设置在 flex items 上的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nested-flex-boxes"><span class="toc-text">Nested flex boxes</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见增长数量级及对应算法"><span class="toc-text">常见增长数量级及对应算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
   </div>
 
 
@@ -208,19 +179,14 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2018/09/05/css查漏补缺之六-normal-flow/" rel="next" title="css查漏补缺之六-普通流">
-          css查漏补缺之六-普通流
+          <a href="/2019/05/07/基于链表的下压堆栈的实现/" rel="next" title="基于链表的下压堆栈的实现">
+          基于链表的下压堆栈的实现
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2018/09/05/css查漏补缺之七-bfc2/" rel="prev" title="css查漏补缺之七-BFC2">
-            css查漏补缺之七-BFC2
-          </a>
-          <span>〉</span>
-        
       </div>
     </div>
   
