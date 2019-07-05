@@ -101,6 +101,28 @@
       <div class="archives">
   
   <div class="archive">
+  <a class="post-go" href="/2018/07/23/javascript查漏补缺之十一-对象模型的细节/">
+    <div>
+      <span class="date">
+        07-23
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之十一 ——《对象模型的细节》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">链接地址</a></p>
+<ol>
+<li>JavaScript 是一种基于原型而不是基于类的面向对象语言。</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2018/07/21/http查漏补缺之二-cookie/">
     <div>
       <span class="date">
@@ -174,6 +196,31 @@
   
   
   <div class="archive">
+  <a class="post-go" href="/2018/07/16/javascript查漏补缺之八-索引集合类/">
+    <div>
+      <span class="date">
+        07-16
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之八——《索引集合类》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections" target="_blank" rel="noopener">链接地址</a></p>
+<ol>
+<li><p>用来处理DOM集合的一个更高效的土法子</p>
+<p>从来没有这样用过诶。<code>div = divs[i]</code>这个赋值表达式，当i = length时，返回值为false就会停止这个循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var divs = document.getElementsByTagName(&apos;div&apos;);</span><br><span class="line">for (var i = 0, div; div = divs[i]; i++) &#123;</span><br><span class="line">  /* Process div in some way */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2018/07/16/javascript查漏补缺之九-带键的集合/">
     <div>
       <span class="date">
@@ -193,31 +240,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let map = new Map()</span><br><span class="line">  .set(1, &apos;a&apos;)</span><br><span class="line">  .set(2, &apos;b&apos;)</span><br><span class="line">  .set(3, &apos;c&apos;);</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-</li>
-</ol>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/07/16/javascript查漏补缺之八-索引集合类/">
-    <div>
-      <span class="date">
-        07-16
-      </span>
-      <span class="slash">/</span>
-      javascript查漏补缺之八——《索引集合类》
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections" target="_blank" rel="noopener">链接地址</a></p>
-<ol>
-<li><p>用来处理DOM集合的一个更高效的土法子</p>
-<p>从来没有这样用过诶。<code>div = divs[i]</code>这个赋值表达式，当i = length时，返回值为false就会停止这个循环。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var divs = document.getElementsByTagName(&apos;div&apos;);</span><br><span class="line">for (var i = 0, div; div = divs[i]; i++) &#123;</span><br><span class="line">  /* Process div in some way */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>-->
     <!--</div>-->
@@ -320,33 +342,6 @@
 <ol>
 <li>使用console查看</li>
 </ol>
-</li>
-</ol>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/07/06/javascript查漏补缺之四-表达式和运算符/">
-    <div>
-      <span class="date">
-        07-06
-      </span>
-      <span class="slash">/</span>
-      javascript查漏补缺之四——《表达式和运算符》
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<ol>
-<li><p>假值</p>
-<p> <code>false, null, 0, NaN, &quot;&quot;, undefined</code></p>
-</li>
-<li><p>逗号操作符</p>
-<p> 对两个操作数进行求值并<strong>返回最终操作数的值</strong>。它常常用在 for 循环中，在每次循环时对多个变量进行更新。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x = [0,1,2,3,4,5,6,7,8,9]</span><br><span class="line">var a = [x, x, x, x, x];</span><br><span class="line"></span><br><span class="line">for (var i = 0, j = 9; i &lt;= j; i++, j--)</span><br><span class="line">  console.log(&apos;a[&apos; + i + &apos;][&apos; + j + &apos;]= &apos; + a[i][j]);</span><br></pre></td></tr></table></figure>
 </li>
 </ol>-->
     <!--</div>-->
