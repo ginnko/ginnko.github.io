@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="algorithm,翻译,作业,">
+  
+
+  
+    <meta name="description" content="算法作业翻译">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>算法作业翻译 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        算法作业翻译
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-07-06T16:00:00.000Z">
+        2019-07-07
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/作业/">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/翻译/">翻译</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 13 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>应某位在国外学习多年的大神要求，翻译斯坦福算法课程第一道算法作业（percolation），原文点<a href="https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php" target="_blank" rel="noopener">这里</a>。</p>
+<p>ps.这位大神说每个单词都能看懂，连在一起就看不懂了。大神亲自提出要求，我这个没见过市面的土包子只好硬着头皮翻译了。。。</p>
+<a id="more"></a>
+<p><em>来都来，点下广告吧</em></p>
+<h2 id="渗透"><a href="#渗透" class="headerlink" title="渗透"></a>渗透</h2><p>假设一种由随机分布的绝缘材料和金属材料组成的复合系统：材料中的哪些部分得是金属的才能让这个复合系统成为导体呢？假设一种表面有水（或下面是油）的多空的景观，在什么条件下，水能排到底部（或油能喷到表面）？科学家抽象出了一个被称为渗透的过程来模拟上面描述的这类情况。</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>我们使用<code>n×n</code>的网格模拟渗流系统，网格中的每一个位都是两种状态中的一种，或是开放的，或是关闭的。一个<code>完整位</code>得是一个开放位，并且能够通过一系列相邻（上下左右）的开放位连通到最上面一行的某个开放位。当在最下面一行存在一个完整位时，我们说这个系统是可<code>渗透</code>的。换句话说，如果我们填充所有连通顶行的开放位，并且这个过程能填充位于最下面一行的开放位，那么这个系统渗透。（在绝缘体/金属复合材料的例子中，开放位对应于金属材料的部分，复合材料<code>导电（渗透）</code>意味着它有一条从上到下连通的金属路径。在有孔介质的例子中，开放为对应空的空间，水能通过这些空间流动，介质<code>渗流（渗透）</code>意味着水能顺着这些空的空间从顶部流动到底部。）</p>
+<p><img src="/images/web/percolation_model.png" alt="模型"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在一个有名的科学问题中，科学家对下面的问题超感兴趣：如果一个系统中的位相互独立地以几率P（关闭状态的几率就是1-P）被设为开放状态，整个系统渗透的几率是多少呢。当P=0，这个系统完全不渗透，当P=1，这个系统肯定渗透。下面两张图给出了P和系统渗透几率的关系，横坐标表示P，纵坐标表示系统渗透的几率（上图是20×20的网格系统，下图是100×100的网格系统）。</p>
+<p><img src="/images/web/estimate_thread.png" alt="estimate thread"></p>
+<p>当网格的基数n足够大，就会有一个阈值P<sup><code>*</code></sup>，当P&lt;P<sup><code>*</code></sup>时，一个随机的n×n系统几乎总是不能渗透，当P&gt;P<sup><code>*</code></sup>时，一个随机的n×n系统几乎总是能渗透。到现在，还没能从数学的角度算出阈值P<sup><em></em></sup>。你的任务就是写一个程序来估算出P<sup>``</sup>。</p>
+<h2 id="渗透类"><a href="#渗透类" class="headerlink" title="渗透类"></a>渗透类</h2><p>要模拟一个渗透系统，需要写一个包含下面接口的渗透类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Percolation</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// creates n-by-n grid, with all sites initially blocked</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Percolation</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// opens the site (row, col) if it is not open already</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(<span class="keyword">int</span> row, <span class="keyword">int</span> col)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// is the site (row, col) open?</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isOpen</span><span class="params">(<span class="keyword">int</span> row, <span class="keyword">int</span> col)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// is the site (row, col) full?</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFull</span><span class="params">(<span class="keyword">int</span> row, <span class="keyword">int</span> col)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// returns the number of open sites</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfOpenSites</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// does the system percolate?</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">percolates</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// test client (optional)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li><p>边界情况：通常来说，行和列的索引是介于1和n之间的整数比如（1,1）表示网格的左上角位。任何传入<code>open()</code>，<code>isOpen()</code>， <code>isFull()</code>的参数如果超出的了刚才描述的这个位，都要抛出<code>java.lang.IllegalArgumentException</code>异常。<br>如果n≤0，构造函数应抛出<code>java.lang.IllegalArgumentException</code>。</p>
+</li>
+<li><p>性能要求：构造函数初始化花费的时间要正比于n<sup>2</sup>；所有的方法都应该采用常量时间加上对<code>union-find</code>方法union()，find()，connected(),count()的常数次数的调用。</p>
+</li>
+</ol>
+<h2 id="Monte-Carlo-模拟"><a href="#Monte-Carlo-模拟" class="headerlink" title="Monte Carlo 模拟"></a>Monte Carlo 模拟</h2><p>要估计渗透阈值，考虑下面的计算试验：</p>
+<ol>
+<li>初始化所有的位为关闭状态</li>
+<li><p>重复下面的过程，直至系统渗透</p>
+<ul>
+<li>在所有为关闭状态的位中随机选择一个位</li>
+<li>修改这个位为开放状态</li>
+</ul>
+</li>
+<li>当系统渗透时，开放状态的位的比例就能提供一个对渗透阈值的估测</li>
+</ol>
+<p>比如，根据下面的快照，在一个20×20的网格里打开位，那么我们对逾渗阈值的估计值为204/400 = 0.51，因为系统在第204个站点打开时渗透。</p>
+<p><img src="/images/web/experiment.png" alt="experiment"></p>
+<p>重复上面这个计算试验T次取平均值，我们获得的渗透阈值会更精确。x<sub>t</sub>表示在第t次试验中开放位的比例。样本平均值</p>
+<p><img src="/images/web/stats1.png" alt="stats1"></p>
+<p>假设T足够大（比如至少30），下面的公式提供了渗透阈值95%的置信区间。</p>
+<p><img src="/images/web/stats2.png" alt="stats2"></p>
+<p>为了实现一系列的计算试验，创建一个带有如下接口的渗透统计类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PercolationStats</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// perform independent trials on an n-by-n grid</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PercolationStats</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> trials)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// sample mean of percolation threshold</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">mean</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// sample standard deviation of percolation threshold</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">stddev</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// low endpoint of 95% confidence interval</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">confidenceLo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">// high endpoint of 95% confidence interval</span></span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">confidenceHi</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">   <span class="comment">// test client (see below)</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>注意：如果n或者trials&lt;=0，构造函数要抛出<code>java.lang.IllegalArgumentException</code>异常。</p>
+<p>另外，这个类中要有一个<code>main()</code>函数，这个函数接受两个来自命令行的采纳数n和T，这个函数用来实现在n×n的网格中执行T次上面描述的计算试验，并输出阈值的样本平均值，标准差以及95%的置信区间。使用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdRandom.html" target="_blank" rel="noopener">StdRandom</a>生成随机数，用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdStats.html" target="_blank" rel="noopener">StdStats</a>计算样本的平均值和标准差。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">~/Desktop/percolation&gt; java-algs4 PercolationStats 200 100</span><br><span class="line">mean                    = 0.5929934999999997</span><br><span class="line">stddev                  = 0.00876990421552567</span><br><span class="line"><span class="meta">95%</span> confidence interval = [0.5912745987737567, 0.5947124012262428]</span><br><span class="line"></span><br><span class="line">~/Desktop/percolation&gt; java-algs4 PercolationStats 200 100</span><br><span class="line">mean                    = 0.592877</span><br><span class="line">stddev                  = 0.009990523717073799</span><br><span class="line"><span class="meta">95%</span> confidence interval = [0.5909188573514536, 0.5948351426485464]</span><br><span class="line"></span><br><span class="line">~/Desktop/percolation&gt; java-algs4 PercolationStats 2 10000</span><br><span class="line">mean                    = 0.666925</span><br><span class="line">stddev                  = 0.11776536521033558</span><br><span class="line"><span class="meta">95%</span> confidence interval = [0.6646167988418774, 0.6692332011581226]</span><br><span class="line"></span><br><span class="line">~/Desktop/percolation&gt; java-algs4 PercolationStats 2 100000</span><br><span class="line">mean                    = 0.6669475</span><br><span class="line">stddev                  = 0.11775205263262094</span><br><span class="line"><span class="meta">95%</span> confidence interval = [0.666217665216461, 0.6676773347835391]</span><br></pre></td></tr></table></figure>
+<h2 id="分析运行时间和内存使用情况（可选不参与打分）"><a href="#分析运行时间和内存使用情况（可选不参与打分）" class="headerlink" title="分析运行时间和内存使用情况（可选不参与打分）"></a>分析运行时间和内存使用情况（可选不参与打分）</h2><p>使用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/QuickFindUF.html" target="_blank" rel="noopener">QuickFindUF</a>中的<code>quick find</code>算法来操控渗透类型。</p>
+<ul>
+<li><p>使用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Stopwatch.html" target="_blank" rel="noopener">Stopwatch</a>测量PercolationStats类型对于n和T各种值的总运行时间。n加倍如何影响总运行时间？T加倍如何影响总运行时间？给出在你的计算机上总运行时间和n以及T的关系（using tilde notation（这不知道是个啥））（以秒位单位）。</p>
+</li>
+<li><p>使用讲座中提到的64位内存成本模型，给出Percolation对象用于模拟n×n渗透系统所使用的总内存量（using tilde notation）。计算包括<code>union-find</code>数据结构占用内存在内的所有内存使用量。</p>
+</li>
+</ul>
+<p>现在使用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/WeightedQuickUnionUF.html" target="_blank" rel="noopener">WeightedQuickUnionUF</a>中的<code>weighted quick union</code>算法来执行Percolation类回答上篇中提到的问题。</p>
+<h2 id="网上提交"><a href="#网上提交" class="headerlink" title="网上提交"></a>网上提交</h2><p>提交且仅提交一个包含<code>Percolation.java</code>（使用<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/WeightedQuickUnionUF.html" target="_blank" rel="noopener">WeightedQuickUnionUF</a>中的<code>weighted quick-union</code>算法）和<code>PercolationStats.java</code>的<code>.zip</code>压缩包。我们提供<code>algs4.jar</code>。你的提交中不能使用下面给出的函数以外的库函数，可用函数包括：<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdIn.html" target="_blank" rel="noopener">StdIn</a>，<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdOut.html" target="_blank" rel="noopener">StdOut</a>，<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdRandom.html" target="_blank" rel="noopener">StdRandom</a>，<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdStats.html" target="_blank" rel="noopener">StdStats</a>，<a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/WeightedQuickUnionUF.html" target="_blank" rel="noopener">WeightedQuickUnionUF</a>以及java.lang。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#渗透"><span class="toc-text">渗透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模型"><span class="toc-text">模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#渗透类"><span class="toc-text">渗透类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monte-Carlo-模拟"><span class="toc-text">Monte Carlo 模拟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析运行时间和内存使用情况（可选不参与打分）"><span class="toc-text">分析运行时间和内存使用情况（可选不参与打分）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网上提交"><span class="toc-text">网上提交</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/07/05/一种图片上传策略/" rel="next" title="使用队列并发上传图片">
+          使用队列并发上传图片
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
