@@ -37,7 +37,7 @@
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>archives: 9/2018: 2018 [ Ginnko&#39;s ]</title>
+  <title> [ Ginnko&#39;s ]blog</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -60,11 +60,11 @@
   <ul class="pure-menu-list clearfix">
       
           
-            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
           
       
           
-            <li class="pure-menu-item actived"><a href="/archives" class="pure-menu-link">归档</a></li>
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
           
       
           
@@ -88,118 +88,42 @@
     <div class="inner" id="content-inner">
       
 
-  
-  
+  <div class="recent-posts">
     
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/04/14/construct-the-blog-with-jekyll/"><h2>搭建博客</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-04-13T16:00:00.000Z">
+            2017-04-14
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/搭建博客/">搭建博客</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>本想着从零开始搭建一个自己的博客，不过当下技术有限，借用大神的模板，勉强搭建起了这个博客，开始记录自己的学习过程。</p>
+<p>昨天倒是完整的看了markdown的规则，不过这种闲聊似的记述貌似也用不上<em>手动扶额流泪</em>。</p>
+          </div>
+        
+        <a class="more" href="/2017/04/14/construct-the-blog-with-jekyll/"> 阅读全文〉</a>
+      </article>
     
-    <section class="post page archives">
-      <h3 class="archive-year-wrap">
-        <a href="/archives/2018" class="archive-year">
-          2018
-        </a>
-      </h3>
-      <div class="archives">
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/09/03/css查漏补缺之四-盒模型/">
-    <div>
-      <span class="date">
-        09-03
-      </span>
-      <span class="slash">/</span>
-      css查漏补缺之四-盒模型
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<h3 id="Introduction-to-the-CSS-basic-box"><a href="#Introduction-to-the-CSS-basic-box" class="headerlink" title="Introduction to the CSS basic box"></a>Introduction to the CSS basic box</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">链接</a></p>
-<p>每一个盒模型都是由四个部分组成，由它们各自的edge定义：内容edge、内边局edge、边框edge以及外边距edge。</p>
-<p><img src="/images/css/box-model.png" alt="盒模型"></p>
-<ul>
-<li><p>内容区域：如果<code>box-sizing</code>属性被设置为<code>content-box</code>(默认值)，内容区域的尺寸可以被进一步通过<code>width</code>,<code>min-width</code>,<code>max-width</code>,<code>height</code>,<code>min-height</code>,<code>max-height</code>定义。</p>
-</li>
-<li><p>内边距区域：在内容区域的基础上扩张</p>
-</li>
-<li><p>边框区域：在内边距的基础上扩张。如果<code>box-sizing</code>属性被设置为<code>border-box</code>，边框区域的宽度能被进一步通过<code>width</code>，<code>min-width</code>，<code>max-width</code>，<code>height</code>，<code>min-height</code>，<code>max-height</code>定义。当给这个盒子设置了背景（背景颜色或者是背景图片），背景会延伸到边框的外延，位于边框的下方。可以通过<code>background-clip</code>这个属性对上述背景特征进行修改。</p>
-</li>
-<li><p>外边距区域：在边框的基础上扩张。</p>
-</li>
-</ul>
-<p>对于未替换的内联元素，占据空间的大小是由<code>line-height</code>这个属性决定的，尽管边框和内边距依然会展示在内容周围。</p>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/09/03/css查漏补缺之三-浮动和清除浮动/">
-    <div>
-      <span class="date">
-        09-03
-      </span>
-      <span class="slash">/</span>
-      css查漏补缺之三-浮动和清除浮动
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/float" target="_blank" rel="noopener">链接</a></p>
-<p>使用<code>float</code>就意味着使用了<code>块状布局</code>，在某些情况下它修改了<code>display</code>的计算值</p>
-<p><img src="/images/css/float-block.png" alt="float-block"></p>
-<p>图中<code>inline-block</code>和<code>table-*</code>系列以及<code>flex-*</code>系列的本身会创建一个新的BFC，好像也没啥关系诶…</p>
-<p>注：使用<code>js</code>访问这个<code>float</code>属性时，要写成<code>cssFloat</code>。</p>
-<h3 id="how-floated-elements-are-positioned"><a href="#how-floated-elements-are-positioned" class="headerlink" title="how floated elements are positioned"></a>how floated elements are positioned</h3><p>当一个元素被设置为浮动，它就脱离了文档的正常流（但它仍然是文档的一部分），它向左或右移动，直到它碰到了 <strong>包含它的容器的边缘或者其他的浮动元素的边缘</strong>(注意这个描述！！！)。</p>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/09/02/css查漏补缺之二-BFC/">
-    <div>
-      <span class="date">
-        09-02
-      </span>
-      <span class="slash">/</span>
-      css查漏补缺之二-BFC
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">链接</a></p>
-<p>BFC可以理解为了一个区域，其中有规定块状盒子该如何布局，浮动元素将如何和其他元素打交道。</p>
-<p>下面至少一个方法就能创建一个BFC</p>
-<ol>
-<li>根元素</li>
-<li>浮动（<code>float</code>属性值不是<code>none</code>）</li>
-<li>绝对定位元素（<code>position</code>是<code>absolute</code>或者<code>fixed</code>）</li>
-<li>设置为<code>inline-block</code>的元素（<code>display: inline-block</code>）</li>
-<li>table cells（HTML table cells或者是<code>display: table-cell</code>）</li>
-<li>table caption（HTML table captions 或者是<code>display: table-caption</code>）</li>
-<li>通过<code>display:</code>设置值为<code>table</code>或者<code>table-row</code>或者<code>table-row-group</code>或者<code>table-header-group</code>或者<code>table-footer-group</code>或者<code>inline-table</code>（对于HTML的tables, table row, table bodies, table headers 以及 table footers 默认就会创建）——隐式创建的table-cell</li>
-<li>块状元素的<code>overflow</code>属性值设置为非<code>visible</code></li>
-<li>设置<code>display: flow-root</code></li>
-<li>元素被设置为<code>contain:layout或者content或者strict</code></li>
-<li>flex items（被设置为<code>display: flex 或者 inline-flext</code>的元素的 <strong>直接子元素</strong>）</li>
-<li>grid items（被设置为<code>display: grid 或者 inline-grid</code>的元素的 <strong>直接子元素</strong>）</li>
-<li>多列容器（元素被设为<code>column-count</code>或者<code>column-width</code>不为<code>auto</code>）——这个听都没听过…</li>
-<li><code>column-span:all</code>永远都会创建一个新的BFC —— 没听过…</li>
-</ol>
-<p><strong>如果一个元素创建了一个BFC，那么这个元素的一切子元素都位于这个BFC中。</strong></p>-->
-    <!--</div>-->
-  </a>
-
-</div>
+  </div>
 
 
-  </div></section>
 
     </div>
 
     
       <nav class="page-nav text-center">
-          <a class="extend prev" rel="prev" href="/archives/2018/09/">〈</a><a class="page-number" href="/archives/2018/09/">1</a><span class="page-number current">2</span>
+          <a class="extend prev" rel="prev" href="/page/7/">〈</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
       </nav>
     
     <div class="goodle-ads-below-container">

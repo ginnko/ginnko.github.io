@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="javascript,">
+  
+
+  
+    <meta name="description" content="generator函数初步学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>generator函数初步学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        generator函数初步学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-01-05T16:00:00.000Z">
+        2019-01-06
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>看了许多材料后，感觉下面这三篇文章对于理解generator函数有非常大的帮助，囊括了常见用法、控制流程、循环操作等，理解的程度已经基本能满足现在的需求。</p>
+<ol>
+<li><a href="https://davidwalsh.name/es6-generators" target="_blank" rel="noopener">https://davidwalsh.name/es6-generators</a></li>
+<li><a href="https://davidwalsh.name/es6-generators-dive" target="_blank" rel="noopener">https://davidwalsh.name/es6-generators-dive</a></li>
+<li><a href="https://davidwalsh.name/async-generators" target="_blank" rel="noopener">https://davidwalsh.name/async-generators</a></li>
+</ol>
+<p>下面的内容为阅读材料时随手做的笔记，未经过整理。</p>
+<a id="more"></a>
+<h2 id="关于generator函数的基本概念"><a href="#关于generator函数的基本概念" class="headerlink" title="关于generator函数的基本概念"></a>关于generator函数的基本概念</h2><p><a href="https://davidwalsh.name/es6-generators" target="_blank" rel="noopener">这篇</a>文章描述generator使用了<code>...so powerful for the future of JS.</code>。</p>
+<p>万万没想到！之前对generator的认知仅停留在是个新的函数种类，没想到这里厉害。</p>
+<p>到目前已经遇到两种衍生的技术了：</p>
+<ol>
+<li><p>async函数</p>
+</li>
+<li><p>saga结合成的redux-saga。</p>
+</li>
+</ol>
+<p>原文：</p>
+<blockquote>
+<p>If you ‘ve ever read anything about concurrency or threaded programming, you may have seen the term ‘cooperative’, which basically indicates that a process(in our case, a function) itself chooses when it will allow an interruption, so that it can cooperate with other code. This concept is contrasted with ‘preemptive’, which suggests that a process/function could be interrupted against its will.</p>
+</blockquote>
+<p>就是说，并行编程有两种，在一段程序运行的时候可以被打断，执行另一段程序，主动打断的称为 <strong>cooperative</strong>，被动打断的称为 <strong>preemptive</strong>。Generator函数就是前者，它通过<code>yield</code>关键字，从generator函数内部打断执行过程，需要从外部恢复执行。</p>
+<p>Generator函数并不仅仅是简单的打断、启动这种流程控制，它还允许向generator函数的内部和外部进行双向的数据传递。</p>
+<h3 id="创建iterator"><a href="#创建iterator" class="headerlink" title="创建iterator"></a>创建iterator</h3><p>调用一个generator函数便会创建一个iterator，并且创建的过程并不会执行generator函数中的内容。</p>
+<h2 id="关于generator的工作流程"><a href="#关于generator的工作流程" class="headerlink" title="关于generator的工作流程"></a>关于generator的工作流程</h2><p>以下内容出自<a href="https://github.com/gajus/gajus.com-blog/blob/master/posts/the-definitive-guide-to-the-javascript-generators/index.md" target="_blank" rel="noopener">此处</a>。</p>
+<ol>
+<li>Advancing the Generator</li>
+</ol>
+<p>使用next()函数</p>
+<ol start="2">
+<li>Pass a Value To the Iterator</li>
+</ol>
+<p>在function*函数中使用yield关键字</p>
+<ol start="3">
+<li>Receive a Value From the Iterator</li>
+</ol>
+<p>yield keyword can receive a value back from the iterator</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> generatorFunction = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">yield</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator = generatorFunction();</span><br><span class="line"></span><br><span class="line">iterator.next(<span class="string">'foo'</span>);</span><br><span class="line">iterator.next(<span class="string">'bar'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// bar</span></span><br></pre></td></tr></table></figure>
+<p>好奇怪，为啥执行第一个next不输出<code>foo</code>，而是将这个值丢弃？</p>
+<ol start="4">
+<li>内部执行顺序</li>
+</ol>
+<p>执行顺序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo, f;</span><br><span class="line">foo = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.debug(<span class="string">'generator 1'</span>);</span><br><span class="line">  <span class="built_in">console</span>.debug(<span class="string">'yield 1'</span>, <span class="keyword">yield</span> <span class="string">'A'</span>);</span><br><span class="line">  <span class="built_in">console</span>.debug(<span class="string">'generator 2'</span>);</span><br><span class="line">  <span class="built_in">console</span>.debug(<span class="string">'yield 2'</span>, <span class="keyword">yield</span> <span class="string">'B'</span>);</span><br><span class="line">  <span class="built_in">console</span>.debug(<span class="string">'generator 3'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f = foo();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'tick 1'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(f.next(<span class="string">'a'</span>));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'tick 2'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(f.next(<span class="string">'b'</span>));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'tick 3'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(f.next(<span class="string">'c'</span>));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'tick 4'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(f.next(<span class="string">'d'</span>));</span><br></pre></td></tr></table></figure>
+<p>执行结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tick <span class="number">1</span></span><br><span class="line">generator <span class="number">1</span></span><br><span class="line">&#123; <span class="attr">value</span>: <span class="string">'A'</span>, <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">tick <span class="number">2</span></span><br><span class="line"><span class="keyword">yield</span> <span class="number">1</span> b</span><br><span class="line">generator <span class="number">2</span></span><br><span class="line">&#123; <span class="attr">value</span>: <span class="string">'B'</span>, <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">tick <span class="number">3</span></span><br><span class="line"><span class="keyword">yield</span> <span class="number">2</span> c</span><br><span class="line">generator <span class="number">3</span></span><br><span class="line">&#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;</span><br><span class="line">tick <span class="number">4</span></span><br><span class="line">&#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>使用<code>for...of...</code>循环</li>
+</ol>
+<p>准则：</p>
+<ol>
+<li>The iteration will continue as long as done property is false.</li>
+<li>The for..of loop cannot be used in cases where you need to pass in values to the generator steps.</li>
+<li>The for..of loop will throw away the return value.</li>
+</ol>
+<ol start="6">
+<li>委托yield</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> index;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> foo = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'foo'</span>;</span><br><span class="line">  <span class="keyword">yield</span> * bar();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bar = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'bar'</span>;</span><br><span class="line">  <span class="keyword">yield</span> * baz();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> baz = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'baz'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (index <span class="keyword">of</span> foo()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(index);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// foo</span></span><br><span class="line"><span class="comment">// bar</span></span><br><span class="line"><span class="comment">// baz</span></span><br></pre></td></tr></table></figure>
+<p>委托一个generator到另一个generator相当于将目标generator的函数体导入到目的generator中，<br>相当于下面这种代码形式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> index;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> foo = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'foo'</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'bar'</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'baz'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> (index <span class="keyword">of</span> foo()) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(index);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// foo</span></span><br><span class="line"><span class="comment">// bar</span></span><br><span class="line"><span class="comment">// baz</span></span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>用yield控制异步流程</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="function">(<span class="params">name, callback</span>) =&gt;</span> &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    callback(name);</span><br><span class="line">  &#125;, <span class="number">100</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> curry = <span class="function">(<span class="params">method, ...args</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">callback</span>) =&gt;</span> &#123;</span><br><span class="line">    args.push(callback);</span><br><span class="line">    <span class="keyword">return</span> method.apply(&#123;&#125;, args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> controller = <span class="function">(<span class="params">generator</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> iterator = generator();</span><br><span class="line">  <span class="keyword">const</span> advancer = <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> state;</span><br><span class="line">    state = iterator.next(response);</span><br><span class="line">    <span class="keyword">if</span> (!state.done) &#123;</span><br><span class="line">      state.value(advancer);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  advancer();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">controller(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> a = <span class="keyword">yield</span> curry(foo, <span class="string">'a'</span>);</span><br><span class="line">  <span class="keyword">const</span> b = <span class="keyword">yield</span> curry(foo, <span class="string">'b'</span>);</span><br><span class="line">  <span class="keyword">const</span> c = <span class="keyword">yield</span> curry(foo, <span class="string">'c'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(a, b, c);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>带错误处理的yield异步流程控制</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="function">(<span class="params">parameters, callback</span>) =&gt;</span> &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    callback(parameters);</span><br><span class="line">  &#125;, <span class="number">100</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> curry = <span class="function">(<span class="params">method, ...args</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">callback</span>) =&gt;</span> &#123;</span><br><span class="line">    args.push(callback);</span><br><span class="line">    <span class="keyword">return</span> method.apply(&#123;&#125;, args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> controller = <span class="function">(<span class="params">generator</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> iterator = generator();</span><br><span class="line">  <span class="keyword">const</span> advancer = <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (response &amp;&amp; response.error) &#123;</span><br><span class="line">      <span class="keyword">return</span> iterator.throw(response.error);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> state = iterator.next(response);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!state.done) &#123;</span><br><span class="line">      state.value(advancer);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  advancer();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">controller(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a, b, c;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    a = <span class="keyword">yield</span> curry(foo, <span class="string">'a'</span>);</span><br><span class="line">    b = <span class="keyword">yield</span> curry(foo, &#123;<span class="attr">error</span>: <span class="string">'Something went wrong.'</span>&#125;);</span><br><span class="line">    c = <span class="keyword">yield</span> curry(foo, <span class="string">'c'</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(a, b, c);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="generator的一个理解角度"><a href="#generator的一个理解角度" class="headerlink" title="generator的一个理解角度"></a>generator的一个理解角度</h2><p>以下部分出自<a href="https://goshakkk.name/javascript-generators-understanding-sample-use-cases/" target="_blank" rel="noopener">此处</a></p>
+<p>翻译其中的understanding部分：</p>
+<p>当一个函数被调用，其中的命令会一个接一个的按顺序执行，函数能够通过<code>return</code>将一些值传给它的调用者。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">regular</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  doA();</span><br><span class="line">  doB();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>generators</code>的出现能够像对待一个<code>program</code>一样对待一个函数。</strong>这个函数能够根据你定义的规则执行。所以我们可以将这个<code>generator</code>函数成为一个<code>program</code>。</p>
+<p>为了执行一个<code>program</code>，我们需要一个<code>interpreter</code>，这个<code>interpreter</code>将“take the program in and run it”。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interpreter(<span class="function"><span class="keyword">function</span>* <span class="title">program</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>yield</code>命令告诉一个<code>program</code>跳出generator调到<code>interpreter</code>中。<code>program</code>和<code>interpreter</code>的交流是双向的：</p>
+<ol>
+<li><code>program</code>可以向<code>interpreter</code>发送一些东西</li>
+<li><code>interpreter</code>也可以向<code>program</code>返回一些东西</li>
+</ol>
+<p>基于上面的描述，可以从下面的角度描述下面这行代码：</p>
+<p><code>const a = yield b;</code>这行代码表示了我们如何发送一个命令b到<code>interpreter</code>然后把它的结果给a。<code>generator</code>函数将会暂停，直到<code>interpreter</code>告诉它才会继续执行后面的代码。</p>
+<p>从redux-saga的角度阐述这个概念。</p>
+<p>redux-saga没有将<code>side-effect</code>分散进多个action creator 和 reducer中，而是按逻辑组合多个片段行为，这个组合体被成为一个<strong>saga</strong>。</p>
+<p>redux-saga中的<code>helper</code>函数，相当于在翻译<code>command</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">welcomeSaga</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> take(<span class="string">'REGISTRATION_FINISHED'</span>);</span><br><span class="line">  <span class="keyword">yield</span> put(showWelcomePopup());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sagaMiddleware.run(welcomeSaga);</span><br></pre></td></tr></table></figure>
+<p>sagaMiddleware感觉就是一个interpreter。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于generator函数的基本概念"><span class="toc-text">关于generator函数的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建iterator"><span class="toc-text">创建iterator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于generator的工作流程"><span class="toc-text">关于generator的工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generator的一个理解角度"><span class="toc-text">generator的一个理解角度</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/12/17/pure-component/" rel="next" title="React纯组件">
+          React纯组件
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/02/13/mysql学习笔记/" rel="prev" title="mysql基础学习笔记">
+            mysql基础学习笔记
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
