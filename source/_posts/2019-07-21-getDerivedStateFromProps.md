@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 生命周期函数getDerivedStateFromProps的使用
-date: 2019-07-021
+date: 2019-07-21
 tag: 
 - React
 - 生命周期函数
