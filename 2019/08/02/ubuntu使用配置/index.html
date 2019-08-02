@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="ubuntu,gnome-tweaks,Tmux,fusuma,">
+  
+
+  
+    <meta name="description" content="ubuntu使用配置">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>ubuntu使用配置 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        ubuntu使用配置
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-08-01T16:00:00.000Z">
+        2019-08-02
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tmux/">Tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fusuma/">fusuma</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gnome-tweaks/">gnome-tweaks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/">ubuntu</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇用来整理记录ubuntu的当前使用配置，内容包括：</p>
+<ol>
+<li>强化Gnome桌面</li>
+<li>强化触摸板</li>
+<li>优化终端</li>
+<li>快捷键的设置及二狗蛋的配合使用</li>
+<li>bug解决</li>
+<li>待继续探索的区域</li>
+</ol>
+<a id="more"></a>
+<h2 id="1-强化Gnome桌面"><a href="#1-强化Gnome桌面" class="headerlink" title="1. 强化Gnome桌面"></a>1. 强化Gnome桌面</h2><h3 id="gnome-tweaks"><a href="#gnome-tweaks" class="headerlink" title="gnome-tweaks"></a>gnome-tweaks</h3><ul>
+<li><p>外观</p>
+<ul>
+<li>主题库：<a href="https://www.gnome-look.org/" target="_blank" rel="noopener">https://www.gnome-look.org/</a></li>
+<li>使用：下载后，在gnome-tweaks的外观中依次设置<em>主题（目前用的Qogir）</em>、<em>图标(目前用的Newaita)</em>、<em>Shell(目前用的Qogir-dark)</em>（先安装user themes）。</li>
+</ul>
+</li>
+<li><p>字体</p>
+<ul>
+<li>缩放比例：当前1.5</li>
+</ul>
+</li>
+<li><p>工作区</p>
+<ul>
+<li>静态工作区</li>
+<li>数量4</li>
+<li>只在主显示屏上显示工作区</li>
+</ul>
+</li>
+<li><p>开机启动程序</p>
+<ul>
+<li>fusuma</li>
+<li>终端</li>
+</ul>
+</li>
+<li><p>扩展</p>
+<ul>
+<li>chrome中安装：Gnome shell integration，用来方便的安装插件</li>
+<li>ubuntu appindicators：不记得这个干嘛的了…</li>
+<li>Disable workspace switcher popup:用来禁掉switching bar</li>
+<li>ubuntu dock：设置dock</li>
+<li>user themes：加载自定义主题，安装这个才能实现上面说的更改主题</li>
+<li><p>workspace grid: 更改工作区行为</p>
+<p><img src="/images/ubuntu/工作区配置.png" alt="工作区配置"></p>
+</li>
+</ul>
+</li>
+<li><p>桌面</p>
+<p>当前桌面图标打开，其他都关闭</p>
+</li>
+</ul>
+<hr>
+<h3 id="2-强化触摸板"><a href="#2-强化触摸板" class="headerlink" title="2. 强化触摸板"></a>2. 强化触摸板</h3><ul>
+<li>安装fusuma：<a href="https://github.com/iberianpig/fusuma#installation" target="_blank" rel="noopener">https://github.com/iberianpig/fusuma#installation</a></li>
+<li><p>当前配置：</p>
+<ul>
+<li>位置：<code>~/.config/fusuma</code></li>
+<li><p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">swipe:</span><br><span class="line">  3: </span><br><span class="line">    left: </span><br><span class="line">      shortcut: &apos;alt+Left&apos;</span><br><span class="line">    right: </span><br><span class="line">      shortcut: &apos;alt+Right&apos;</span><br><span class="line">    up: </span><br><span class="line">      shortcut: &apos;ctrl+t&apos;</span><br><span class="line">    down: </span><br><span class="line">      shortcut: &apos;ctrl+w&apos;</span><br><span class="line">  4:</span><br><span class="line">    left: </span><br><span class="line">      shortcut: &apos;ctrl+alt+Down&apos;</span><br><span class="line">    right: </span><br><span class="line">      shortcut: &apos;ctrl+alt+Up&apos;</span><br><span class="line">    up: </span><br><span class="line">      shortcut: &apos;alt+Tab&apos;</span><br><span class="line">    down: </span><br><span class="line">      shortcut: &apos;super&apos;</span><br><span class="line">pinch:</span><br><span class="line">  in:</span><br><span class="line">    shortcut: &apos;&apos;</span><br><span class="line">  out:</span><br><span class="line">    shortcut: &apos;&apos;</span><br><span class="line">  </span><br><span class="line">threshold:</span><br><span class="line">  swipe: 0.6</span><br><span class="line">  pinch: 1</span><br><span class="line"></span><br><span class="line">interval:</span><br><span class="line">  swipe: 0.5</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-优化终端"><a href="#3-优化终端" class="headerlink" title="3. 优化终端"></a>3. 优化终端</h2><ul>
+<li><p>安装oh-my-zsh</p>
+<ul>
+<li>字符不能正确显示需要先安装powerline</li>
+<li>当前配置<ul>
+<li>位置：<code>~/.zshrc</code></li>
+<li>配置：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"># If you come from bash you might have to change your $PATH.</span><br><span class="line"># export PATH=$HOME/bin:/usr/local/bin:$PATH</span><br><span class="line">export PATH=$PATH:/opt/google/chrome</span><br><span class="line"></span><br><span class="line"># java alg4.jar 环境变量</span><br><span class="line">export CLASSPATH=$CLASSPATH:~/algs4/algs4.jar</span><br><span class="line"></span><br><span class="line"># Path to your oh-my-zsh installation.</span><br><span class="line">  export ZSH=&quot;/home/yangyin/.oh-my-zsh&quot;</span><br><span class="line">  export CLASSPATH=$CLASSPATH:/home/yangyin/others/algs4.jar</span><br><span class="line"></span><br><span class="line"># Set name of the theme to load --- if set to &quot;random&quot;, it will</span><br><span class="line"># load a random theme each time oh-my-zsh is loaded, in which case,</span><br><span class="line"># to know which specific one was loaded, run: echo $RANDOM_THEME</span><br><span class="line"># See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes</span><br><span class="line"># ZSH_THEME=&quot;robbyrussell&quot;</span><br><span class="line">ZSH_THEME=&quot;agnoster&quot;</span><br><span class="line"></span><br><span class="line"># Set list of themes to pick from when loading at random</span><br><span class="line"># Setting this variable when ZSH_THEME=random will cause zsh to load</span><br><span class="line"># a theme from this variable instead of looking in ~/.oh-my-zsh/themes/</span><br><span class="line"># If set to an empty array, this variable will have no effect.</span><br><span class="line"># ZSH_THEME_RANDOM_CANDIDATES=( &quot;robbyrussell&quot; &quot;agnoster&quot; )</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use case-sensitive completion.</span><br><span class="line"># CASE_SENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use hyphen-insensitive completion.</span><br><span class="line"># Case-sensitive completion must be off. _ and - will be interchangeable.</span><br><span class="line"># HYPHEN_INSENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable bi-weekly auto-update checks.</span><br><span class="line"># DISABLE_AUTO_UPDATE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to change how often to auto-update (in days).</span><br><span class="line"># export UPDATE_ZSH_DAYS=13</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable colors in ls.</span><br><span class="line"># DISABLE_LS_COLORS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable auto-setting terminal title.</span><br><span class="line"># DISABLE_AUTO_TITLE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to enable command auto-correction.</span><br><span class="line"># ENABLE_CORRECTION=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to display red dots whilst waiting for completion.</span><br><span class="line"># COMPLETION_WAITING_DOTS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to disable marking untracked files</span><br><span class="line"># under VCS as dirty. This makes repository status check for large repositories</span><br><span class="line"># much, much faster.</span><br><span class="line"># DISABLE_UNTRACKED_FILES_DIRTY=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to change the command execution time</span><br><span class="line"># stamp shown in the history command output.</span><br><span class="line"># You can set one of the optional three formats:</span><br><span class="line"># &quot;mm/dd/yyyy&quot;|&quot;dd.mm.yyyy&quot;|&quot;yyyy-mm-dd&quot;</span><br><span class="line"># or set a custom format using the strftime function format specifications,</span><br><span class="line"># see &apos;man strftime&apos; for details.</span><br><span class="line"># HIST_STAMPS=&quot;mm/dd/yyyy&quot;</span><br><span class="line"></span><br><span class="line"># Would you like to use another custom folder than $ZSH/custom?</span><br><span class="line"># ZSH_CUSTOM=/path/to/new-custom-folder</span><br><span class="line"></span><br><span class="line"># Which plugins would you like to load?</span><br><span class="line"># Standard plugins can be found in ~/.oh-my-zsh/plugins/*</span><br><span class="line"># Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/</span><br><span class="line"># Example format: plugins=(rails git textmate ruby lighthouse)</span><br><span class="line"># Add wisely, as too many plugins slow down shell startup.</span><br><span class="line">plugins=(git)</span><br><span class="line"></span><br><span class="line">source $ZSH/oh-my-zsh.sh</span><br><span class="line"></span><br><span class="line"># User configuration</span><br><span class="line"></span><br><span class="line"># export MANPATH=&quot;/usr/local/man:$MANPATH&quot;</span><br><span class="line"></span><br><span class="line"># You may need to manually set your language environment</span><br><span class="line"># export LANG=en_US.UTF-8</span><br><span class="line"></span><br><span class="line"># Preferred editor for local and remote sessions</span><br><span class="line"># if [[ -n $SSH_CONNECTION ]]; then</span><br><span class="line">#   export EDITOR=&apos;vim&apos;</span><br><span class="line"># else</span><br><span class="line">#   export EDITOR=&apos;mvim&apos;</span><br><span class="line"># fi</span><br><span class="line"></span><br><span class="line"># If not running interactively, do not do anything</span><br><span class="line"># 自启动tmux</span><br><span class="line">[[ $- != *i* ]] &amp;&amp; return</span><br><span class="line">[[ -z &quot;$TMUX&quot; ]] &amp;&amp; exec tmux</span><br><span class="line"></span><br><span class="line"># Compilation flags</span><br><span class="line"># export ARCHFLAGS=&quot;-arch x86_64&quot;</span><br><span class="line"></span><br><span class="line"># ssh</span><br><span class="line"># export SSH_KEY_PATH=&quot;~/.ssh/rsa_id&quot;</span><br><span class="line"></span><br><span class="line"># Set personal aliases, overriding those provided by oh-my-zsh libs,</span><br><span class="line"># plugins, and themes. Aliases can be placed here, though oh-my-zsh</span><br><span class="line"># users are encouraged to define aliases within the ZSH_CUSTOM folder.</span><br><span class="line"># For a full list of active aliases, run `alias`.</span><br><span class="line">#</span><br><span class="line"># Example aliases</span><br><span class="line"># alias zshconfig=&quot;mate ~/.zshrc&quot;</span><br><span class="line"># alias ohmyzsh=&quot;mate ~/.oh-my-zsh&quot;</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ydict查词</span><br><span class="line">alias dd=&quot;ydict&quot;</span><br><span class="line">#启动微信小程序工具</span><br><span class="line">alias ww=&quot;bash ~/ginnko/wechat_web_devtools/bin/wxdt&quot;</span><br><span class="line">#启动mongodb可视化工具Robomongo</span><br><span class="line"># 二进制程序使用 exec 关键字</span><br><span class="line">alias ro=&quot;exec /home/yangyin/ginnko/robo3t/bin/robo3t&quot;</span><br><span class="line">#mongodb的启动、停止和重启</span><br><span class="line">alias mgstart=&quot;sudo service mongod start&quot;</span><br><span class="line">alias mgstop=&quot;sudo service mongod stop&quot;</span><br><span class="line">alias mgrestart=&quot;sudo service mongod restart&quot;</span><br><span class="line"># 设置、取消全局代理</span><br><span class="line">alias setproxy=&quot;export ALL_PROXY=socks5://127.0.0.1:1080&quot;</span><br><span class="line">alias unsetproxy=&quot;unset ALL_PROXY&quot;</span><br><span class="line"></span><br><span class="line">export DEFAULT_USER=$USER</span><br><span class="line">source ~/.nvm/nvm.sh</span><br><span class="line">source /home/yangyin/ginnko/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>安装Tmux</p>
+<ul>
+<li><p>当前配置</p>
+<ul>
+<li>位置：<code>~/.tmux.conf</code></li>
+<li><p>配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># remap prefix from &apos;C-b&apos; to &apos;C-a&apos;</span><br><span class="line">unbind C-b</span><br><span class="line">set-option -g prefix C-a</span><br><span class="line">bind-key C-a send-prefix</span><br><span class="line"></span><br><span class="line"># reload config file (change file location to your the tmux.conf you want to use)</span><br><span class="line">bind r source-file ~/.tmux.conf</span><br><span class="line"></span><br><span class="line"># split panes using | and -</span><br><span class="line">bind \ split-window -h</span><br><span class="line">bind - split-window -v</span><br><span class="line">unbind &apos;&quot;&apos;</span><br><span class="line">unbind %</span><br><span class="line"></span><br><span class="line"># switch panes using Alt-arrow without prefix</span><br><span class="line">bind -n M-Left select-pane -L</span><br><span class="line">bind -n M-Right select-pane -R</span><br><span class="line">bind -n M-Up select-pane -U</span><br><span class="line">bind -n M-Down select-pane -D</span><br><span class="line"></span><br><span class="line"># Enable mouse mode (tmux 2.1 and above)</span><br><span class="line">set -g mouse on</span><br><span class="line"></span><br><span class="line"># status</span><br><span class="line">set -g status-right &apos;&apos;</span><br><span class="line">set -g status-left &apos;&apos;</span><br><span class="line">set -g status off</span><br><span class="line"></span><br><span class="line">######################</span><br><span class="line">### DESIGN CHANGES ###</span><br><span class="line">######################</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-快捷键的设置及二狗蛋的配合使用"><a href="#4-快捷键的设置及二狗蛋的配合使用" class="headerlink" title="4. 快捷键的设置及二狗蛋的配合使用"></a>4. 快捷键的设置及二狗蛋的配合使用</h2><ul>
+<li>系统默认快捷键查询：设备&gt;键盘</li>
+<li>自定义快捷键：<ul>
+<li>将窗口移入上一个屏幕：ctrl+up</li>
+<li>将窗口移入下一个屏幕：ctrl+down</li>
+<li>直接切换窗口：ctrl+tab</li>
+<li>shutter：ctrl+shift+a</li>
+</ul>
+</li>
+<li><p>二狗蛋目前键位设定</p>
+<p><img src="/images/ubuntu/二狗蛋键位设定.png" alt="二狗蛋键位设定"></p>
+</li>
+</ul>
+<hr>
+<h2 id="5-bug解决"><a href="#5-bug解决" class="headerlink" title="5. bug解决"></a>5. bug解决</h2><ul>
+<li>问题：终端右上角的终端图标尺寸巨大，且显示不完整<blockquote>
+<p>解决办法：将gnome-tweaks中的顶栏&gt;应用程序菜单 打开，即可隐藏图标。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="6-待继续探索的区域"><a href="#6-待继续探索的区域" class="headerlink" title="6. 待继续探索的区域"></a>6. 待继续探索的区域</h2><ul>
+<li>指定特定程序到特定工作区</li>
+<li>触摸板手势优化（看到fusuma的readme有了重大更新）</li>
+<li>Tmux的使用</li>
+</ul>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-强化Gnome桌面"><span class="toc-text">1. 强化Gnome桌面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gnome-tweaks"><span class="toc-text">gnome-tweaks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-强化触摸板"><span class="toc-text">2. 强化触摸板</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-优化终端"><span class="toc-text">3. 优化终端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-快捷键的设置及二狗蛋的配合使用"><span class="toc-text">4. 快捷键的设置及二狗蛋的配合使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-bug解决"><span class="toc-text">5. bug解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-待继续探索的区域"><span class="toc-text">6. 待继续探索的区域</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/07/21/getDerivedStateFromProps/" rel="next" title="生命周期函数getDerivedStateFromProps的使用">
+          生命周期函数getDerivedStateFromProps的使用
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
