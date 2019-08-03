@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="image,">
+  
+
+  
+    <meta name="description" content="图片上传">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>图片上传 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        图片上传
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-08-02T16:00:00.000Z">
+        2019-08-03
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/image/">image</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 14 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>过去一个月开发了公司了图片上传和图片选择两个模块，基本明白了图片上传经历的各个阶段和处理方式，现总结如下。</p>
+<a id="more"></a>
+<h1 id="图片上传"><a href="#图片上传" class="headerlink" title="图片上传"></a>图片上传</h1><h3 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1. 基本结构"></a>1. 基本结构</h3><ol>
+<li><p>参考</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file</a></li>
+</ul>
+</li>
+<li><p>标签</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">"file"</span> accept=<span class="string">"image/*"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>属性</p>
+<p>| 属性     | 描述                                                   |<br>| :——- | :—————————————————– |<br>| accept   | 接受的文件类型                                         |<br>| files    | 文件列表（实现中没有使用这个属性而是使用onChange事件） |<br>| multiple | 布尔值，是否支持多选                                   |</p>
+</li>
+</ol>
+<h3 id="2-图片文件"><a href="#2-图片文件" class="headerlink" title="2. 图片文件"></a>2. 图片文件</h3><ol>
+<li><p>参考</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/File</a></li>
+</ul>
+</li>
+<li><p>属性(只读)</p>
+<ul>
+<li><p>File.lasterModified</p>
+</li>
+<li><p>File.lastModifiedDate</p>
+</li>
+<li><p>File.name</p>
+</li>
+<li><p>File.webkitRelativePath</p>
+</li>
+<li><p>File.size</p>
+</li>
+<li><p>File.type</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-图片处理"><a href="#3-图片处理" class="headerlink" title="3. 图片处理"></a>3. 图片处理</h3><ol>
+<li><p>获取图片内容</p>
+<ol>
+<li><p>FileReader</p>
+<ol>
+<li><p>参考</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/FileReader</a></li>
+</ul>
+</li>
+<li><p>用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getBase64 = <span class="function">(<span class="params">img, cb</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">  reader.addEventListener(<span class="string">'load'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> size = &#123;&#125;;</span><br><span class="line">    <span class="keyword">const</span> image = <span class="keyword">new</span> Image();</span><br><span class="line">    image.src = reader.result;</span><br><span class="line">    image.addEventListener(<span class="string">'load'</span>, () =&gt; &#123;</span><br><span class="line">      size.width = image.width;</span><br><span class="line">      size.height = image.height;</span><br><span class="line">      cb(reader.result, size, img.name);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  reader.addEventListener(<span class="string">'error'</span>, e =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125;);</span><br><span class="line">  reader.readAsDataURL(img);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>URL.createObjectURL</p>
+<ol>
+<li><p>参考</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL</a></li>
+</ul>
+</li>
+<li><p>用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img.src = <span class="built_in">window</span>.URL.createObjectURL(file);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>图片压缩</p>
+<ol>
+<li><p>方法</p>
+<ul>
+<li>使用canvas重绘</li>
+<li>图片输出时降低图片质量</li>
+</ul>
+</li>
+<li><p>用途广泛</p>
+</li>
+<li><p>参考</p>
+<ol>
+<li>压缩：<a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage</a></li>
+<li>输出为base64： <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL</a></li>
+<li>输出为Blob： <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob</a></li>
+</ol>
+</li>
+<li><p>用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> MEASURE_SIZE = <span class="number">200</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">previewImage</span>(<span class="params">file: File | Blob</span>): <span class="title">Promise</span>&lt;<span class="title">string</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isImageFileType(file.type)) &#123;</span><br><span class="line">      resolve(<span class="string">''</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">    canvas.width = MEASURE_SIZE;</span><br><span class="line">    canvas.height = MEASURE_SIZE;</span><br><span class="line">    canvas.style.cssText = <span class="string">`position: fixed; left: 0; top: 0; width: <span class="subst">$&#123;MEASURE_SIZE&#125;</span>px; height: <span class="subst">$&#123;MEASURE_SIZE&#125;</span>px; z-index: 9999; display: none;`</span>;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(canvas);</span><br><span class="line">    <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">    <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">    img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; width, height &#125; = img;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">let</span> drawWidth = MEASURE_SIZE;</span><br><span class="line">      <span class="keyword">let</span> drawHeight = MEASURE_SIZE;</span><br><span class="line">      <span class="keyword">let</span> offsetX = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">let</span> offsetY = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (width &lt; height) &#123;</span><br><span class="line">        drawHeight = height * (MEASURE_SIZE / width);</span><br><span class="line">        offsetY = -(drawHeight - drawWidth) / <span class="number">2</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        drawWidth = width * (MEASURE_SIZE / height);</span><br><span class="line">        offsetX = -(drawWidth - drawHeight) / <span class="number">2</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      ctx!.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);</span><br><span class="line">      <span class="keyword">const</span> dataURL = canvas.toDataURL();</span><br><span class="line">      <span class="built_in">document</span>.body.removeChild(canvas);</span><br><span class="line"></span><br><span class="line">      resolve(dataURL);</span><br><span class="line">    &#125;;</span><br><span class="line">    img.src = <span class="built_in">window</span>.URL.createObjectURL(file);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>图片输出</p>
+<ol>
+<li>base64：字符串</li>
+<li>Blob：文件对象</li>
+</ol>
+</li>
+<li><p>图片预览</p>
+<ol>
+<li><p>方法</p>
+<ul>
+<li>将base64编码赋值给img.src</li>
+<li>直接画到canvas画布上</li>
+</ul>
+</li>
+<li><p>用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">componentDidUpdate() &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; listType, items, previewFile &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">  <span class="keyword">if</span> (listType !== <span class="string">'picture'</span> &amp;&amp; listType !== <span class="string">'picture-card'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  (items || []).forEach(<span class="function"><span class="params">file</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> isValidateFile =</span><br><span class="line">      file.originFileObj <span class="keyword">instanceof</span> File || file.originFileObj <span class="keyword">instanceof</span> Blob;</span><br><span class="line">       </span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="keyword">typeof</span> <span class="built_in">document</span> === <span class="string">'undefined'</span> ||</span><br><span class="line">      <span class="keyword">typeof</span> <span class="built_in">window</span> === <span class="string">'undefined'</span> ||</span><br><span class="line">      !(<span class="built_in">window</span> <span class="keyword">as</span> any).FileReader ||</span><br><span class="line">      !(<span class="built_in">window</span> <span class="keyword">as</span> any).File ||</span><br><span class="line">      !isValidateFile ||</span><br><span class="line">      file.thumbUrl !== <span class="literal">undefined</span></span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    file.thumbUrl = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">if</span> (previewFile) &#123;</span><br><span class="line">      previewFile(file.originFileObj <span class="keyword">as</span> File).then(<span class="function">(<span class="params">previewDataUrl: string</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// Need append '' to avoid dead loop</span></span><br><span class="line">        file.thumbUrl = previewDataUrl || <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">this</span>.forceUpdate();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="4-图片上传"><a href="#4-图片上传" class="headerlink" title="4. 图片上传"></a>4. 图片上传</h3><ol>
+<li><p>上传策略</p>
+<ul>
+<li><p>并发无控制传输</p>
+<ul>
+<li><p>http1.1和http2协议下的并发数量限制</p>
+</li>
+<li><p>实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">uploadFiles = <span class="function">(<span class="params">files</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> postFiles = <span class="built_in">Array</span>.prototype.slice.call(files);</span><br><span class="line">  postFiles</span><br><span class="line">    .map(<span class="function"><span class="params">file</span> =&gt;</span> &#123;</span><br><span class="line">      file.uid = getUid();</span><br><span class="line">      <span class="keyword">return</span> file;</span><br><span class="line">    &#125;)</span><br><span class="line">    .forEach(<span class="function"><span class="params">file</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.upload(file, postFiles);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>并发控制</p>
+<ul>
+<li><p>实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Transmition</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(num, data, func, handleSuccess, handleErr, handleEnd) &#123;</span><br><span class="line">    <span class="keyword">this</span>.num = num; <span class="comment">// 这个属性用来控制transmitter的数量</span></span><br><span class="line">    <span class="keyword">this</span>.data = data; <span class="comment">// 这个属性是数组类型，保存任务队列</span></span><br><span class="line">    <span class="keyword">this</span>.func = func; <span class="comment">// 这个函数用来实际处理异步任务</span></span><br><span class="line">    <span class="keyword">this</span>.index = <span class="number">-1</span>; <span class="comment">// 这个属性用来存储当前的任务指针</span></span><br><span class="line">    <span class="keyword">this</span>.handleSuccess = handleSuccess || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;; <span class="comment">// 所有任务处理完成的回调函数</span></span><br><span class="line">    <span class="keyword">this</span>.len = data.length; <span class="comment">// 任务的数量</span></span><br><span class="line">    <span class="keyword">this</span>.handleErr = handleErr || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;; <span class="comment">// 任务失败的处理函数</span></span><br><span class="line">    <span class="keyword">this</span>.handleEnd = handleEnd || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;; <span class="comment">// 所有任务执行完一次后的处理函数</span></span><br><span class="line">    <span class="keyword">this</span>.currentTask = []; <span class="comment">// 这个属性用来保存当前正在执行的三个任务，随index的变化动态替换</span></span><br><span class="line">    <span class="keyword">this</span>.currentIndex = <span class="number">-1</span>; <span class="comment">// 这个属性用来用来当停止任务时，记录执行到的文件指针，用于后面恢复，此处没有具体用到，仅留出这个字段</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这个函数拆出来是十分有必要的</span></span><br><span class="line">  <span class="comment">// 写成这种形式，就把图片的上传过程单独封装了</span></span><br><span class="line">  <span class="comment">// 上传成功也好，失败也好都封装在自己的过程里</span></span><br><span class="line">  <span class="comment">// 对于整个对列的上传过程而言都是经历了上传并且已经结束</span></span><br><span class="line">  handleTask = <span class="keyword">async</span> (data, index) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; func &#125; = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> response = <span class="keyword">await</span> func(data, index);</span><br><span class="line">      <span class="keyword">this</span>.handleSuccess(response);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="keyword">this</span>.handleErr(e, data[index], index);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里保存当前队列执行的上传任务</span></span><br><span class="line">  <span class="comment">// 并启动任务</span></span><br><span class="line">  <span class="comment">// 在上传队列没有文件的时候</span></span><br><span class="line">  <span class="comment">// 还会判断所有上传过程是否完成，并执行最终的回调函数</span></span><br><span class="line">  executeTask = <span class="keyword">async</span> (index, data, i) =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.currentTask[i] = <span class="keyword">this</span>.handleTask(data, index);</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">this</span>.currentTask[i];</span><br><span class="line">    <span class="keyword">if</span> (index + <span class="number">1</span> === <span class="keyword">this</span>.len) &#123;</span><br><span class="line">      <span class="keyword">await</span> <span class="built_in">Promise</span>.all(<span class="keyword">this</span>.currentTask);</span><br><span class="line">      <span class="keyword">this</span>.handleEnd();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 定义的每个上传队列执行的规则</span></span><br><span class="line">  <span class="comment">// 有任务时，执行任务并等待任务结束</span></span><br><span class="line">  <span class="comment">// 结束后如果文件队列中还有文件就取文件开始上传</span></span><br><span class="line">  transmit = <span class="keyword">async</span> i =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data &#125; = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">let</span> currentData = data[++<span class="keyword">this</span>.index];</span><br><span class="line">    <span class="keyword">while</span> (currentData) &#123;</span><br><span class="line">      <span class="keyword">await</span> <span class="keyword">this</span>.executeTask(<span class="keyword">this</span>.index, currentData, i);</span><br><span class="line">      currentData = data[++<span class="keyword">this</span>.index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里同步创建上传队列</span></span><br><span class="line">  <span class="comment">// 并启动上传过程</span></span><br><span class="line">  createTransmitor = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; num &#125; = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">      <span class="keyword">this</span>.transmit(i);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里用来等待已经触发的异步过程</span></span><br><span class="line">  <span class="comment">// 当已经触发的异步过程结束</span></span><br><span class="line">  <span class="comment">// 停止队列操作</span></span><br><span class="line">  stopTransmite = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.currentIndex = <span class="keyword">this</span>.index;</span><br><span class="line">    <span class="keyword">this</span>.index = <span class="keyword">this</span>.len;</span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">Promise</span>.all(<span class="keyword">this</span>.currentTask);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这个方法实现了暂停后继续操作</span></span><br><span class="line">  <span class="comment">// 目前还没有使用</span></span><br><span class="line">  continueTransmite = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.index = <span class="keyword">this</span>.currentIndex;</span><br><span class="line">    <span class="keyword">this</span>.createTransmitor();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Transmition;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>两种方式的比较</p>
+<ul>
+<li>无控制并发不一定快</li>
+<li>并发控制可减小后台压力</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p>传输的数据格式</p>
+<p>传输介质使用FormData，以base64或者Blob的格式都可以，后者使用起来</p>
+</li>
+</ol>
+<hr>
+<h1 id="Antd的图片上传实现"><a href="#Antd的图片上传实现" class="headerlink" title="Antd的图片上传实现"></a>Antd的图片上传实现</h1><h3 id="1-基本结构-1"><a href="#1-基本结构-1" class="headerlink" title="1. 基本结构"></a>1. 基本结构</h3><pre><code> 1. 底层处理逻辑（稳定的）
+ - 基本结构 :heavy_check_mark:
+ - 图片文件​ :heavy_check_mark:
+ - 图片上传 :heavy_check_mark:
+2. 上层处理样式、交互及使用场景（可变的）
+- 图片处理 :heavy_check_mark:
+  - 压缩
+  - 列表展示
+  - 属性添加
+- 定义传输过程中交互
+</code></pre><h3 id="2-暴露的接口"><a href="#2-暴露的接口" class="headerlink" title="2. 暴露的接口"></a>2. 暴露的接口</h3><p>​    Antd的Upload组件一共暴露了21个接口：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">暴露位置</th>
+<th style="text-align:left">接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">上层</td>
+<td style="text-align:left">defaultFileList、fileList、listType、previewFile、onPreview、showUploadList、onChange、onRemove、supportServerRender</td>
+</tr>
+<tr>
+<td style="text-align:left">底层</td>
+<td style="text-align:left">directory、disabled、multiple、withCredentials、beforeUpload、customRequest、accept、action、data、headers、name、openFileDialogOnClick</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-传输策略"><a href="#3-传输策略" class="headerlink" title="3. 传输策略"></a>3. 传输策略</h3><ol>
+<li><p>默认并发无控制</p>
+</li>
+<li><p>给出了改变策略的接口</p>
+</li>
+</ol>
+<h3 id="4-Antd中一个详细ajax传输的实现"><a href="#4-Antd中一个详细ajax传输的实现" class="headerlink" title="4. Antd中一个详细ajax传输的实现"></a>4. Antd中一个详细ajax传输的实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getError</span>(<span class="params">option, xhr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> msg = <span class="string">`cannot post <span class="subst">$&#123;option.action&#125;</span> <span class="subst">$&#123;xhr.status&#125;</span>'`</span>;</span><br><span class="line">  <span class="keyword">const</span> err = <span class="keyword">new</span> <span class="built_in">Error</span>(msg);</span><br><span class="line">  err.status = xhr.status;</span><br><span class="line">  err.method = <span class="string">'post'</span>;</span><br><span class="line">  err.url = option.action;</span><br><span class="line">  <span class="keyword">return</span> err;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBody</span>(<span class="params">xhr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> text = xhr.responseText || xhr.response;</span><br><span class="line">  <span class="keyword">if</span> (!text) &#123;</span><br><span class="line">    <span class="keyword">return</span> text;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(text);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="keyword">return</span> text;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// option &#123;</span></span><br><span class="line"><span class="comment">//  onProgress: (event: &#123; percent: number &#125;): void,</span></span><br><span class="line"><span class="comment">//  onError: (event: Error, body?: Object): void,</span></span><br><span class="line"><span class="comment">//  onSuccess: (body: Object): void,</span></span><br><span class="line"><span class="comment">//  data: Object,</span></span><br><span class="line"><span class="comment">//  filename: String,</span></span><br><span class="line"><span class="comment">//  file: File,</span></span><br><span class="line"><span class="comment">//  withCredentials: Boolean,</span></span><br><span class="line"><span class="comment">//  action: String,</span></span><br><span class="line"><span class="comment">//  headers: Object,</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span>(<span class="params">option</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (option.onProgress &amp;&amp; xhr.upload) &#123;</span><br><span class="line">    xhr.upload.onprogress = <span class="function"><span class="keyword">function</span> <span class="title">progress</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (e.total &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        e.percent = e.loaded / e.total * <span class="number">100</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      option.onProgress(e);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> formData = <span class="keyword">new</span> FormData();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (option.data) &#123;</span><br><span class="line">    <span class="built_in">Object</span>.keys(option.data).map(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">      formData.append(key, option.data[key]);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  formData.append(option.filename, option.file);</span><br><span class="line"></span><br><span class="line">  xhr.onerror = <span class="function"><span class="keyword">function</span> <span class="title">error</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    option.onError(e);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.onload = <span class="function"><span class="keyword">function</span> <span class="title">onload</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// allow success when 2xx status</span></span><br><span class="line">    <span class="comment">// see https://github.com/react-component/upload/issues/34</span></span><br><span class="line">    <span class="keyword">if</span> (xhr.status &lt; <span class="number">200</span> || xhr.status &gt;= <span class="number">300</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> option.onError(getError(option, xhr), getBody(xhr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    option.onSuccess(getBody(xhr), xhr);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  xhr.open(<span class="string">'post'</span>, option.action, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179</span></span><br><span class="line">  <span class="keyword">if</span> (option.withCredentials &amp;&amp; <span class="string">'withCredentials'</span> <span class="keyword">in</span> xhr) &#123;</span><br><span class="line">    xhr.withCredentials = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> headers = option.headers || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// when set headers['X-Requested-With'] = null , can close default XHR header</span></span><br><span class="line">  <span class="comment">// see https://github.com/react-component/upload/issues/33</span></span><br><span class="line">  <span class="keyword">if</span> (headers[<span class="string">'X-Requested-With'</span>] !== <span class="literal">null</span>) &#123;</span><br><span class="line">    xhr.setRequestHeader(<span class="string">'X-Requested-With'</span>, <span class="string">'XMLHttpRequest'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> h <span class="keyword">in</span> headers) &#123;</span><br><span class="line">    <span class="keyword">if</span> (headers.hasOwnProperty(h) &amp;&amp; headers[h] !== <span class="literal">null</span>) &#123;</span><br><span class="line">      xhr.setRequestHeader(h, headers[h]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  xhr.send(formData);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    abort() &#123;</span><br><span class="line">      xhr.abort();</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：<a href="https://blog.hhking.cn/2018/11/29/html5-img-upload/" target="_blank" rel="noopener">https://blog.hhking.cn/2018/11/29/html5-img-upload/</a></p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#图片上传"><span class="toc-text">图片上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本结构"><span class="toc-text">1. 基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-图片文件"><span class="toc-text">2. 图片文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-图片处理"><span class="toc-text">3. 图片处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-图片上传"><span class="toc-text">4. 图片上传</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Antd的图片上传实现"><span class="toc-text">Antd的图片上传实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本结构-1"><span class="toc-text">1. 基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-暴露的接口"><span class="toc-text">2. 暴露的接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-传输策略"><span class="toc-text">3. 传输策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Antd中一个详细ajax传输的实现"><span class="toc-text">4. Antd中一个详细ajax传输的实现</span></a></li></ol></li>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/08/02/ubuntu使用配置/" rel="next" title="ubuntu使用配置">
+          ubuntu使用配置
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
