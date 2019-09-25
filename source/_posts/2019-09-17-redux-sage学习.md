@@ -93,7 +93,46 @@ export function* incrementAsync() {
   3. takeLatest：功能和takeEvery类似，但同时只允许一个saga在运行。
   4. all：返回由运行多个saga产生的结果组成的数组，多个saga会并行执行。
   5. call：类似put，返回一个Effect指示中间件使用给定的参数调用给定的函数。事实上，put或call本身不执行dispatch或是异步调用，它们只是返回js中的空对象(plain object)。具体的执行是由中间件来决定，如果Effect的类型是`put`，中间件就向store分发一个action，如果是一个`call`类型，就调用这个给定函数。
+  6. take：先看两个例子：
 
+  ```js
+    <!-- take -->
+    import { take, put } from 'redux-saga/effects'
+
+    function* watchFirstThreeTodosCreation() {
+      for (let i = 0; i < 3; i++) {
+        const action = yield take('TODO_CREATED')
+      }
+      yield put({type: 'SHOW_CONGRATULATION'})
+    }
+
+    <!-- takeEvery -->
+    import { select, takeEvery } from 'redux-saga/effects'
+
+    function* watchAndLog() {
+      yield takeEvery('*', function* logger(action) {
+        const state = yield select()
+
+        console.log('action', action)
+        console.log('state after', state)
+      })
+    }
+  ```
+   take的工作方式是将暂停这个迭代器，直到一个匹配action被分发。
+
+  官网关于takeEvery的工作原理的说明：
+
+   > In the case of takeEvery, the invoked tasks have no control on when they'll be called. They will be invoked again and again on each matching action. They also have no control on when to stop the observation.
+
+  翻译：被调用的任务(logger)控制不了它们何时被调用。只要满足匹配项，它们就会一次一次被调用。它们也控制不了何时终止观察过程。
+
+  官网关于take的工作原理的说明：
+
+  > In the case of take, the control is inverted. Instead of the actions being pushed to the handler tasks, the saga is pulling the action by itself. It looks as if the saga is performing a normal function call action=getNextAction(), which will resolve when the action is dispatched.
+
+  翻译：在take的使用中，action是由take主动发起的（这里类似put或者call），和takeEvery将action推向处理任务不同，这个saga(watchFirstThreeTodosCreation)是自己拉取(take)action，就好像调用了一个普通的函数：action=getNextAction()，当action被分发后完成解析。
+  
+  看上面的第一个例子，watchFirstThreeTodosCreation运行后，会进入一个次数为三次的循环，每次循环的开始都会暂停在：const action = yield take('TODO_CREATED')处，当这个action(TODO_CREATED)完成分发后，这一行代码执行完，进入下一个循环，重复同样的过程，直到三次结束，最后调用：yield put({type: 'SHOW_CONGRATULATION'})发出一个Effect，然后就退出了监控，这个迭代器也可以被垃圾回收。
 
 ---
 
