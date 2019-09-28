@@ -1,6 +1,6 @@
 ---
 layout: post
-title: redux-saga学习
+title: redux-saga文档学习
 date: 2019-09-17
 tag: 
 - redux-saga
@@ -134,6 +134,11 @@ export function* incrementAsync() {
   
   看上面的第一个例子，watchFirstThreeTodosCreation运行后，会进入一个次数为三次的循环，每次循环的开始都会暂停在：const action = yield take('TODO_CREATED')处，当这个action(TODO_CREATED)完成分发后，这一行代码执行完，进入下一个循环，重复同样的过程，直到三次结束，最后调用：yield put({type: 'SHOW_CONGRATULATION'})发出一个Effect，然后就退出了监控，这个迭代器也可以被垃圾回收。
 
+4. redex-saga的一些使用场景
+
+  1. 非阻塞
+
+  参考官网提供的这个[例子](https://redux-saga.js.org/docs/advanced/NonBlockingCalls.html)说明。
 ---
 
 ### 参考资料
