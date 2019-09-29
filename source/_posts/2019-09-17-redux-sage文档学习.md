@@ -134,11 +134,57 @@ export function* incrementAsync() {
   
   看上面的第一个例子，watchFirstThreeTodosCreation运行后，会进入一个次数为三次的循环，每次循环的开始都会暂停在：const action = yield take('TODO_CREATED')处，当这个action(TODO_CREATED)完成分发后，这一行代码执行完，进入下一个循环，重复同样的过程，直到三次结束，最后调用：yield put({type: 'SHOW_CONGRATULATION'})发出一个Effect，然后就退出了监控，这个迭代器也可以被垃圾回收。
 
-4. redex-saga的一些使用场景
+  另外，可以并发的观察多个action：
 
-  1. 非阻塞
+  ```js
+    yield take(['LOGOUT', 'LOGIN_ERROR'])
+  ```
 
-  参考官网提供的这个[例子](https://redux-saga.js.org/docs/advanced/NonBlockingCalls.html)说明。
+  7. fork：当fork一个任务时，这项任务会在后台启动，后续的任务无需等待fork的这项任务完成，实现无阻塞工作流程。
+  8. cancel：取消一个fork的任务
+   
+   ```js
+    function* loginFlow() {
+      while (true) {
+        const {user, password} = yield take('LOGIN_REQUEST')
+        // fork return a Task object
+        const task = yield fork(authorize, user, password)
+        const action = yield take(['LOGOUT', 'LOGIN_ERROR'])
+        if (action.type === 'LOGOUT')
+          yield cancel(task)
+        yield call(Api.clearItem, 'token')
+      }
+    }
+   ```
+
+   cancel一个task，会向下传递，将任务中的任务也取消，比如下例，取消了subtask，同时会取消subtask2：
+
+   ```js
+    function* main() {
+      const task = yield fork(subtask)
+      ...
+      // later
+      yield cancel(task)
+    }
+
+    function* subtask() {
+      ...
+      yield call(subtask2) // currently blocked on this call
+      ...
+    }
+
+    function* subtask2() {
+      ...
+      yield call(someApi) // currently blocked on this call
+      ...
+    }
+   ```
+  9. all：并发执行任务，这个在项目中已经接触过了， 如果有一个任务失败了，其他的都会被取消
+  10. race：第一个执行完毕的任务作为最后的结果，其他任务将被自动取消
+
+4. redux-saga中原理模型
+
+  1. fork model：参见这里：https://redux-saga.js.org/docs/advanced/ForkModel.html，需要的时候再来看。
 ---
 
 ### 参考资料
