@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="css,">
+    <meta name="keywords" content>
   
 
   
-    <meta name="description" content="css查漏补缺之八-flexbox">
+    <meta name="description" content="Ginnko&#39;s,blog">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>css查漏补缺之八-flexbox [ Ginnko&#39;s ]</title>
+  <title>tag: 函数式编程 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -86,158 +86,22 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      <div class="post-container">
-  <div class="left-ads-container">
       
-
-<div id="ads-left" class="ads-left">
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- left -->
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
-  </div>
-  <article class="post" id="post">
-    <header class="post-header text-center">
-      <h1 class="title">
-        css查漏补缺之八-flexbox
-      </h1>
-      <span>
-        
-        <time class="time" datetime="2018-09-04T16:00:00.000Z">
-        2018-09-05
+<div class="page tag-page" id="tag">
+  <h3 title="函数式编程下的文章">函数式编程</h3>
+  
+    <div class="tag-item">
+      
+        <a href="/2019/09/15/函数式编程学习/">
+          函数式编程学习
+        </a>
+      
+      <time class="time" datetime="2019-09-14T16:00:00.000Z">
+        2019-09-15
       </time>
-        
-      </span>
-      <span class="slash">/</span>
-      <span class="post-meta">
-      <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
-      </span>
-    </span>
-      <span class="slash">/</span>
-      <span class="read">
-      <span id="busuanzi_value_page_pv"></span> 点击
-    </span>
-      <span class="slash">/</span>
-      <span class="read">阅读耗时 4 分钟</span>
-    </header>
-
-    <div class="post-content">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox" target="_blank" rel="noopener">链接</a></p>
-<p>flex是一维布局方法，将flex items在row方向上布局或是在column方向上布局。flex item会伸缩来适应剩余空间或空间不够的情况。<strong>成为flex-items的元素可以认为是一个 <em>块级盒子</em>。</strong></p>
-<h3 id="设置在-flexbox-上的属性"><a href="#设置在-flexbox-上的属性" class="headerlink" title="设置在 flexbox 上的属性"></a>设置在 flexbox 上的属性</h3><ol>
-<li>display: box</li>
-<li>flex-direction: row | column | row-reverse | column-reverse</li>
-<li><p>flex-wrap: wrap </p>
-<p> 当flex items数量过多，导致超出flex box的时候，上面这个属性会让flex items分布在多行显示，消除溢出flex box的问题。</p>
-</li>
-<li><p>flex-flow = flex-direction + flex-wrap</p>
-<p> 上面的设置可以写成： <code>flex-flow: row wrap;</code></p>
-</li>
-</ol>
-<a id="more"></a>
-<h3 id="设置在-flex-items-上的属性"><a href="#设置在-flex-items-上的属性" class="headerlink" title="设置在 flex items 上的属性"></a>设置在 flex items 上的属性</h3><ol>
-<li><p>flex: 1 200px;</p>
-<p> 第1个无单位的属性表示元素将在主轴上占据多少空间（设置完padding和margin后留下的剩余空间）。</p>
-<p> 第2个<code>200px</code>参数表明最小尺寸。</p>
-<p> 上面这个属性的意思是：每一个flex item首先会给<code>200px</code>的可用空间。之后，剩余的空间将按照比例<code>1</code>来分。</p>
-</li>
-<li><p>flex是一个缩写属性，最多能设置三个值（<strong>mdn上建议使用缩写形式</strong>）：</p>
-<ul>
-<li>flex-grow：无单位的比例</li>
-<li>flex-shrink： 无单位的比例</li>
-<li>flex-basis： 最小空间</li>
-</ul>
-</li>
-<li><p>align-items:控制flex items如何在交叉轴上摆放，可以取得值有：</p>
-<ul>
-<li>stretch：默认值，将会拉伸flex items的高度和父元素相同</li>
-<li>center：flex items将保持固有尺寸，但是会沿着交叉轴居中</li>
-<li>flex-start/flex-end：定位在交叉轴的start/end位置</li>
-</ul>
-</li>
-<li><p>justify-content：控制flex items在主轴上如何摆放，可以取得值有：</p>
-<ul>
-<li>flex-start(默认值):从主轴的start处开始</li>
-<li>flex-end：从主轴的end处开始</li>
-<li>center：定位在主轴的中间</li>
-<li>space-around: 在每个元素的左右两侧都留相同的空间，导致最靠边的两个元素左右两侧距离边框有距离，且元素和元素之间的空间要比刚说的这个空间大。整个主轴的空间被这些flex items瓜分。</li>
-<li>space-between: 最外侧的两个元素靠近边框的一侧没有多余的空间，整个主轴的空间被flex items瓜分，剩余的空间都分布在flex items之间了。</li>
-</ul>
-</li>
-<li><p>order:</p>
-<ul>
-<li>默认值： 0</li>
-<li>数值越大排序越靠后</li>
-</ul>
-</li>
-</ol>
-<h3 id="Nested-flex-boxes"><a href="#Nested-flex-boxes" class="headerlink" title="Nested flex boxes"></a>Nested flex boxes</h3><p>这个已经用过多次了</p>
-
-    </div>
-
-    <div>全文完。</div>
-  </article>
-  <div class="toc-container">
-    
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置在-flexbox-上的属性"><span class="toc-text">设置在 flexbox 上的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置在-flex-items-上的属性"><span class="toc-text">设置在 flex items 上的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nested-flex-boxes"><span class="toc-text">Nested flex boxes</span></a></li></ol>
-  </div>
-
-
-  </div>
-</div>
-<div class="copyright">
-    <span>本作品采用</span>
-    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
-    <span>进行许可。 转载时请注明原文链接。</span>
-</div>
-<!-- <div class="share" style="width: 100%;">
-  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
-
-  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
-  
-</div> -->
-
-  
-    <div class="post-nav">
-      <div class="post-nav-item post-nav-next">
-        
-          <span>〈 </span>
-          <a href="/2018/09/04/css查漏补缺之五-introduction-to-css-layout/" rel="next" title="css查漏补缺之五-css布局介绍">
-          css查漏补缺之五-css布局介绍
-          </a>
-        
-      </div>
-  
-      <div class="post-nav-item post-nav-prev">
-          
-          <a href="/2018/09/05/css查漏补缺之七-bfc2/" rel="prev" title="css查漏补缺之七-BFC2">
-            css查漏补缺之七-BFC2
-          </a>
-          <span>〉</span>
-        
-      </div>
     </div>
   
-
-<div id="vcomments" class="vcomments"></div>
-<script>
-  new Valine({
-    el: '#vcomments' ,
-    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
-    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
-    notify:true, 
-    // verify:false, 
-    avatar:'mp', 
-    placeholder: '耶嘿康忙北鼻~'
-  })
-</script>
-
+</div>
     </div>
 
     

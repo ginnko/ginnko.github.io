@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="函数式编程,">
+  
+
+  
+    <meta name="description" content="函数式编程学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>函数式编程学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        函数式编程学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-09-14T16:00:00.000Z">
+        2019-09-15
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/函数式编程/">函数式编程</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 12 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>正在学习redux的源码，感觉redux的实现很多地方都是基于函数式编程，函数式编程思想好像也在前端的很多库中都有广泛使用。为了更好的理解redux的源码，加深实现的记忆，也为了帮助日后学习其他库，现在插个空儿，入个函数式编程的门儿。</p>
+<p>学习材料是列在最后的《JS函数式编程指南》的中文译本。</p>
+<a id="more"></a>
+<h3 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h3><h4 id="第二章-一等公民的函数"><a href="#第二章-一等公民的函数" class="headerlink" title="第二章 一等公民的函数"></a>第二章 一等公民的函数</h4><p>看过这一章，有两点需要在日后的开发中注意：</p>
+<ol>
+<li>使用函数无论在赋值给变量还是作为参数传入函数，都要注意函数是一等公民</li>
+<li>变量、函数命名时要更具有通用性</li>
+</ol>
+<p>关于上述第一点的理解，若日后不记得，可参考这里的<a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch2.html#%E4%B8%BA%E4%BD%95%E9%92%9F%E7%88%B1%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91" target="_blank" rel="noopener">例子</a>。</p>
+<hr>
+<h4 id="第三章-纯函数"><a href="#第三章-纯函数" class="headerlink" title="第三章 纯函数"></a>第三章 纯函数</h4><p>这一章主要讲了函数式编程中的重要概念，纯函数，以及纯函数的优点。</p>
+<!-- TODO 这里可以把之前看的redux中关于纯函数的使用放进来 -->
+<ol>
+<li>纯函数的定义</li>
+</ol>
+<blockquote>
+<p>纯函数是这样一种函数，即相同的输入，永远会得到相同的输出，而且没有任何可观察的副作用。</p>
+</blockquote>
+<ol start="2">
+<li>作用</li>
+</ol>
+<blockquote>
+<p>作用，我们可以理解为一切除结果计算之外发生的事情。</p>
+</blockquote>
+<ol start="3">
+<li>副作用</li>
+</ol>
+<blockquote>
+<p>副作用是在计算结果的过程中，系统状态的一种变化，或者与外部世界进行的可观察的交互。</p>
+</blockquote>
+<p>副作用可能包含但不限于：</p>
+<ul>
+<li>更改文件系统</li>
+<li>往数据库插入记录</li>
+<li>发送一个http请求</li>
+<li>可变数据</li>
+<li>打印/log</li>
+<li>获取用户输入</li>
+<li>DOM查询</li>
+<li>访问系统状态</li>
+<li>。。。</li>
+</ul>
+<p>概括来讲，只要是跟函数外部环境发生的交互就都是副作用。</p>
+<hr>
+<h4 id="第四章-函数柯里化"><a href="#第四章-函数柯里化" class="headerlink" title="第四章 函数柯里化"></a>第四章 函数柯里化</h4><ol>
+<li>curry的概念</li>
+</ol>
+<blockquote>
+<p>只传给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。</p>
+</blockquote>
+<p>curry的用途是参数复用，降低通用性，提高适用性。</p>
+<!-- TODO 再看下这个 -->
+<p>文中给出的例子可以进一步参考这里：<a href="https://github.com/lodash/lodash/wiki/FP-Guide#capped-iteratee-arguments" target="_blank" rel="noopener">https://github.com/lodash/lodash/wiki/FP-Guide#capped-iteratee-arguments</a></p>
+<p>文中给出了这样一段:</p>
+<blockquote>
+<p>只传给函数一部分参数通常也叫做局部调用（partial application），能够大量减少样板文件代码（boilerplate code）。</p>
+</blockquote>
+<p>未能体会,留下作为未解之谜…</p>
+<ol>
+<li>curry函数的实现</li>
+</ol>
+<p>实现代码来自<a href="https://github.com/mqyqingfeng/Blog/issues/42" target="_blank" rel="noopener">参考资料2</a>第二版（使用占位符的第三版判断条件较多，过于复杂）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现方式1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// sub_curry的作用就是用一个新的函数包裹原函数，然后给原函数传入之前的参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub_curry</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> args = [].slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 此处实际已经执行</span></span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args.concat([].slice.call(<span class="built_in">arguments</span>)));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">fn, length</span>) </span>&#123;</span><br><span class="line">  length = length || fn.length;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">arguments</span>.length &lt; length) &#123;</span><br><span class="line">      <span class="keyword">const</span> combined = [fn].concat(<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>));</span><br><span class="line">      <span class="comment">// 注意：此处sub_curry.apply(this.combined)是执行了</span></span><br><span class="line">      <span class="comment">// 返回一个包裹了原函数和参数的新函数</span></span><br><span class="line">      <span class="comment">// 这个新函数用于获取后续参数</span></span><br><span class="line">      <span class="keyword">return</span> curry(sub_curry.apply(<span class="keyword">this</span>, combined), length - <span class="built_in">arguments</span>.length);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, aruments);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行步骤分析</span></span><br><span class="line"><span class="comment">// 这里fn0是一个纯函数</span></span><br><span class="line"><span class="comment">// curry函数也是一个纯函数</span></span><br><span class="line"><span class="comment">// 下述步骤分析过程</span></span><br><span class="line"><span class="comment">// 使用了纯函数中的`等式推导`</span></span><br><span class="line"><span class="comment">// 也就是`引用透明`</span></span><br><span class="line"><span class="keyword">const</span> fn0 = <span class="function"><span class="keyword">function</span>(<span class="params">a, b, c, d</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [a, b, c, d];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn1 = curry(fn0);</span><br><span class="line">fn1(<span class="string">'a'</span>, <span class="string">'b'</span>)(<span class="string">'c'</span>)(<span class="string">'d'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当执行fn1('a', 'b')时</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// fn1('a', 'b')相当于</span></span><br><span class="line">curry(fn0)(<span class="string">'a'</span>, <span class="string">'b'</span>);</span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line">curry(sub_curry(fn0, <span class="string">'a'</span>, <span class="string">'b'</span>));</span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line">curry(<span class="function"><span class="keyword">function</span>(<span class="params">..</span>) </span>&#123;<span class="keyword">return</span> fn0(<span class="string">'a'</span>, <span class="string">'b'</span>, ...)&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当执行fn1('a', 'b')('c')时</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// fn1('a', 'b')('c')返回</span></span><br><span class="line">curry(sub_curry(<span class="function"><span class="keyword">function</span>(<span class="params">..</span>) </span>&#123;<span class="keyword">return</span> fn0(<span class="string">'a'</span>, <span class="string">'b'</span>, ...)&#125;, <span class="string">'c'</span>));</span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line">curry(<span class="function"><span class="keyword">function</span>(<span class="params">...</span>) </span>&#123;<span class="keyword">return</span> fn0(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, ...)&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当执行fn1('a', ''b)('c')('d')时，此时arguments.length &lt; length 为false，执行fn(arguments)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">...</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fn0(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, ...);</span><br><span class="line">&#125;)(<span class="string">'d)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 相当于</span></span><br><span class="line"><span class="string">fn0('</span>a<span class="string">', '</span>b<span class="string">', '</span>c<span class="string">', '</span>d<span class="string">');</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 函数执行完毕</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// =================================</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 实现方式2</span></span><br><span class="line"><span class="string">// 这种方式更直观</span></span><br><span class="line"><span class="string">// 每次只组合参数</span></span><br><span class="line"><span class="string">// 最后一次性传入原函数中</span></span><br><span class="line"><span class="string">// 而实现方式1是每次都会向原函数中传入参数但延迟执行</span></span><br><span class="line"><span class="string">function curry(fn, args) &#123;</span></span><br><span class="line"><span class="string">  const length = fn.length;</span></span><br><span class="line"><span class="string">  args = args || [];</span></span><br><span class="line"><span class="string">  return function() &#123;</span></span><br><span class="line"><span class="string">    const _args = args.slice();</span></span><br><span class="line"><span class="string">    let arg, i;</span></span><br><span class="line"><span class="string">    for (i = 0; i &lt; arguments.length; i++) &#123;</span></span><br><span class="line"><span class="string">      arg = arguments[i];</span></span><br><span class="line"><span class="string">      _args.push(arg);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    if (_args.length &lt; length) &#123;</span></span><br><span class="line"><span class="string">      return curry.call(this, fn, _args);</span></span><br><span class="line"><span class="string">    &#125; else &#123;</span></span><br><span class="line"><span class="string">      return fn.apply(this, _args);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>实现的本质是通过高阶函数，利用闭包递归保存每次传入的参数同时延迟业务函数的执行，只有当参数数量等于业务函数参数数量时，才执行业务函数计算结果。</p>
+<hr>
+<h3 id="第五章-组合"><a href="#第五章-组合" class="headerlink" title="第五章 组合"></a>第五章 组合</h3><ol>
+<li>redux中compose的实现</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> (...args) =&gt; a(b(...args)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>结合律</li>
+</ol>
+<p>所有的组合都满足结合律。结合律的一大好处是任何一个函数分组都可以被拆开来，然后再以它们自己的组合方式打包在一起。通过这种方式能够构建出很多有用的组合功能。</p>
+<ol start="3">
+<li>pointfree模式</li>
+</ol>
+<p>函数无须提及将要操作的数据是什么样的。一等公民的函数、柯里化（curry）以及组合协作起来非常有助于实现这种模式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> associative = compose(f, compose(g, h)) == compose(compose(f, g), h);</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第六章-示例应用"><a href="#第六章-示例应用" class="headerlink" title="第六章 示例应用"></a>第六章 示例应用</h3><ol>
+<li>map 的组合律</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> law = compose(map(f), map(g)) == map(compose(f, g));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>示例核心代码</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">requirejs.config(&#123;</span><br><span class="line">  paths: &#123;</span><br><span class="line">    ramda: <span class="string">'https://cdnjs.cloudflare.com/ajax/libs/ramda/0.13.0/ramda.min'</span>,</span><br><span class="line">    jquery: <span class="string">'https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>([</span><br><span class="line">  <span class="string">'ramda'</span>,</span><br><span class="line">  <span class="string">'jquery'</span></span><br><span class="line">],</span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">_, $</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> trace = _.curry(<span class="function"><span class="keyword">function</span>(<span class="params">tag, x</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(tag, x);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> Impure = &#123;</span><br><span class="line">    getJSON: _.curry(<span class="function"><span class="keyword">function</span>(<span class="params">callback, url</span>) </span>&#123;</span><br><span class="line">      $.getJSON(url, callback);</span><br><span class="line">    &#125;),</span><br><span class="line">    setHtml: _.curry(<span class="function"><span class="keyword">function</span>(<span class="params">sel, html</span>) </span>&#123;</span><br><span class="line">      $(sel).html(html);</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> url = <span class="function"><span class="keyword">function</span>(<span class="params">term</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'https://api.flickr.com/services/feeds/photos_public.gne?tags='</span> + term + <span class="string">'&amp;format=json&amp;jsoncallback=?'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> img = <span class="function"><span class="keyword">function</span> (<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $(<span class="string">'&lt;img /&gt;'</span>, &#123; <span class="attr">src</span>: url&#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 第一版代码</span></span><br><span class="line">  <span class="keyword">const</span> mediaUrl = _.compose(_.prop(<span class="string">'m'</span>), _.prop(<span class="string">'media'</span>));</span><br><span class="line">  <span class="keyword">const</span> srcs = _.compose(_.map(mediaUrl), _.prop(<span class="string">'items'</span>));</span><br><span class="line">  <span class="keyword">const</span> images = _.compose(_.map(img), srcs);</span><br><span class="line">  <span class="keyword">const</span> renderImages = _.compose(Impure.setHtml(<span class="string">'body'</span>), images);</span><br><span class="line">  <span class="keyword">const</span> app = _.compose(Impure.getJSON(renderImages), url);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//  利用等式推倒以及纯函数的特性</span></span><br><span class="line">  <span class="comment">//  重构</span></span><br><span class="line">  <span class="keyword">var</span> mediaUrl = _.compose(_.prop(<span class="string">'m'</span>), _.prop(<span class="string">'media'</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> mediaToImg = _.compose(img, mediaUrl);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> images = _.compose(_.map(mediaToImg), _.prop(<span class="string">'items'</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  app(<span class="string">'dog'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>跟着写完这个部分的demo，最大的感受就是函数式编程的本质就是数学等式的变换。函数式的写法是写成声明式的而非命令式的。</p>
+<h3 id="第七章-类型系统"><a href="#第七章-类型系统" class="headerlink" title="第七章 类型系统"></a>第七章 类型系统</h3><p>基本没有get到作者的点。。。</p>
+<hr>
+<p>剩余三章，暂时搁置。。。</p>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/" target="_blank" rel="noopener">https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/</a> （《JS函数式编程指南》）</li>
+<li><a href="https://github.com/mqyqingfeng/Blog/issues/42" target="_blank" rel="noopener">https://github.com/mqyqingfeng/Blog/issues/42</a> （关于柯里化的资料）</li>
+<li><a href="https://github.com/lodash/lodash/wiki/FP-Guide#capped-iteratee-arguments" target="_blank" rel="noopener">https://github.com/lodash/lodash/wiki/FP-Guide#capped-iteratee-arguments</a> （lodash中的fp关于《JS函数式编程指南》纯函数部分举的例子的描述）</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第二章-一等公民的函数"><span class="toc-text">第二章 一等公民的函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三章-纯函数"><span class="toc-text">第三章 纯函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四章-函数柯里化"><span class="toc-text">第四章 函数柯里化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五章-组合"><span class="toc-text">第五章 组合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六章-示例应用"><span class="toc-text">第六章 示例应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七章-类型系统"><span class="toc-text">第七章 类型系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/09/05/redux源码学习/" rel="next" title="redux源码学习">
+          redux源码学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/09/17/redux-sage文档学习/" rel="prev" title="redux-saga文档学习">
+            redux-saga文档学习
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>

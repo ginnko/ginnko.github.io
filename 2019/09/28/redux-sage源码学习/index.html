@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="javascript,">
+    <meta name="keywords" content="redux-saga,">
   
 
   
-    <meta name="description" content="javascript查漏补缺之十四 ——《客户端web api》">
+    <meta name="description" content="redux-saga源码学习">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>javascript查漏补缺之十四 ——《客户端web api》 [ Ginnko&#39;s ]</title>
+  <title>redux-saga源码学习 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        javascript查漏补缺之十四 ——《客户端web api》
+        redux-saga源码学习
       </h1>
       <span>
         
-        <time class="time" datetime="2018-07-24T16:00:00.000Z">
-        2018-07-25
+        <time class="time" datetime="2019-09-27T16:00:00.000Z">
+        2019-09-28
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,109 +122,16 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 5 分钟</span>
+      <span class="read">阅读耗时 1 分钟</span>
     </header>
 
     <div class="post-content">
-      <p><a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Client-side_web_APIs" target="_blank" rel="noopener">链接地址</a></p>
-<ol>
-<li><p>javascript api的共同点</p>
-<ol>
-<li><p>基于对象</p>
-</li>
-<li><p>有可识别的入口点</p>
-</li>
-<li><p>它们使用事件来处理状态的变化</p>
-</li>
-<li><p>它们在适当的地方有额外的安全机制</p>
-</li>
-</ol>
-</li>
-</ol>
-<a id="more"></a>
-<ol start="2">
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents" target="_blank" rel="noopener">操作文档</a></p>
-<ol>
-<li><p>document.querySelector(selectors)</p>
-<ol>
-<li><p>文档对象模型Document引用的querySelector()方法返回文档中与指定选择器或选择器组匹配的第一个 html元素Element。 如果找不到匹配项，则返回null。</p>
-</li>
-<li><p>selectors:包含一个或多个要匹配的选择器的 DOM字符串DOMString。 该字符串必须是有效的CSS选择器字符串</p>
-</li>
-<li><p><strong>使用深度优先的遍历顺序</strong></p>
-</li>
-<li><p>返回Element对象</p>
-</li>
-</ol>
-</li>
-<li><p>document.querySelectorAll(selectors)</p>
-<ol>
-<li><p><strong>使用深度优先的遍历顺序</strong></p>
-</li>
-<li><p>selectors 是一个由逗号连接的包含一个或多个CSS选择器的字符串</p>
-</li>
-<li><p>返回一个<strong>静态的</strong> NodeList 类型的对象</p>
-</li>
-</ol>
-</li>
-<li><p>document.createElement();</p>
-<p> <code>var para = document.createElement(&#39;p&#39;);</code></p>
-</li>
-<li><p>Node.appendChild()</p>
-<p> <code>sect.appendChild(para);</code></p>
-</li>
-<li><p>Document.createTextNode()</p>
-<p> 创建一个文本节点</p>
-</li>
-<li><p>node.textContent</p>
-</li>
-<li><p>node.innerText</p>
-</li>
-<li><p>node.innerHTML</p>
-<p> 返回文本内容和标签</p>
-</li>
-<li><p>Node.removeChild()</p>
-<p> 当知道要删除节点以及父节点的时候可以使用这个方法：</p>
-<p> <code>sect.removeChild(linkPara);</code></p>
-</li>
-<li><p>删除一个仅基于自身引用的节点</p>
-<p><code>linkPara.parentNode.removeChild(linkPara);</code></p>
-</li>
-<li><p>Node.cloneNode(deep)</p>
-<ol>
-<li><p>deep: 如果为true，表示执行深复制，当前节点的所有子节点也会一并复制</p>
-</li>
-<li><p>如果deep参数设为false,则不克隆它的任何子节点.该节点所包含的所有文本也不会被克隆,因为文本本身也是一个或多个的Text节点</p>
-</li>
-<li><p>这个函数复制的节点信息包括：克隆一个元素节点会拷贝它所有的属性以及属性值,当然也就包括了属性上绑定的事件(比如onclick=”alert(1)”),但不会拷贝那些使用addEventListener()方法或者node.onclick = fn这种用JavaScript动态绑定的事件</p>
-</li>
-</ol>
-</li>
-<li><p>HTMLElement.style</p>
-<ol>
-<li>使用这个属性的结果是样式都是<strong>内联样式</strong>。</li>
-</ol>
-</li>
-<li><p>Element.setAttribute()</p>
-<ol>
-<li>使用这个方法设置的样式是普通的css样式表的样式：<code>Element.setAttribute(class, className)</code>。</li>
-</ol>
-</li>
-<li><p>获取视窗尺寸</p>
-<p><code>window.innerWidth</code>：视窗宽度</p>
-<p><code>window.innerHeight</code>:视窗高度</p>
-</li>
-<li><p>视窗的resize事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onresize = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    WIDTH = <span class="built_in">window</span>.innerWidth;</span><br><span class="line">    HEIGHT = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">    div.style.width = WIDTH + <span class="string">'px'</span>;</span><br><span class="line">    div.style.height = HEIGHT + <span class="string">'px'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li><p>给DOM添加节点需要上述1、2、3、4、5五个方法;</p>
-<p>  下面这个例子里添加文本使用的是Node.textContent属性。</p>
-  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sect = <span class="built_in">document</span>.querySelector(<span class="string">'section'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> para = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</span><br><span class="line">para.textContent = <span class="string">'We hope you enjoyed the ride.'</span>;</span><br><span class="line"></span><br><span class="line">sect.appendChild(para);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> text = <span class="built_in">document</span>.createTextNode(<span class="string">' — the premier source for web development knowledge.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> linkPara = <span class="built_in">document</span>.querySelector(<span class="string">'p'</span>);</span><br><span class="line">linkPara.appendChild(text);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
+      <h2 id="doing…"><a href="#doing…" class="headerlink" title="doing…"></a>doing…</h2><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://juejin.im/post/5bb62b2f6fb9a05ce469dcfd" target="_blank" rel="noopener">https://juejin.im/post/5bb62b2f6fb9a05ce469dcfd</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/37356948" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37356948</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35437092" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35437092</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/30098155" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/30098155</a></li>
+<li><a href="https://medium.com/@js_tut/the-saga-continues-magic-in-react-44da8d134285" target="_blank" rel="noopener">https://medium.com/@js_tut/the-saga-continues-magic-in-react-44da8d134285</a></li>
 </ol>
 
     </div>
@@ -233,6 +140,11 @@
   </article>
   <div class="toc-container">
     
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#doing…"><span class="toc-text">doing…</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+  </div>
+
 
   </div>
 </div>
@@ -253,19 +165,14 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2018/07/25/javascript查漏补缺之十三-元编程/" rel="next" title="javascript查漏补缺之十三 ——《元编程》">
-          javascript查漏补缺之十三 ——《元编程》
+          <a href="/2019/09/17/redux-sage文档学习/" rel="next" title="redux-saga文档学习">
+          redux-saga文档学习
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2018/07/27/javascript查漏补缺之十五-从服务器获取数据/" rel="prev" title="javascript查漏补缺之十五 ——《从服务器获取数据》">
-            javascript查漏补缺之十五 ——《从服务器获取数据》
-          </a>
-          <span>〉</span>
-        
       </div>
     </div>
   

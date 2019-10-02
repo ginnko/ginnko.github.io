@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="redux-saga,">
+  
+
+  
+    <meta name="description" content="redux-saga文档学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>redux-saga文档学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        redux-saga文档学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-09-16T16:00:00.000Z">
+        2019-09-17
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 12 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>redux-saga学习中。</p>
+<a id="more"></a>
+<h3 id="redux-saga中的重要概念"><a href="#redux-saga中的重要概念" class="headerlink" title="redux-saga中的重要概念"></a>redux-saga中的重要概念</h3><ol>
+<li>saga</li>
+</ol>
+<p>官网中关于saga有这样的描述:</p>
+<blockquote>
+<p>a saga is like a separate thread in your application that’s solely responsible for side effects. </p>
+</blockquote>
+<p><a href="https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part/" target="_blank" rel="noopener">资料2</a>和<a href="https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2/" target="_blank" rel="noopener">资料3</a>中描述了在微服务中的saga模型,我的理解是<code>saga</code>像是一个单位，用于完成一个完整功能,这个完整功能依赖多个有先后依存顺序的事务的执行。文中描述了两种<code>saga</code>的实现，一种是每一个事务顺序执行，当前事务执行完毕向后一个事务发出事件；另一种实现是建立一个saga的协调中心，协调中心负责调度各个事务。</p>
+<p>感觉上面的描述没有指出saga的重点，<a href="https://zhuanlan.zhihu.com/p/41661402" target="_blank" rel="noopener">资料4</a>描述saga的一个特点：</p>
+<blockquote>
+<p>saga需要一个“从中间开始执行”的模式。</p>
+</blockquote>
+<blockquote>
+<p>本质上其实是事务的异常中止和恢复。解决起来也并不复杂：随时保存saga的当前状态，并在异常结束之后恢复状态。</p>
+</blockquote>
+<ol start="2">
+<li>Effect</li>
+</ol>
+<blockquote>
+<p>Effects are plain JavaScript objects which contain instructions to be fulfilled by the middleware.</p>
+</blockquote>
+<p>Effects的类型是js的空白对象，包含能被middleware执行的指令(原文没写，但感觉就是一个action)。在redux-saga中使用<code>put</code>来发动一个Effect。</p>
+<hr>
+<h3 id="redux-saga的使用"><a href="#redux-saga的使用" class="headerlink" title="redux-saga的使用"></a>redux-saga的使用</h3><p>现在公司的框架使用了antd pro，其中的dva对redux-saga进行了封装，不太清楚原生redux-saga如何使用，现在来学一波，参考资料为<a href="https://redux-saga.js.org/" target="_blank" rel="noopener">redux-saga官网教程</a>，主要目的是：</p>
+<ul>
+<li>熟悉redux-saga中的概念</li>
+<li>熟悉用法，为后面学习设计思想和源码实现打基础</li>
+</ul>
+<ol>
+<li><p>使用saga的步骤</p>
+<ol>
+<li>在单独的文件中创建saga</li>
+<li>向主文件中导入saga，如<code>helloSaga</code></li>
+<li>使用从<code>redux-saga</code>中导入的工厂函数<code>createSagaMiddleware</code>创建中间件<code>sagaMiddleware</code></li>
+<li>使用从<code>redux</code>中导入的<code>applyMiddleware</code>连接第三步创建的中间件<code>sagaMiddleware</code></li>
+<li>使用<code>sagaMiddleware.run(helloSaga)</code>启动saga</li>
+</ol>
+</li>
+<li><p>创建saga</p>
+</li>
+</ol>
+<p><a href="https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html" target="_blank" rel="noopener">参考资料1</a>中有下面的描述：</p>
+<blockquote>
+<p>Sagas are implemented as Generator functions that yield objects to the redux-saga middleware. The yielded objects are a kind of instruction to be interpreted by the middleware. When a Promise is yielded to the middleware, the middleware will suspend the Saga until the Promise completes.</p>
+</blockquote>
+<p>saga这种东西是由生成器函数实现的，生成器函数会给redux-saga的中间件yield（这里没有翻译，是为了表示生成器的运行过程，防止日后再回来看有误解）对象。中间件会将yield的对象翻译成指令。当saga yield一个Promise给中间件的时候，中间件将暂停这个saga的直到Promise有了结果。</p>
+<blockquote>
+<p>Once the Promise is resolved, the middleware will resume the saga, executing code until the next yield.</p>
+</blockquote>
+<p>一旦一个Promise被成功解析，中间件将重启这个saga，执行下一个yield。</p>
+<blockquote>
+<p>put is one example of what we call an Effect. Effects are plain Javascript objects which contain instructions to be fulfilled by the middleware. When a middleware retrives an Effect yielded by a saga, the saga is paused until the Effect is fulfilled.</p>
+</blockquote>
+<p>上面的重点在当一个中间件获得一个saga yield的Effect，saga也会暂停执行直到这个yielded的Effect执行完成(Effect的概念见上)。</p>
+<p>一个列子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>* <span class="title">incrementAsync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> delay(<span class="number">1000</span>);</span><br><span class="line">  <span class="comment">// 下面这行代码指示中间件分发一个`INCREMENT`action</span></span><br><span class="line">  <span class="keyword">yield</span> put(&#123;</span><br><span class="line">    type: <span class="string">'INCREAMENT'</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码从saga的视角描述是：incrementAsync这个saga通过调用delay(1000)睡了1s，然后分发了INCREMENT action。</p>
+<ol start="3">
+<li><p>api</p>
+<ol>
+<li>put：发出一个Effect</li>
+<li>takeEvery：redux-saga提供的辅助函数，作用感觉是监控saga的启动，允许多个fetchData实例同时存在。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; takeEvery &#125; <span class="keyword">from</span> <span class="string">'redux-saga/effects'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">watchFetchData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> takeEvery(<span class="string">'FETCH_REQUESTED'</span>, fetchData)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>takeLatest：功能和takeEvery类似，但同时只允许一个saga在运行。</li>
+<li>all：返回由运行多个saga产生的结果组成的数组，多个saga会并行执行。</li>
+<li>call：类似put，返回一个Effect指示中间件使用给定的参数调用给定的函数。事实上，put或call本身不执行dispatch或是异步调用，它们只是返回js中的空对象(plain object)。具体的执行是由中间件来决定，如果Effect的类型是<code>put</code>，中间件就向store分发一个action，如果是一个<code>call</code>类型，就调用这个给定函数。</li>
+<li>take：先看两个例子：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- take --&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; take, put &#125; <span class="keyword">from</span> <span class="string">'redux-saga/effects'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">watchFirstThreeTodosCreation</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> action = <span class="keyword">yield</span> take(<span class="string">'TODO_CREATED'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">yield</span> put(&#123;<span class="attr">type</span>: <span class="string">'SHOW_CONGRATULATION'</span>&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;!-- takeEvery --&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; select, takeEvery &#125; <span class="keyword">from</span> <span class="string">'redux-saga/effects'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">watchAndLog</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> takeEvery(<span class="string">'*'</span>, <span class="function"><span class="keyword">function</span>* <span class="title">logger</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> state = <span class="keyword">yield</span> select()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'action'</span>, action)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'state after'</span>, state)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>take的工作方式是将暂停这个迭代器，直到一个匹配action被分发。</p>
+<p>官网关于takeEvery的工作原理的说明：</p>
+<blockquote>
+<p>In the case of takeEvery, the invoked tasks have no control on when they’ll be called. They will be invoked again and again on each matching action. They also have no control on when to stop the observation.</p>
+</blockquote>
+<p>翻译：被调用的任务(logger)控制不了它们何时被调用。只要满足匹配项，它们就会一次一次被调用。它们也控制不了何时终止观察过程。</p>
+<p>官网关于take的工作原理的说明：</p>
+<blockquote>
+<p>In the case of take, the control is inverted. Instead of the actions being pushed to the handler tasks, the saga is pulling the action by itself. It looks as if the saga is performing a normal function call action=getNextAction(), which will resolve when the action is dispatched.</p>
+</blockquote>
+<p>翻译：在take的使用中，action是由take主动发起的（这里类似put或者call），和takeEvery将action推向处理任务不同，这个saga(watchFirstThreeTodosCreation)是自己拉取(take)action，就好像调用了一个普通的函数：action=getNextAction()，当action被分发后完成解析。</p>
+<p>看上面的第一个例子，watchFirstThreeTodosCreation运行后，会进入一个次数为三次的循环，每次循环的开始都会暂停在：const action = yield take(‘TODO_CREATED’)处，当这个action(TODO_CREATED)完成分发后，这一行代码执行完，进入下一个循环，重复同样的过程，直到三次结束，最后调用：yield put({type: ‘SHOW_CONGRATULATION’})发出一个Effect，然后就退出了监控，这个迭代器也可以被垃圾回收。</p>
+<p>另外，可以并发的观察多个action：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">yield</span> take([<span class="string">'LOGOUT'</span>, <span class="string">'LOGIN_ERROR'</span>])</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>fork：当fork一个任务时，这项任务会在后台启动，后续的任务无需等待fork的这项任务完成，实现无阻塞工作流程。</li>
+<li>cancel：取消一个fork的任务</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">loginFlow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;user, password&#125; = <span class="keyword">yield</span> take(<span class="string">'LOGIN_REQUEST'</span>)</span><br><span class="line">    <span class="comment">// fork return a Task object</span></span><br><span class="line">    <span class="keyword">const</span> task = <span class="keyword">yield</span> fork(authorize, user, password)</span><br><span class="line">    <span class="keyword">const</span> action = <span class="keyword">yield</span> take([<span class="string">'LOGOUT'</span>, <span class="string">'LOGIN_ERROR'</span>])</span><br><span class="line">    <span class="keyword">if</span> (action.type === <span class="string">'LOGOUT'</span>)</span><br><span class="line">      <span class="keyword">yield</span> cancel(task)</span><br><span class="line">    <span class="keyword">yield</span> call(Api.clearItem, <span class="string">'token'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>cancel一个task，会向下传递，将任务中的任务也取消，比如下例，取消了subtask，同时会取消subtask2：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> task = <span class="keyword">yield</span> fork(subtask)</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// later</span></span><br><span class="line">  <span class="keyword">yield</span> cancel(task)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">subtask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">yield</span> call(subtask2) <span class="comment">// currently blocked on this call</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">subtask2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">yield</span> call(someApi) <span class="comment">// currently blocked on this call</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>all：并发执行任务，这个在项目中已经接触过了， 如果有一个任务失败了，其他的都会被取消</li>
+<li>race：第一个执行完毕的任务作为最后的结果，其他任务将被自动取消</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://redux-saga.js.org/" target="_blank" rel="noopener">https://redux-saga.js.org/</a></li>
+<li><a href="https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part/" target="_blank" rel="noopener">https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part/</a></li>
+<li><a href="https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2/" target="_blank" rel="noopener">https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/41661402" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/41661402</a></li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#redux-saga中的重要概念"><span class="toc-text">redux-saga中的重要概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redux-saga的使用"><span class="toc-text">redux-saga的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/09/15/函数式编程学习/" rel="next" title="函数式编程学习">
+          函数式编程学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2019/09/28/redux-sage源码学习/" rel="prev" title="redux-saga源码学习">
+            redux-saga源码学习
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
