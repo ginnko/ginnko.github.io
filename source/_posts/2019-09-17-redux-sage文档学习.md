@@ -182,9 +182,6 @@ export function* incrementAsync() {
   9. all：并发执行任务，这个在项目中已经接触过了， 如果有一个任务失败了，其他的都会被取消
   10. race：第一个执行完毕的任务作为最后的结果，其他任务将被自动取消
 
-4. redux-saga中原理模型
-
-  1. fork model：参见这里：https://redux-saga.js.org/docs/advanced/ForkModel.html，需要的时候再来看。
 ---
 
 ### 参考资料
