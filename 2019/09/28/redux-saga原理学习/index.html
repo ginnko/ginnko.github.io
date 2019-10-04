@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="redux-saga,">
+  
+
+  
+    <meta name="description" content="redux-saga原理学习">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>redux-saga原理学习 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        redux-saga原理学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-09-27T16:00:00.000Z">
+        2019-09-28
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这几天看redux-saga的实现原理，英文资料几乎没搜到有讲redux-saga的原理的，基本都是对saga这个概念做了解释。中文资料倒是很多对redux-saga进行原理解释的，看了好多篇，最后留下两篇，记录在文尾的参考资料中。后面再翻看redux-saga的实现原理，先看<a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>，再看<a href="https://zhuanlan.zhihu.com/p/30098155" target="_blank" rel="noopener">参考资料1</a>。</p>
+<a id="more"></a>
+<hr>
+<h3 id="effects"><a href="#effects" class="headerlink" title="effects"></a>effects</h3><p>从redux-saga文档的学习中得知，effects就是js的纯对象，是发送给middleware的指令，这些指令描述了middleware应该进行的操作信息，middleware实际执行完毕，将结果返回给Generator。</p>
+<p><a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>中讲到这样做的好处是：</p>
+<ul>
+<li>集中处理异步操作，更好的表达复杂的流程控制</li>
+<li>保证action是个纯粹的js对象，风格保持统一</li>
+<li>声明式指令，无需在generator中立即执行，只需通知middleware让其执行；借助generator的next方法，向外部暴露每一个步骤</li>
+</ul>
+<p><a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>中总结的常用effect指令：</p>
+<ul>
+<li>put，用来命令middleware向store发起一个action</li>
+<li>take，用来命令middleware在store上等待指定的action。在发起与pattern匹配的action之前，Generator将暂停</li>
+<li>call，用来命令middleware以参数args调用函数fn</li>
+<li>fork，用来命令middleware以非阻塞的形式执行fn</li>
+<li>race，用来命令middleware在多个effect间运行，相当于Promise.race</li>
+<li>all，用来命令middleware并行地运行多个effect，并等待它们全部完成，相当于Promise.all</li>
+</ul>
+<h3 id="Saga中的辅助函数"><a href="#Saga中的辅助函数" class="headerlink" title="Saga中的辅助函数"></a>Saga中的辅助函数</h3><p>看过那么多篇，感觉<a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>是唯一对这个做清晰分类总结的，思路是真的牛逼。辅助函数本质是基于各种effect实现的。</p>
+<ul>
+<li>takeEvery(take + fork)</li>
+<li>takeLatest(take + fork + cancel)</li>
+<li>takeLeading(take + call)</li>
+<li>throttle(take + fork + delay)</li>
+<li>debounce(take + fork + delay)</li>
+<li>retry(call + delay)</li>
+</ul>
+<h3 id="redux-saga原理"><a href="#redux-saga原理" class="headerlink" title="redux-saga原理"></a>redux-saga原理</h3><p>下面这张图片出自<a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>。</p>
+<p><img src="/images/redux_saga/redux-saga-mechanism.png" alt="redux-saga原理"></p>
+<p>redux-saga的核心包括两部分：channel和task。</p>
+<p>channel用来触发action，以及注册action的回调函数。</p>
+<p>task是Generator函数实际执行的函数，结合递归和Generator的yield以及next完成流程控制。</p>
+<p>下面代码实现了这两个核心模块，出自<a href="https://zhuanlan.zhihu.com/p/30098155" target="_blank" rel="noopener">参考资料1</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">channel</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> taker;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">take</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">    taker = cb;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">put</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (taker) &#123;</span><br><span class="line">      <span class="keyword">const</span> tempTaker = taker;</span><br><span class="line">      taker = <span class="literal">null</span>;</span><br><span class="line">      tempTaker(input);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    put,</span><br><span class="line">    take,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chan = channel();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">take</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">'take'</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">mainSaga</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> action = <span class="keyword">yield</span> take();</span><br><span class="line">  <span class="built_in">console</span>.log(action);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runTakeEffect</span>(<span class="params">effect, cb</span>) </span>&#123;</span><br><span class="line">  chan.take(<span class="function"><span class="params">input</span> =&gt;</span> &#123;</span><br><span class="line">    cb(input);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">task</span>(<span class="params">iterator</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> iter = iterator();</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = iter.next(args);</span><br><span class="line">    <span class="keyword">if</span> (!result.done) &#123;</span><br><span class="line">      <span class="keyword">const</span> effect = result.value;</span><br><span class="line">      <span class="keyword">if</span> (effect.type === <span class="string">'take'</span>) &#123;</span><br><span class="line">        runTakeEffect(result.value, next);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task(mainSaga);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> i = <span class="number">0</span>;</span><br><span class="line">$btn.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> action =<span class="string">`action data<span class="subst">$&#123;i++&#125;</span>`</span>;</span><br><span class="line">  chan.put(action);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/30098155" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/30098155</a> (这个写的很好，九浅一深，手动滑稽)</li>
+<li><a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">https://www.twblogs.net/a/5d037e74bd9eee487be98be1</a> （这个讲的特别清楚，赞！）</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#effects"><span class="toc-text">effects</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Saga中的辅助函数"><span class="toc-text">Saga中的辅助函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redux-saga原理"><span class="toc-text">redux-saga原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/09/17/redux-sage文档学习/" rel="next" title="redux-saga文档学习">
+          redux-saga文档学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
