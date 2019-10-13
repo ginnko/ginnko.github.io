@@ -211,7 +211,9 @@
 <p>runEffect函数中的第三种请求是如果判断传入的参数是effect，则执行effectRunner，先看下effect的工厂函数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> makeEffect = <span class="function">(<span class="params">type, payload</span>) =&gt;</span> (&#123;</span><br><span class="line">  [IO]: <span class="literal">true</span>,</span><br><span class="line">  <span class="comment">// this property makes all/race distinguishable in generic manner from other effects</span></span><br><span class="line">  <span class="comment">// currently it's not used at runtime at all but it's here to satisfy type systems</span></span><br><span class="line">  combinator: <span class="literal">false</span>,</span><br><span class="line">  type,</span><br><span class="line">  payload,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>makeEffect返回一个纯对象，对象的属性包含了相关信息用于在effectRunner中执行。</p>
-<h2 id="call、put、take、fork、all等effect都是利用在makeEffect构造的。"><a href="#call、put、take、fork、all等effect都是利用在makeEffect构造的。" class="headerlink" title="call、put、take、fork、all等effect都是利用在makeEffect构造的。"></a>call、put、take、fork、all等effect都是利用在makeEffect构造的。</h2><ol start="10">
+<p>call、put、take、fork、all等effect都是利用在makeEffect构造的。</p>
+<hr>
+<ol start="10">
 <li>effectRunnerMap.js</li>
 </ol>
 <p>这个函数中包含了各种effect的实际执行环境函数，以runForkEffect函数为例：</p>
@@ -239,8 +241,8 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助理解的变量名"><span class="toc-text">辅助理解的变量名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fork-model"><span class="toc-text">fork model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主线"><span class="toc-text">主线</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#call、put、take、fork、all等effect都是利用在makeEffect构造的。"><span class="toc-text">call、put、take、fork、all等effect都是利用在makeEffect构造的。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#卤煮"><span class="toc-text">卤煮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
-  </li></div>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助理解的变量名"><span class="toc-text">辅助理解的变量名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fork-model"><span class="toc-text">fork model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主线"><span class="toc-text">主线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卤煮"><span class="toc-text">卤煮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
 
 
   </div>
