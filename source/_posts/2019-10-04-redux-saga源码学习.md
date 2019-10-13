@@ -704,6 +704,7 @@ const makeEffect = (type, payload) => ({
 makeEffect返回一个纯对象，对象的属性包含了相关信息用于在effectRunner中执行。
 
 call、put、take、fork、all等effect都是利用在makeEffect构造的。
+
 ---
 10. effectRunnerMap.js
 
