@@ -737,7 +737,9 @@ function runForkEffect(env, { context, fn, args, detached }, cb, { task: parent 
   // Fork effects are non cancellables
 }
 ```
-相比下面的runTakeEffect函数，runForkEffect会起一个新的saga，新的saga中有自己的next迭代函数，每一个fork分支对应一个，所以不存在阻塞的问题。但其他的effect，比如take，是运行在mainTask所在的那个next中，就出现了等待，常用的call也是这样。另外使用take会使middleware等待出现一个特定的action（其实看源码是通过类型判断的，并没有具体到某一个）这是因为将next传入了channel的队列中，成为了channel的回调，看起来像是middleware的等待。
+
+
+相比下面的runTakeEffect函数，runForkEffect会起一个新的saga，新的saga中有自己的next迭代函数，每一个fork分支对应一个，所以不存在阻塞的问题（这里的阻塞感觉是相对Generator的主执行环境而言，这里没有看到有起其他的工作线程，相对于主线程而言还是要按顺序线性执行）。但其他的effect，比如take，是运行在mainTask所在的那个next中，就出现了等待，常用的call也是这样。另外使用take会使middleware等待出现一个特定的action（其实看源码是通过类型判断的，并没有具体到某一个）这是因为将next传入了channel的队列中，成为了channel的回调，看起来像是middleware的等待。
 
 ```js
 
