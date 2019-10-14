@@ -230,12 +230,15 @@
 <p>of：向容器中加入值</p>
 <p>map：在不脱离容器的情况下使用态射改变值到新的范畴中</p>
 <p>Monad是阻塞的，可以改变容器类型。</p>
-<h2 id="最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。"><a href="#最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。" class="headerlink" title="最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。"></a>最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。</h2><h4 id="第十章-Applicative-functor"><a href="#第十章-Applicative-functor" class="headerlink" title="第十章 Applicative functor"></a>第十章 Applicative functor</h4><p>ap：就是这样一种函数，能够把一个 functor 的函数值应用到另一个 functor 的值上。</p>
+<p>最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。</p>
+<hr>
+<h4 id="第十章-Applicative-functor"><a href="#第十章-Applicative-functor" class="headerlink" title="第十章 Applicative functor"></a>第十章 Applicative functor</h4><p>ap：就是这样一种函数，能够把一个 functor 的函数值应用到另一个 functor 的值上。</p>
 <p>一个ap的实现：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Container.prototype.ap = <span class="function"><span class="keyword">function</span>(<span class="params">other_container</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> other_container.map(<span class="keyword">this</span>.__value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Applicative functor是非阻塞的，不会改变容器类型。</p>
 <p>最后又讲了好几个定律：同一律、同态、互换以及组合。</p>
 <p>由于函数式编程能严格遵循这些定律，推导出不同的代码形式，所以如果要深入的话，这些必须得好好学下。不过，目前只是入个门，这些待议。</p>
+<hr>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/" target="_blank" rel="noopener">https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/</a> （《JS函数式编程指南》）</li>
 <li><a href="https://github.com/mqyqingfeng/Blog/issues/42" target="_blank" rel="noopener">https://github.com/mqyqingfeng/Blog/issues/42</a> （关于柯里化的资料）</li>
@@ -250,7 +253,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第二章-一等公民的函数"><span class="toc-text">第二章 一等公民的函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三章-纯函数"><span class="toc-text">第三章 纯函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四章-函数柯里化"><span class="toc-text">第四章 函数柯里化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五章-组合"><span class="toc-text">第五章 组合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第六章-示例应用"><span class="toc-text">第六章 示例应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第七章-类型系统"><span class="toc-text">第七章 类型系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第八章-容器"><span class="toc-text">第八章 容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第九章-Monad"><span class="toc-text">第九章 Monad</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。"><span class="toc-text">最后讲了他们之间的关系，同一律和结合律，同一律说实话没咋看明白。</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第十章-Applicative-functor"><span class="toc-text">第十章 Applicative functor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第二章-一等公民的函数"><span class="toc-text">第二章 一等公民的函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三章-纯函数"><span class="toc-text">第三章 纯函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四章-函数柯里化"><span class="toc-text">第四章 函数柯里化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五章-组合"><span class="toc-text">第五章 组合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第六章-示例应用"><span class="toc-text">第六章 示例应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第七章-类型系统"><span class="toc-text">第七章 类型系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第八章-容器"><span class="toc-text">第八章 容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第九章-Monad"><span class="toc-text">第九章 Monad</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第十章-Applicative-functor"><span class="toc-text">第十章 Applicative functor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 
