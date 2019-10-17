@@ -101,6 +101,29 @@
       <div class="archives">
   
   <div class="archive">
+  <a class="post-go" href="/2018/08/31/css查漏补缺之一-格式上下文/">
+    <div>
+      <span class="date">
+        08-31
+      </span>
+      <span class="slash">/</span>
+      css查漏补缺之一-格式上下文
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flow_Layout/Formatting_Contexts_Explained" target="_blank" rel="noopener">链接</a></p>
+<h3 id="格式上下文"><a href="#格式上下文" class="headerlink" title="格式上下文"></a>格式上下文</h3><p>页面上的所有东西都处在一个格式上下文中，这个格式上下文可以理解为一个固有结界，它依据规则规定如何摆放内容。</p>
+<p><code>Block Formatting Context</code>根据<code>Block Layout rules</code>来摆放它的子元素。</p>
+<p><code>Flex Formatting Context</code>把它的子元素按照<code>flex items</code>摆放。</p>
+<p><code>html</code>元素定义了最初的<code>BFC</code>,意味着<code>html</code>中的元素都依据<code>Normal Flow</code>的规则摆放。这个规则由<code>css盒模型</code>勾勒，定义了元素的<code>margin</code>，<code>border</code>， <code>padding</code>是如何和相邻的block元素交互的。</p>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2018/08/15/javascript查漏补缺之二十-继承和原型链/">
     <div>
       <span class="date">
@@ -320,28 +343,6 @@
 <p> 迭代器是一个<strong>对象</strong>，知道如何每次访问集合中的一项，并跟踪该序列中的当前位置。它提供一个<code>next()</code>方法，用来返回序列中的下一项。这个方法返回包含两个属性：<code>done</code>和<code>value</code>。</p>
  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个迭代器对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeIterator</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> nextIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> nextIndex &lt; array.length ?</span><br><span class="line">          &#123;<span class="attr">value</span>: array[nextIndex++], <span class="attr">done</span>: <span class="literal">false</span>&#125; :</span><br><span class="line">          &#123;<span class="attr">done</span>: <span class="literal">true</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> it = makeIterator([<span class="string">'yo'</span>, <span class="string">'ya'</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(it.next().value); <span class="comment">// 'yo'</span></span><br><span class="line"><span class="built_in">console</span>.log(it.next().value); <span class="comment">// 'ya'</span></span><br><span class="line"><span class="built_in">console</span>.log(it.next().done); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 </li>
-</ol>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/07/23/javascript查漏补缺之十一-对象模型的细节/">
-    <div>
-      <span class="date">
-        07-23
-      </span>
-      <span class="slash">/</span>
-      javascript查漏补缺之十一 ——《对象模型的细节》
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">链接地址</a></p>
-<ol>
-<li>JavaScript 是一种基于原型而不是基于类的面向对象语言。</li>
 </ol>-->
     <!--</div>-->
   </a>

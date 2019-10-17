@@ -92,6 +92,30 @@
     
 
       <article class="recent-post-item">
+        <a class="title" href="/2019/10/17/react-router源码学习/"><h2>react-router源码学习</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2019-10-16T16:00:00.000Z">
+            2019-10-17
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/history/">history</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/react/">react</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/react-router/">react-router</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>学习react-router嘤…</p>
+          </div>
+        
+        <a class="more" href="/2019/10/17/react-router源码学习/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
         <a class="title" href="/2019/10/04/redux-saga源码学习/"><h2>redux-saga源码学习</h2></a>
         <div class="post-meta">
           
@@ -316,39 +340,6 @@
           </div>
         
         <a class="more" href="/2019/07/07/算法作业翻译/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/07/05/一种图片上传策略/"><h2>使用队列并发上传图片</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-07-04T16:00:00.000Z">
-            2019-07-05
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/html5/">html5</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/upload/">upload</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在写图片上传功能，使用antd提供的<a href="https://ant.design/components/upload-cn/" target="_blank" rel="noopener">upload组件</a>，并使用<code>beforeUpload</code>函数拦截，再批量读进浏览器之后手动上传。</p>
-<h2 id="第一次实现"><a href="#第一次实现" class="headerlink" title="第一次实现"></a>第一次实现</h2><p>传输使用的协议是http2，如果不做处理，并发传输的数量没有限制。第一次的实现使用<code>Promise.all</code>，并发传输，测试时，使用单张16.7M的图片，同时上传20张，会给后端带来不小的压力，多次测试中都会有部分图片上传失败，返回502或504。</p>
-<p>使用<code>Promise.all</code>的实现方式带来的问题是：</p>
-<ol>
-<li>没有并发的数量限制，会占用大量带宽，同时给后端带来压力；</li>
-<li><code>Promise.all</code>的执行方式是全部成功才算成功，有一个失败即算失败，就会将这个失败的结果返回，不管其他的项是否完成，这带来的问题是每一个失败的err没有办法单独隔离处理，导致没有办法进行后续操作，比如单独重新上传，也就是说，使用<code>Promise.all</code>没有办法单独对每一项进行操作，限制了灵活度。</li>
-</ol>
-<h2 id="优化的上传策略"><a href="#优化的上传策略" class="headerlink" title="优化的上传策略"></a>优化的上传策略</h2><p>改进的实现使用下面这种传输策略：</p>
-<p><strong>创建比如3个transmitter，点击发送按钮时，三个transmitter并发发出一张图片，哪个transmitter完成自己的发送任务，就去任务队列中拿下一张图片发送，直至全部图片发送完成。</strong></p>
-<p>下面是传输策略的实现。</p>
-          </div>
-        
-        <a class="more" href="/2019/07/05/一种图片上传策略/"> 阅读全文〉</a>
       </article>
     
   </div>
