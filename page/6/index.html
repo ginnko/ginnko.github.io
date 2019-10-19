@@ -363,7 +363,7 @@
     
 
       <article class="recent-post-item">
-        <a class="title" href="/2018/07/06/chrome调试技巧/"><h2>chrome开发者工具使用技巧</h2></a>
+        <a class="title" href="/2018/07/06/javascript查漏补缺之四-表达式和运算符/"><h2>javascript查漏补缺之四——《表达式和运算符》</h2></a>
         <div class="post-meta">
           
           <time class="time" datetime="2018-07-05T16:00:00.000Z">
@@ -372,7 +372,7 @@
           
           <span class="slash">/</span>
           
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/chrome/">chrome</a></li></ul>
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
           
 
         </div>
@@ -380,15 +380,17 @@
         
           <div class="post-excerpt">
             <ol>
-<li><p>使用开发者工具查看dom节点的监听函数</p>
-<ol>
-<li>使用console查看</li>
-</ol>
+<li><p>假值</p>
+<p> <code>false, null, 0, NaN, &quot;&quot;, undefined</code></p>
+</li>
+<li><p>逗号操作符</p>
+<p> 对两个操作数进行求值并<strong>返回最终操作数的值</strong>。它常常用在 for 循环中，在每次循环时对多个变量进行更新。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x = [0,1,2,3,4,5,6,7,8,9]</span><br><span class="line">var a = [x, x, x, x, x];</span><br><span class="line"></span><br><span class="line">for (var i = 0, j = 9; i &lt;= j; i++, j--)</span><br><span class="line">  console.log(&apos;a[&apos; + i + &apos;][&apos; + j + &apos;]= &apos; + a[i][j]);</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
           </div>
         
-        <a class="more" href="/2018/07/06/chrome调试技巧/"> 阅读全文〉</a>
+        <a class="more" href="/2018/07/06/javascript查漏补缺之四-表达式和运算符/"> 阅读全文〉</a>
       </article>
     
   </div>

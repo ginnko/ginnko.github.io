@@ -122,16 +122,44 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 2 分钟</span>
+      <span class="read">阅读耗时 7 分钟</span>
     </header>
 
     <div class="post-content">
-      <p>学习react-router嘤…</p>
+      <p>react-router的功能实现感觉可以分为两部分：</p>
+<ol>
+<li>html5的history，这个api提供了浏览器地址栏的地址变化的一系列控制。</li>
+<li>路由和组件的匹配，react-router主要是实现了这一部分，涉及context、provider、高阶组件等。</li>
+</ol>
+<p>react-redux中应该也会涉及到2中说的这些概念和用法，但猜测应该更侧重于组件更新的优化上。这次先试探一波，除了路由的实现外，熟悉下这些概念。</p>
 <a id="more"></a>
 <h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><p>react-router以<a href="https://github.com/ReactTraining/history" target="_blank" rel="noopener">history</a>为基础库，所以先来看一下history的实现。</p>
 <p>history主要是对html5提供的history API做了进一步封装，提供了针对浏览器和node.js环境的不同实现，这次主要是看了针对浏览器的实现。</p>
 <p>源码不算难，这里记录一下本次的阅读顺序，方便日后参考：可以先看<a href="https://github.com/fi3ework/blog/issues/21" target="_blank" rel="noopener">参考资料2</a>，熟悉使用history实现路由的机制，再参考<a href="https://juejin.im/post/5c049f23e51d455b5a4368bd#heading-7" target="_blank" rel="noopener">参考资料1</a>进一步阅读源码。</p>
-<p>看history库除了明白ku自身的实现原理，还能帮助复习下html5提供的history中关键的属性(length,state)、事件(popstate及触发条件)以及方法(go(),pushState(),replaceState())。关于原生history的属性文档，详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History" target="_blank" rel="noopener">参考资料3</a>或<a href="https://zhuanlan.zhihu.com/p/55837818" target="_blank" rel="noopener">参考资料5的第一部分</a>，方法文档详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History_API" target="_blank" rel="noopener">参考资料4</a>。</p>
+<p>看history库除了明白库自身的实现原理，还能帮助复习下html5提供的history中关键的属性(length,state)、事件(popstate及触发条件)以及方法(go(),pushState(),replaceState())。关于原生history的属性文档，详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History" target="_blank" rel="noopener">参考资料3</a>或<a href="https://zhuanlan.zhihu.com/p/55837818" target="_blank" rel="noopener">参考资料5的第一部分</a>，方法文档详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History_API" target="_blank" rel="noopener">参考资料4</a>。</p>
+<hr>
+<h3 id="React-Router"><a href="#React-Router" class="headerlink" title="React-Router"></a>React-Router</h3><p>这次主要看react-router和react-router-dom两个文件夹的文件代码。<a href="https://github.com/fi3ework/blog/issues/21" target="_blank" rel="noopener">参考资料2</a>中有讲：</p>
+<blockquote>
+<p>react-router 负责通用的路由逻辑，react-router-dom 负责浏览器的路由管理</p>
+</blockquote>
+<p>但目前着实没感觉出来，手动扶额…</p>
+<h3 id="Router-js"><a href="#Router-js" class="headerlink" title="Router.js"></a>Router.js</h3><p>这个文件位于react-router中，源码能看明白，就不写了，这里想写一下相关的内容：</p>
+<ol>
+<li><p>Router这个组件的作用</p>
+<p>看过源码后，感觉Router是为创建Context，提供Provider存在的。Router是一个很基础的组件，后面要看的BrowserRouter就是在Router的基础上构造的。具体的用途就是包裹其他组件，方便被包裹的组件获取参数，以及这些参数有更新时，控制被包括组件更新。</p>
+</li>
+<li><p>context</p>
+<p>首先，context这个东西的存在就是为了避免嵌套组件层层传参数的繁琐。相当于一个全局的池子，其中的属性，满足<code>条件</code>的组件都可以访问，而不需要层层传递。</p>
+<p>React有这样一个<a href="https://reactjs.org/docs/context.html#reactcreatecontext" target="_blank" rel="noopener">api</a>：<code>React.createContext</code>，用来创建一个context，react-router没有直接使用这个api，而是用了一个pollifill，功能应该是一样的。</p>
+</li>
+<li><p>Provider</p>
+<p>Provider是一个组件，通过上面的<code>React.createContext</code>创建的context会返回一个Provider。这个组件就是上面2中所说的条件，被这个Provider组件包裹后，才能访问context中的属性。同时，Provider还负责当有属性更新时，驱动子组件更新。<a href="https://reactjs.org/docs/context.html#contextprovider" target="_blank" rel="noopener">文档</a>中还说道，使用这种方式的驱动更新不受<code>shouldComponentUpdate</code>的干预。</p>
+</li>
+</ol>
+<h3 id="BrowserRouter-js"><a href="#BrowserRouter-js" class="headerlink" title="BrowserRouter.js"></a>BrowserRouter.js</h3><p>这个组件就是把上面说的history库的一个实例对象传入Router组件中，创建所需的全局池子，更新方式以及注入路由相关的属性。</p>
+<p>源码很简单，不写。</p>
+<hr>
+<h3 id="Route-js"><a href="#Route-js" class="headerlink" title="Route.js"></a>Route.js</h3><p>这个组件用来实现路由和业务组件的匹配。</p>
 <hr>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="https://juejin.im/post/5c049f23e51d455b5a4368bd#heading-7" target="_blank" rel="noopener">https://juejin.im/post/5c049f23e51d455b5a4368bd#heading-7</a> (history源码解析，讲的很清楚)</li>
@@ -149,7 +177,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#history"><span class="toc-text">history</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#history"><span class="toc-text">history</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#React-Router"><span class="toc-text">React-Router</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-js"><span class="toc-text">Router.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BrowserRouter-js"><span class="toc-text">BrowserRouter.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Route-js"><span class="toc-text">Route.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 
