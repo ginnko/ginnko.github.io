@@ -1,6 +1,6 @@
 ---
 layout: post
-title: react-router源码学习
+title: react-router常用组件原理学习
 date: 2019-10-17
 tag: 
 - history
@@ -15,6 +15,10 @@ react-router的功能实现感觉可以分为两部分：
 
 react-redux中应该也会涉及到2中说的这些概念和用法，但猜测应该更侧重于组件更新的优化上。这次先试探一波，除了路由的实现外，熟悉下这些概念。
 
+p.s. 这段写于看完下面说的几部分之后
+
+看完之后，感觉react-router的实现原理并不难，需要着重掌握的反而是history和React中的几个概念：Context、Provider、Consumer、Children、HOC。这几个概念还真不熟悉，所以决定再起一篇，用来着重记录。
+
 <!-- more -->
 
 ### history
@@ -27,6 +31,8 @@ history主要是对html5提供的history API做了进一步封装，提供了针
 
 看history库除了明白库自身的实现原理，还能帮助复习下html5提供的history中关键的属性(length,state)、事件(popstate及触发条件)以及方法(go(),pushState(),replaceState())。关于原生history的属性文档，详见[参考资料3](https://developer.mozilla.org/zh-CN/docs/Web/API/History)或[参考资料5的第一部分](https://zhuanlan.zhihu.com/p/55837818)，方法文档详见[参考资料4](https://developer.mozilla.org/zh-CN/docs/Web/API/History_API)。
 
+关于这一部分，在下一篇中有详细记录。
+
 ---
 
 ### React-Router
@@ -35,7 +41,9 @@ history主要是对html5提供的history API做了进一步封装，提供了针
 
 >react-router 负责通用的路由逻辑，react-router-dom 负责浏览器的路由管理
 
-但目前着实没感觉出来，手动扶额...
+但目前着实没感觉出来，手动扶额...感觉[参考资料6](https://reacttraining.com/react-router/web/api/Route)说的更靠谱一些，react-router提供了底层的实现，react-router-dom在其基础上封装了更常用的方法。
+
+---
 
 ### Router.js
 
@@ -55,6 +63,8 @@ history主要是对html5提供的history API做了进一步封装，提供了针
 
   Provider是一个组件，通过上面的`React.createContext`创建的context会返回一个Provider。这个组件就是上面2中所说的条件，被这个Provider组件包裹后，才能访问context中的属性。同时，Provider还负责当有属性更新时，驱动子组件更新。[文档](https://reactjs.org/docs/context.html#contextprovider)中还说道，使用这种方式的驱动更新不受`shouldComponentUpdate`的干预。
 
+---
+
 ### BrowserRouter.js
 
 这个组件就是把上面说的history库的一个实例对象传入Router组件中，创建所需的全局池子，更新方式以及注入路由相关的属性。
@@ -67,6 +77,44 @@ history主要是对html5提供的history API做了进一步封装，提供了针
 
 这个组件用来实现路由和业务组件的匹配。
 
+使用Route组件的方式是这样的：
+
+```js
+<Router>
+  <div>
+    <Route exact path="/">
+      <Home />
+    </Route>
+    <Route path="/news">
+      <NewsFeed />
+    </Route>
+  </div>
+</Router>
+```
+传入一个path属性，如果当前url和path匹配，就渲染其包裹的组件。
+
+Route源码就是是做了上述的两件事，第一件是判断当前url和path是否匹配，第二件是处理渲染的组件。但实现感觉有点乱...[参考资料6](https://reacttraining.com/react-router/web/api/Route)中关于这一部分的代码有详细的说明。
+
+---
+
+### Switch.js
+
+这个组件的作用是当有多个path属性相近(比如都包含'/')的时候，多个Route组件都会渲染，而Switch做的事情是使用循环迭代其包裹的子组件，将匹配成功的第一个Route赋值给中间变量，最后再渲染这个。有一个疑问是，为何源码没有在找到第一个满足条件的Route后就停止迭代？
+
+---
+
+### Link.js
+
+Link的源码同样不难，本质是调用了history.push()。
+
+如果没有传component，Link默认使用LinkAnchor。LinkAnchor底层就是a标签，一开始没细看，有一点让我很困惑，就是a标签点击后同样会触发url的改变，这样就会脱离history的管理。然而实际上，LinkAnchor中有这样一行代码：
+
+```js
+  event.preventDefault();
+  navigate();
+```
+
+第一行代码阻止了a标签被点击时的默认行为，路由的管理由history接手。
 
 ---
 
@@ -76,3 +124,4 @@ history主要是对html5提供的history API做了进一步封装，提供了针
 3. https://developer.mozilla.org/zh-CN/docs/Web/API/History (mdn 关于history属性的文档)
 4. https://developer.mozilla.org/zh-CN/docs/Web/API/History_API (mdn 关于history方法的文档)
 5. https://zhuanlan.zhihu.com/p/55837818 (第一部分是关于history属性的总结)
+6. https://reacttraining.com/react-router/web/api/Route (分析了代码的作用，但感觉么有灵魂)
