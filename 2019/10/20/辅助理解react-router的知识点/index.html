@@ -122,18 +122,50 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 1 分钟</span>
+      <span class="read">阅读耗时 6 分钟</span>
     </header>
 
     <div class="post-content">
       <p>本文主要是记录html5原生history的属性和方法以及React的Context、Provider、Consumer、Children、HOC相关概念。</p>
 <a id="more"></a>
+<h2 id="使用html5的history"><a href="#使用html5的history" class="headerlink" title="使用html5的history"></a>使用html5的history</h2><h3 id="popstate事件"><a href="#popstate事件" class="headerlink" title="popstate事件"></a>popstate事件</h3><p>下面摘自<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onpopstate" target="_blank" rel="noopener">参考资料3</a>。</p>
+<p>每当处于激活状态的历史记录条目发生变化时，popstate事件就会在对应的window对象上触发。如果当前处于激活状态的历史记录条目是由history.pushState()方法创建，或者由histoary.replaceState()方法修改过，则popstate事件对象的state属性包含了这个历史条目的state对象的一个拷贝。</p>
+<p><strong>调用history.pushState()或者history.replaceState()不会触发popstate事件。popstate事件只会在浏览器某些行为下触发，比如点击后退、前进按钮，或者调用history.back()、history.forward()、history.go()方法。</strong></p>
+<p>当网页加载时，各浏览器对popstate事件是否触发会有不同的表现，Chrome和Safari会触发popstate事件，而Firefox不会。</p>
+<p>即便进入了那些非pushState和replaceState方法作用过的没有state对象关联的那些网页，popstate事件也仍然会被触发。</p>
+<hr>
+<h3 id="pushState"><a href="#pushState" class="headerlink" title="pushState()"></a>pushState()</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API" target="_blank" rel="noopener">参考资料2</a>中给出的例子： </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stateObj = &#123;</span><br><span class="line">    foo: <span class="string">"bar"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">history.pushState(stateObj, <span class="string">"page 2"</span>, <span class="string">"bar.html"</span>);</span><br></pre></td></tr></table></figure>
+<p>调用history.pushState()将导致地址栏的地址变为<code>http://mozilla.org/bar.html</code>，但是浏览器不会加载<code>bar.html</code>，甚至不会检查<code>bar.html</code>是否存在。</p>
+<p>假设现在用户又访问了 <code>http://google.com</code>，然后点击了返回按钮。此时，地址栏将显示 <code>http://mozilla.org/bar.html</code>，history.state 中包含了 stateObj 的一份拷贝。页面此时展现为bar.html。且因为页面被重新加载了，所以popstate事件将不会被触发。（这里有个问题：根据上面的描述，这里说popstate不会触发是FF不会触发？Chrome还是会触发吧？）</p>
+<p>如果我们再次点击返回按钮，页面URL会变为<code>http://mozilla.org/foo.html</code>，文档对象document会触发另外一个 popstate 事件，这一次的事件对象state object为null。 这里也一样，返回并不改变文档的内容，尽管文档在接收 popstate 事件时可能会改变自己的内容，其内容仍与之前的展现一致。</p>
+<p>pushState()需要三个参数：状态、标题（忽略）、url。</p>
+<ol>
+<li>状态对象：是一个js的普通对象，通过pushState()创建新的历史条目。无论什么时候用户导航到新的状态，popstate时间会被触发，且该时间的state属性包含该历史记录条目状态对象的副本。</li>
+</ol>
+<h3 id="replaceState"><a href="#replaceState" class="headerlink" title="replaceState()"></a>replaceState()</h3><p>和pushState()方法非常相似，区别在于replaceState()是修修改了当前的历史记录项而不是新建一个，但是这并不会阻止其在全局浏览器历史中创建一个新的历史记录项。</p>
+<p>这个函数的使用场景在于为了响应用户操作，想要更新状态对象或者当前历史记录的URL。</p>
+<hr>
+<h2 id="React部分"><a href="#React部分" class="headerlink" title="React部分"></a>React部分</h2><p>关于Context、Provider、Consumer可以看<a href="https://juejin.im/post/5a90e0545188257a63112977" target="_blank" rel="noopener">参考资料4</a>和<a href="https://reactjs.org/docs/context.html" target="_blank" rel="noopener">参考资料5</a>，目前先知道怎么用，用来帮助理解react-router，后续看react原理和源码的时候再来深入。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History_API" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/History_API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onpopstate" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onpopstate</a></li>
+<li><a href="https://juejin.im/post/5a90e0545188257a63112977" target="_blank" rel="noopener">https://juejin.im/post/5a90e0545188257a63112977</a></li>
+<li><a href="https://reactjs.org/docs/context.html" target="_blank" rel="noopener">https://reactjs.org/docs/context.html</a></li>
+</ol>
+
     </div>
 
     <div>全文完。</div>
   </article>
   <div class="toc-container">
     
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用html5的history"><span class="toc-text">使用html5的history</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#popstate事件"><span class="toc-text">popstate事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pushState"><span class="toc-text">pushState()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replaceState"><span class="toc-text">replaceState()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#React部分"><span class="toc-text">React部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+  </div>
+
 
   </div>
 </div>
