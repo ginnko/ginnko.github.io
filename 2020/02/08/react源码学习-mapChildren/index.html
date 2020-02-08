@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="react,mapChildren,">
+  
+
+  
+    <meta name="description" content="react源码学习之mapChildren">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>react源码学习之mapChildren [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        react源码学习之mapChildren
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-02-07T16:00:00.000Z">
+        2020-02-08
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mapChildren/">mapChildren</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 8 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>
+<a id="more"></a>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="/images/react/react-children.png" alt="mapChildren的实现流程"></p>
+<p>（参考自慕课网教程）</p>
+<h3 id="函数分析"><a href="#函数分析" class="headerlink" title="函数分析"></a>函数分析</h3><ol>
+<li><p>mapChildren</p>
+<p> 好像没啥好写的。。。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapChildren</span>(<span class="params">children, func, context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (children == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> children;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> result = [];</span><br><span class="line">  mapIntoWithKeyPrefixInternal(children, result, <span class="literal">null</span>, func, context);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mapIntoWithKeyPrefixInternal</p>
+<p> 第一步是从对象池中获取一个包含特定属性的对象，这个对象可以认为是处理同一级各个child的一个环境对象；</p>
+<p> 第二步是利用这个环境对象做具体的child的遍历处理；</p>
+<p> 第三步是释放这个对象，如果对象池中已经有10个了，就彻底释放，如果不到10个就存入对象池。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapIntoWithKeyPrefixInternal</span>(<span class="params">children, array, prefix, func, context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> escapedPrefix = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">if</span> (prefix != <span class="literal">null</span>) &#123;</span><br><span class="line">    escapedPrefix = escapeUserProvidedKey(prefix) + <span class="string">'/'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> traverseContext = getPooledTraverseContext(</span><br><span class="line">    array,</span><br><span class="line">    escapedPrefix,</span><br><span class="line">    func,</span><br><span class="line">    context,</span><br><span class="line">  );</span><br><span class="line">  traverseAllChildren(children, mapSingleChildIntoContext, traverseContext);</span><br><span class="line">  releaseTraverseContext(traverseContext);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 之所以使用对象池，是因为map在执行的过程中，会涉及声明大量对象及再释放，这些操作是一个消耗性能的过程，可能会导致js引擎积塞，引发内存抖动。</p>
+</li>
+<li><p>getPooledTraverseContext和releaseTraverseContext</p>
+<p> 一个特定traverseContext对象的发挥作用的阶段对应处理同一层级的所有child的过程。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> POOL_SIZE = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> traverseContextPool = [];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPooledTraverseContext</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  mapResult,</span></span></span><br><span class="line"><span class="function"><span class="params">  keyPrefix,</span></span></span><br><span class="line"><span class="function"><span class="params">  mapFunction,</span></span></span><br><span class="line"><span class="function"><span class="params">  mapContext,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (traverseContextPool.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> traverseContext = traverseContextPool.pop();</span><br><span class="line">    traverseContext.result = mapResult;</span><br><span class="line">    traverseContext.keyPrefix = keyPrefix;</span><br><span class="line">    traverseContext.func = mapFunction;</span><br><span class="line">    traverseContext.context = mapContext;</span><br><span class="line">    traverseContext.count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> traverseContext;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      result: mapResult,</span><br><span class="line">      keyPrefix: keyPrefix,</span><br><span class="line">      func: mapFunction,</span><br><span class="line">      context: mapContext,</span><br><span class="line">      count: <span class="number">0</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">releaseTraverseContext</span>(<span class="params">traverseContext</span>) </span>&#123;</span><br><span class="line">  traverseContext.result = <span class="literal">null</span>;</span><br><span class="line">  traverseContext.keyPrefix = <span class="literal">null</span>;</span><br><span class="line">  traverseContext.func = <span class="literal">null</span>;</span><br><span class="line">  traverseContext.context = <span class="literal">null</span>;</span><br><span class="line">  traverseContext.count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (traverseContextPool.length &lt; POOL_SIZE) &#123;</span><br><span class="line">    traverseContextPool.push(traverseContext);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>traverseAllChildren</p>
+<p> 这个函数会返回处理了的同一层级的child的数量。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">traverseAllChildren</span>(<span class="params">children, callback, traverseContext</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (children == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> traverseAllChildrenImpl(children, <span class="string">''</span>, callback, traverseContext);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>traverseAllChildrenImpl</p>
+<p> 这段函数里有一个递归的过程，对应流程图中的那个小环。整个children的处理过程都使用同一个traverseContext对象。</p>
+<p> 元素的key属性也是在这个函数中计算得出。</p>
+<p> 可以看出能处理的类型包含：普通字符串、数字、虚拟dom对象、迭代器、前面说的这些类型组成的数组。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">traverseAllChildrenImpl</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  children,</span></span></span><br><span class="line"><span class="function"><span class="params">  nameSoFar,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback,</span></span></span><br><span class="line"><span class="function"><span class="params">  traverseContext,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> type = <span class="keyword">typeof</span> children;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (type === <span class="string">'undefined'</span> || type === <span class="string">'boolean'</span>) &#123;</span><br><span class="line">    <span class="comment">// All of the above are perceived as null.</span></span><br><span class="line">    children = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> invokeCallback = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (children === <span class="literal">null</span>) &#123;</span><br><span class="line">    invokeCallback = <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">        invokeCallback = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'object'</span>:</span><br><span class="line">        <span class="keyword">switch</span> (children.$$<span class="keyword">typeof</span>) &#123;</span><br><span class="line">          <span class="keyword">case</span> REACT_ELEMENT_TYPE:</span><br><span class="line">          <span class="keyword">case</span> REACT_PORTAL_TYPE:</span><br><span class="line">            invokeCallback = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (invokeCallback) &#123;</span><br><span class="line">    callback(</span><br><span class="line">      traverseContext,</span><br><span class="line">      children,</span><br><span class="line">      <span class="comment">// If it's the only child, treat the name as if it was wrapped in an array</span></span><br><span class="line">      <span class="comment">// so that it's consistent if the number of children grows.</span></span><br><span class="line">      nameSoFar === <span class="string">''</span> ? SEPARATOR + getComponentKey(children, <span class="number">0</span>) : nameSoFar,</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> child;</span><br><span class="line">  <span class="keyword">let</span> nextName;</span><br><span class="line">  <span class="keyword">let</span> subtreeCount = <span class="number">0</span>; <span class="comment">// Count of children found in the current subtree.</span></span><br><span class="line">  <span class="keyword">const</span> nextNamePrefix =</span><br><span class="line">    nameSoFar === <span class="string">''</span> ? SEPARATOR : nameSoFar + SUBSEPARATOR;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</span><br><span class="line">      child = children[i];</span><br><span class="line">      nextName = nextNamePrefix + getComponentKey(child, i);</span><br><span class="line">      subtreeCount += traverseAllChildrenImpl(</span><br><span class="line">        child,</span><br><span class="line">        nextName,</span><br><span class="line">        callback,</span><br><span class="line">        traverseContext,</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> iteratorFn = getIteratorFn(children);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> iteratorFn === <span class="string">'function'</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> iterator = iteratorFn.call(children);</span><br><span class="line">      <span class="keyword">let</span> step;</span><br><span class="line">      <span class="keyword">let</span> ii = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">while</span> (!(step = iterator.next()).done) &#123;</span><br><span class="line">        child = step.value;</span><br><span class="line">        nextName = nextNamePrefix + getComponentKey(child, ii++);</span><br><span class="line">        subtreeCount += traverseAllChildrenImpl(</span><br><span class="line">          child,</span><br><span class="line">          nextName,</span><br><span class="line">          callback,</span><br><span class="line">          traverseContext,</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">'object'</span>) &#123;</span><br><span class="line">      <span class="keyword">let</span> addendum = <span class="string">''</span>;</span><br><span class="line">      <span class="keyword">const</span> childrenString = <span class="string">''</span> + children;</span><br><span class="line">      invariant(</span><br><span class="line">        <span class="literal">false</span>,</span><br><span class="line">        <span class="string">'Objects are not valid as a React child (found: %s).%s'</span>,</span><br><span class="line">        childrenString === <span class="string">'[object Object]'</span></span><br><span class="line">          ? <span class="string">'object with keys &#123;'</span> + <span class="built_in">Object</span>.keys(children).join(<span class="string">', '</span>) + <span class="string">'&#125;'</span></span><br><span class="line">          : childrenString,</span><br><span class="line">        addendum,</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> subtreeCount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mapSingleChildIntoContext</p>
+<p> 首先判断经过使用者传入函数的处理后返回的是不是一个数组，如果是，则递归mapIntoWithKeyPrefixInternal，重复上述过程，对应流程图中的大环；</p>
+<p> 如果是单个元素，则将上一步生成的key和这一步计算后得到的child一同传入ReactElement函数中，返回一个普通的虚拟dom元素，推入结果池中。</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapSingleChildIntoContext</span>(<span class="params">bookKeeping, child, childKey</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;result, keyPrefix, func, context&#125; = bookKeeping;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> mappedChild = func.call(context, child, bookKeeping.count++);</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(mappedChild)) &#123;</span><br><span class="line">    mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c =&gt; c);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mappedChild != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isValidElement(mappedChild)) &#123;</span><br><span class="line">      mappedChild = cloneAndReplaceKey(</span><br><span class="line">        mappedChild,</span><br><span class="line">        <span class="comment">// Keep both the (mapped) and old keys if they differ, just as</span></span><br><span class="line">        <span class="comment">// traverseAllChildren used to do for objects as children</span></span><br><span class="line">        keyPrefix +</span><br><span class="line">          (mappedChild.key &amp;&amp; (!child || child.key !== mappedChild.key)</span><br><span class="line">            ? escapeUserProvidedKey(mappedChild.key) + <span class="string">'/'</span></span><br><span class="line">            : <span class="string">''</span>) +</span><br><span class="line">          childKey,</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    result.push(mappedChild);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数分析"><span class="toc-text">函数分析</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/10/22/react-redux源码学习/" rel="next" title="react-redux源码学习">
+          react-redux源码学习
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
