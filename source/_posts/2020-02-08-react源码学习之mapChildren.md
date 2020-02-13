@@ -7,6 +7,8 @@ tag:
 - mapChildren
 ---
 
+基于16.12.0。
+
 我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。
 
 <!-- more -->
@@ -253,3 +255,6 @@ tag:
       }
     ```
 
+### 函数所在文件路径
+
+![React-Children函数路径图](/images/react/React-Children函数路径图.png)
