@@ -92,6 +92,38 @@
     
 
       <article class="recent-post-item">
+        <a class="title" href="/2020/02/13/react源码学习之ReactDOM.render/"><h2>react源码学习之ReactDOM.render</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2020-02-12T16:00:00.000Z">
+            2020-02-13
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/ReactDOM-render/">ReactDOM.render</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/react/">react</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>基于16.12.0。</p>
+<p>ReactDOM.render是将react元素和dom节点对象绑定的api。整个流程主要负责三件事：</p>
+<ol>
+<li>创建ReactRoot</li>
+<li>创建FiberRoot和Fiber对象</li>
+<li>创建更新</li>
+</ol>
+<p>目前还不明白上面三个对象的逻辑含义。</p>
+<p>再之后将进入调度过程。进入调度之后，不论是通过setState还是ReactDOM.render，在创建完更新后，它们的后续操作都是由调度器管理的，和创建更新调用的哪个api没有任何关系。</p>
+          </div>
+        
+        <a class="more" href="/2020/02/13/react源码学习之ReactDOM.render/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
         <a class="title" href="/2020/02/08/react源码学习之mapChildren/"><h2>react源码学习之mapChildren</h2></a>
         <div class="post-meta">
           
@@ -108,7 +140,8 @@
 
         
           <div class="post-excerpt">
-            <p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>
+            <p>基于16.12.0。</p>
+<p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>
           </div>
         
         <a class="more" href="/2020/02/08/react源码学习之mapChildren/"> 阅读全文〉</a>
@@ -315,30 +348,6 @@
           </div>
         
         <a class="more" href="/2019/09/05/redux源码学习/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/08/03/图片上传总结/"><h2>图片上传</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-08-02T16:00:00.000Z">
-            2019-08-03
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/image/">image</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <p>过去一个月开发了公司了图片上传和图片选择两个模块，基本明白了图片上传经历的各个阶段和处理方式，现总结如下。</p>
-          </div>
-        
-        <a class="more" href="/2019/08/03/图片上传总结/"> 阅读全文〉</a>
       </article>
     
   </div>

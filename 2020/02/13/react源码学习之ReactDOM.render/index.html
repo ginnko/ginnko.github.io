@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="react,ReactDOM.render,">
+  
+
+  
+    <meta name="description" content="react源码学习之ReactDOM.render">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>react源码学习之ReactDOM.render [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        react源码学习之ReactDOM.render
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-02-12T16:00:00.000Z">
+        2020-02-13
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactDOM-render/">ReactDOM.render</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 13 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>基于16.12.0。</p>
+<p>ReactDOM.render是将react元素和dom节点对象绑定的api。整个流程主要负责三件事：</p>
+<ol>
+<li>创建ReactRoot</li>
+<li>创建FiberRoot和Fiber对象</li>
+<li>创建更新</li>
+</ol>
+<p>目前还不明白上面三个对象的逻辑含义。</p>
+<p>再之后将进入调度过程。进入调度之后，不论是通过setState还是ReactDOM.render，在创建完更新后，它们的后续操作都是由调度器管理的，和创建更新调用的哪个api没有任何关系。</p>
+<a id="more"></a>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="/images/react/ReactDOM.render流程图.png" alt="ReactDOM.render流程"></p>
+<h3 id="主要函数"><a href="#主要函数" class="headerlink" title="主要函数"></a>主要函数</h3><ol>
+<li>ReactDOM.render</li>
+</ol>
+<p>位置：packages/react-dom/src/client/ReactDOMLegacy.js</p>
+<p>常用参数：</p>
+<ul>
+<li>element：React元素，</li>
+<li>container：DOM节点对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  element: React$Element&lt;any&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> legacyRenderSubtreeIntoContainer(</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    element,</span><br><span class="line">    container,</span><br><span class="line">    <span class="literal">false</span>,</span><br><span class="line">    callback,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>legacyRenderSubtreeIntoContainer</li>
+</ol>
+<p>这里的两个重要函数：</p>
+<ul>
+<li>legacyCreateRootFromDOMContainer：创建了root对象，并将其_internalRoot属性赋值给fiberRoot</li>
+<li>updateContainer：在这个函数中将创建”更新”，更新用来标记React应用中用来更新的地点</li>
+</ul>
+<p>在这个函数中调用上面两个函数完成开头说的三个对象的创建工作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"><span class="comment">// 仅显示首次渲染的代码</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">legacyRenderSubtreeIntoContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  parentComponent: ?React$Component&lt;any, any&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  children: ReactNodeList,</span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  forceHydrate: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> root: RootType = (container._reactRootContainer: any);</span><br><span class="line">  <span class="keyword">let</span> fiberRoot;</span><br><span class="line">  <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">    <span class="comment">// Initial mount</span></span><br><span class="line">    root = container._reactRootContainer = legacyCreateRootFromDOMContainer(</span><br><span class="line">      container,</span><br><span class="line">      forceHydrate,</span><br><span class="line">    );</span><br><span class="line">    fiberRoot = root._internalRoot;</span><br><span class="line">    <span class="comment">// Initial mount should not be batched.</span></span><br><span class="line">    unbatchedUpdates(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      updateContainer(children, fiberRoot, parentComponent, callback);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> getPublicRootInstance(fiberRoot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>legacyCreateRootFromDOMContainer</li>
+</ol>
+<p>这个函数先是清除了container DOM节点中的所有子元素，然后用这个处理过的dom节点对象，创建root对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"><span class="comment">// 其中，关于hydrate的属性值均为false</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">legacyCreateRootFromDOMContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  forceHydrate: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">RootType</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> shouldHydrate =</span><br><span class="line">    forceHydrate || shouldHydrateDueToLegacyHeuristic(container);</span><br><span class="line">  <span class="comment">// First clear any existing content.</span></span><br><span class="line">  <span class="keyword">if</span> (!shouldHydrate) &#123;</span><br><span class="line">    <span class="keyword">let</span> warned = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> rootSibling;</span><br><span class="line">    <span class="keyword">while</span> ((rootSibling = container.lastChild)) &#123;</span><br><span class="line">      container.removeChild(rootSibling);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> createLegacyRoot(</span><br><span class="line">    container,</span><br><span class="line">    shouldHydrate</span><br><span class="line">      ? &#123;</span><br><span class="line">          hydrate: <span class="literal">true</span>,</span><br><span class="line">        &#125;</span><br><span class="line">      : <span class="literal">undefined</span>,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>createLegacyRoot</li>
+</ol>
+<p>注意这个函数调用ReactDOMBlockingRoot函数使用<code>new</code>关键字的，也就是说这里会返回一个对象，一直返回到<code>legacyRenderSubtreeIntoContainer</code>函数中，成为root。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createLegacyRoot</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  options?: RootOptions,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">RootType</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> ReactDOMBlockingRoot(container, LegacyRoot, options);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>ReactDOMBlockingRoot</li>
+</ol>
+<p>关于命名有个疑问，为啥要带Blocking？</p>
+<p>legacyRenderSubtreeIntoContainer函数中的root对象是下面这种结构的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  _internalRoot: &#123;</span><br><span class="line">    <span class="comment">// 这里的内容详见第9个函数处</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReactDOMBlockingRoot</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  tag: RootTag,</span></span></span><br><span class="line"><span class="function"><span class="params">  options: void | RootOptions,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>._internalRoot = createRootImpl(container, tag, options);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>createRootImpl</li>
+</ol>
+<p>和hydrate相关的都是false。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRootImpl</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  container: DOMContainer,</span></span></span><br><span class="line"><span class="function"><span class="params">  tag: RootTag,</span></span></span><br><span class="line"><span class="function"><span class="params">  options: void | RootOptions,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Tag is either LegacyRoot or Concurrent Root</span></span><br><span class="line">  <span class="keyword">const</span> hydrate = options != <span class="literal">null</span> &amp;&amp; options.hydrate === <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">const</span> hydrationCallbacks =</span><br><span class="line">    (options != <span class="literal">null</span> &amp;&amp; options.hydrationOptions) || <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> root = createContainer(container, tag, hydrate, hydrationCallbacks);</span><br><span class="line">  <span class="comment">// 这里root.current表示的是一个Fiber对象</span></span><br><span class="line">  <span class="comment">// 其中包含的属性见 函数12</span></span><br><span class="line">  markContainerAsRoot(root.current, container);</span><br><span class="line">  <span class="keyword">if</span> (hydrate &amp;&amp; tag !== LegacyRoot) &#123;</span><br><span class="line">    <span class="keyword">const</span> doc =</span><br><span class="line">      container.nodeType === DOCUMENT_NODE</span><br><span class="line">        ? container</span><br><span class="line">        : container.ownerDocument;</span><br><span class="line">    eagerlyTrapReplayableEvents(doc);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>createContainer</li>
+</ol>
+<p>不太明白为啥要把<code>createFiberRoot</code>函数放进<code>createContainer</code>中。。。直接调不香么(手动扶额)</p>
+<p>返回的是带有Fiber对象的FiberRoot对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  containerInfo: Container,</span></span></span><br><span class="line"><span class="function"><span class="params">  tag: RootTag,</span></span></span><br><span class="line"><span class="function"><span class="params">  hydrate: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params">  hydrationCallbacks: null | SuspenseHydrationCallbacks,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">OpaqueRoot</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> createFiberRoot(containerInfo, tag, hydrate, hydrationCallbacks);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>createFiberRoot</li>
+</ol>
+<p>到这里<code>containerInfo</code>依然是dom节点对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFiberRoot</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  containerInfo: any,</span></span></span><br><span class="line"><span class="function"><span class="params">  tag: RootTag,</span></span></span><br><span class="line"><span class="function"><span class="params">  hydrate: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params">  hydrationCallbacks: null | SuspenseHydrationCallbacks,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">FiberRoot</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> root: FiberRoot = (<span class="keyword">new</span> FiberRootNode(containerInfo, tag, hydrate): any);</span><br><span class="line">  <span class="keyword">if</span> (enableSuspenseCallback) &#123;</span><br><span class="line">    root.hydrationCallbacks = hydrationCallbacks;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Cyclic construction. This cheats the type system right now because</span></span><br><span class="line">  <span class="comment">// stateNode is any.</span></span><br><span class="line">  <span class="keyword">const</span> uninitializedFiber = createHostRootFiber(tag);</span><br><span class="line">  root.current = uninitializedFiber;</span><br><span class="line">  uninitializedFiber.stateNode = root;</span><br><span class="line"></span><br><span class="line">  initializeUpdateQueue(uninitializedFiber);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>FiberRootNode</li>
+</ol>
+<p>这里创建的是FiberRoot</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FiberRootNode</span>(<span class="params">containerInfo, tag, hydrate</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.tag = tag;</span><br><span class="line">  <span class="keyword">this</span>.current = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.containerInfo = containerInfo;</span><br><span class="line">  <span class="keyword">this</span>.pendingChildren = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.pingCache = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.finishedExpirationTime = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.finishedWork = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.timeoutHandle = noTimeout;</span><br><span class="line">  <span class="keyword">this</span>.context = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.pendingContext = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.hydrate = hydrate;</span><br><span class="line">  <span class="keyword">this</span>.callbackNode = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">this</span>.callbackPriority = NoPriority;</span><br><span class="line">  <span class="keyword">this</span>.firstPendingTime = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.firstSuspendedTime = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.lastSuspendedTime = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.nextKnownPendingLevel = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.lastPingedTime = NoWork;</span><br><span class="line">  <span class="keyword">this</span>.lastExpiredTime = NoWork;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (enableSchedulerTracing) &#123;</span><br><span class="line">    <span class="keyword">this</span>.interactionThreadID = unstable_getThreadID();</span><br><span class="line">    <span class="keyword">this</span>.memoizedInteractions = <span class="keyword">new</span> <span class="built_in">Set</span>();</span><br><span class="line">    <span class="keyword">this</span>.pendingInteractionMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (enableSuspenseCallback) &#123;</span><br><span class="line">    <span class="keyword">this</span>.hydrationCallbacks = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>createHostRootFiber</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">createHostRootFiber(tag: RootTag): Fiber &#123;</span><br><span class="line">  <span class="keyword">let</span> mode;</span><br><span class="line">  <span class="keyword">if</span> (tag === ConcurrentRoot) &#123;</span><br><span class="line">    mode = ConcurrentMode | BlockingMode | StrictMode;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tag === BlockingRoot) &#123;</span><br><span class="line">    mode = BlockingMode | StrictMode;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 会到这个分支</span></span><br><span class="line">    mode = NoMode;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (enableProfilerTimer &amp;&amp; isDevToolsPresent) &#123;</span><br><span class="line">    <span class="comment">// Always collect profile timings when DevTools are present.</span></span><br><span class="line">    <span class="comment">// This enables DevTools to start capturing timing at any point–</span></span><br><span class="line">    <span class="comment">// Without some nodes in the tree having empty base times.</span></span><br><span class="line">    mode |= ProfileMode;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 这里的 HostRoot = 3</span></span><br><span class="line">  <span class="keyword">return</span> createFiber(HostRoot, <span class="literal">null</span>, <span class="literal">null</span>, mode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>createFiber</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createFiber = <span class="function"><span class="keyword">function</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  tag: WorkTag,</span></span></span><br><span class="line"><span class="function"><span class="params">  pendingProps: mixed,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: null | string,</span></span></span><br><span class="line"><span class="function"><span class="params">  mode: TypeOfMode,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Fiber</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> FiberNode(tag, pendingProps, key, mode);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="12">
+<li>FiberNode</li>
+</ol>
+<p>这里创建的是Fiber</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">FiberNode</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    tag: WorkTag,</span></span></span><br><span class="line"><span class="function"><span class="params">    pendingProps: mixed,</span></span></span><br><span class="line"><span class="function"><span class="params">    key: null | string,</span></span></span><br><span class="line"><span class="function"><span class="params">    mode: TypeOfMode,</span></span></span><br><span class="line"><span class="function"><span class="params">  </span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Instance</span></span><br><span class="line">    <span class="keyword">this</span>.tag = tag;</span><br><span class="line">    <span class="keyword">this</span>.key = key;</span><br><span class="line">    <span class="keyword">this</span>.elementType = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.type = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.stateNode = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Fiber</span></span><br><span class="line">    <span class="keyword">this</span>.return = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.child = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.sibling = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.ref = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.pendingProps = pendingProps;</span><br><span class="line">    <span class="keyword">this</span>.memoizedProps = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.updateQueue = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.memoizedState = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.dependencies = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.mode = mode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Effects</span></span><br><span class="line">    <span class="keyword">this</span>.effectTag = NoEffect;</span><br><span class="line">    <span class="keyword">this</span>.nextEffect = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.firstEffect = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.lastEffect = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.expirationTime = NoWork;</span><br><span class="line">    <span class="keyword">this</span>.childExpirationTime = NoWork;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.alternate = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableProfilerTimer) &#123;</span><br><span class="line">      <span class="keyword">this</span>.actualDuration = <span class="built_in">Number</span>.NaN;</span><br><span class="line">      <span class="keyword">this</span>.actualStartTime = <span class="built_in">Number</span>.NaN;</span><br><span class="line">      <span class="keyword">this</span>.selfBaseDuration = <span class="built_in">Number</span>.NaN;</span><br><span class="line">      <span class="keyword">this</span>.treeBaseDuration = <span class="built_in">Number</span>.NaN;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// It's okay to replace the initial doubles with smis after initialization.</span></span><br><span class="line">      <span class="comment">// This won't trigger the performance cliff mentioned above,</span></span><br><span class="line">      <span class="comment">// and it simplifies other profiler code (including DevTools).</span></span><br><span class="line">      <span class="keyword">this</span>.actualDuration = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">this</span>.actualStartTime = <span class="number">-1</span>;</span><br><span class="line">      <span class="keyword">this</span>.selfBaseDuration = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">this</span>.treeBaseDuration = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableUserTimingAPI) &#123;</span><br><span class="line">      <span class="keyword">this</span>._debugID = debugCounter++;</span><br><span class="line">      <span class="keyword">this</span>._debugIsCurrentlyTiming = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ol start="13">
+<li>markContainerAsRoot</li>
+</ol>
+<p>hostRoot是Container DOM对象对应的Fiber对象</p>
+<p>node是Container DOM对象</p>
+<p>这个函数的作用是给Container DOM对象添加一个属性，属性值是Container DOM对象对应的Fiber对象，通过Fiber对象的stateNode属性能够拿到对应的FiberRoot对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">markContainerAsRoot</span>(<span class="params">hostRoot, node</span>) </span>&#123;</span><br><span class="line">  node[internalContainerInstanceKey] = hostRoot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="14">
+<li>updateContainer</li>
+</ol>
+<p>到此开始创建更新。</p>
+<ul>
+<li>expirationTime：过期时间的创建是个重点</li>
+<li>context：不太重要，可忽略</li>
+<li>update: 是用来标记React应用中需要更新的地点</li>
+<li>enqueueUpdate: 在同一个节点上会产生多个更新，这个用来对更新排序</li>
+<li>scheduleWork: 开始进入任务调度，根据优先级来确定更新的先后顺序</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">updateContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  element: ReactNodeList,</span></span></span><br><span class="line"><span class="function"><span class="params">  container: OpaqueRoot,</span></span></span><br><span class="line"><span class="function"><span class="params">  parentComponent: ?React$Component&lt;any, any&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> suspenseConfig = requestCurrentSuspenseConfig();</span><br><span class="line">  <span class="keyword">const</span> expirationTime = computeExpirationForFiber(</span><br><span class="line">    currentTime,</span><br><span class="line">    current,</span><br><span class="line">    suspenseConfig,</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> context = getContextForSubtree(parentComponent);</span><br><span class="line">  <span class="keyword">if</span> (container.context === <span class="literal">null</span>) &#123;</span><br><span class="line">    container.context = context;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    container.pendingContext = context;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> update = createUpdate(expirationTime, suspenseConfig);</span><br><span class="line">  <span class="comment">// Caution: React DevTools currently depends on this property</span></span><br><span class="line">  <span class="comment">// being called "element".</span></span><br><span class="line">  update.payload = &#123;element&#125;;</span><br><span class="line"></span><br><span class="line">  callback = callback === <span class="literal">undefined</span> ? <span class="literal">null</span> : callback;</span><br><span class="line">  <span class="keyword">if</span> (callback !== <span class="literal">null</span>) &#123;</span><br><span class="line">    update.callback = callback;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  enqueueUpdate(current, update);</span><br><span class="line">  scheduleWork(current, expirationTime);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="15">
+<li>createUpdate</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除dev的条件判断和不相关的判断代码</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">createUpdate</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    expirationTime: ExpirationTime,</span></span></span><br><span class="line"><span class="function"><span class="params">    suspenseConfig: null | SuspenseConfig,</span></span></span><br><span class="line"><span class="function"><span class="params">  </span>): <span class="title">Update</span>&lt;*&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> update: Update&lt;*&gt; = &#123;</span><br><span class="line">      expirationTime,</span><br><span class="line">      suspenseConfig,</span><br><span class="line"></span><br><span class="line">      tag: UpdateState,</span><br><span class="line">      payload: <span class="literal">null</span>,</span><br><span class="line">      callback: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">      next: (<span class="literal">null</span>: any),</span><br><span class="line">    &#125;;</span><br><span class="line">    update.next = update;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> update;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ol start="16">
+<li>getPublicRootInstance</li>
+</ol>
+<p>会走第一个分支，返回null</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPublicRootInstance</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  container: OpaqueRoot,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">React$Component</span>&lt;<span class="title">any</span>, <span class="title">any</span>&gt; | <span class="title">PublicInstance</span> | <span class="title">null</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> containerFiber = container.current;</span><br><span class="line">  <span class="keyword">if</span> (!containerFiber.child) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">switch</span> (containerFiber.child.tag) &#123;</span><br><span class="line">    <span class="keyword">case</span> HostComponent:</span><br><span class="line">      <span class="keyword">return</span> getPublicInstance(containerFiber.child.stateNode);</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> containerFiber.child.stateNode;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数所在文件路径"><a href="#函数所在文件路径" class="headerlink" title="函数所在文件路径"></a>函数所在文件路径</h3><p><img src="/images/react/ReactDOM.render函数路径图.png" alt="ReactDOM.render函数路径图"></p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主要函数"><span class="toc-text">主要函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数所在文件路径"><span class="toc-text">函数所在文件路径</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/02/08/react源码学习之mapChildren/" rel="next" title="react源码学习之mapChildren">
+          react源码学习之mapChildren
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>

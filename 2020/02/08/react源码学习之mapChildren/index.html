@@ -126,7 +126,8 @@
     </header>
 
     <div class="post-content">
-      <p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>
+      <p>基于16.12.0。</p>
+<p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>
 <a id="more"></a>
 <h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="/images/react/react-children.png" alt="mapChildren的实现流程"></p>
 <p>（参考自慕课网教程）</p>
@@ -162,6 +163,7 @@
  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapSingleChildIntoContext</span>(<span class="params">bookKeeping, child, childKey</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;result, keyPrefix, func, context&#125; = bookKeeping;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> mappedChild = func.call(context, child, bookKeeping.count++);</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(mappedChild)) &#123;</span><br><span class="line">    mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c =&gt; c);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mappedChild != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isValidElement(mappedChild)) &#123;</span><br><span class="line">      mappedChild = cloneAndReplaceKey(</span><br><span class="line">        mappedChild,</span><br><span class="line">        <span class="comment">// Keep both the (mapped) and old keys if they differ, just as</span></span><br><span class="line">        <span class="comment">// traverseAllChildren used to do for objects as children</span></span><br><span class="line">        keyPrefix +</span><br><span class="line">          (mappedChild.key &amp;&amp; (!child || child.key !== mappedChild.key)</span><br><span class="line">            ? escapeUserProvidedKey(mappedChild.key) + <span class="string">'/'</span></span><br><span class="line">            : <span class="string">''</span>) +</span><br><span class="line">          childKey,</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    result.push(mappedChild);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<h3 id="函数所在文件路径"><a href="#函数所在文件路径" class="headerlink" title="函数所在文件路径"></a>函数所在文件路径</h3><p><img src="/images/react/React-Children函数路径图.png" alt="React-Children函数路径图"></p>
 
     </div>
 
@@ -171,7 +173,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数分析"><span class="toc-text">函数分析</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数分析"><span class="toc-text">函数分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数所在文件路径"><span class="toc-text">函数所在文件路径</span></a></li></ol>
   </div>
 
 
@@ -202,6 +204,11 @@
   
       <div class="post-nav-item post-nav-prev">
           
+          <a href="/2020/02/13/react源码学习之ReactDOM.render/" rel="prev" title="react源码学习之ReactDOM.render">
+            react源码学习之ReactDOM.render
+          </a>
+          <span>〉</span>
+        
       </div>
     </div>
   
