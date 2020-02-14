@@ -15,11 +15,36 @@ ReactDOM.render是将react元素和dom节点对象绑定的api。整个流程主
 2. 创建FiberRoot和Fiber对象
 3. 创建更新
 
-目前还不明白上面三个对象的逻辑含义。
-
 再之后将进入调度过程。进入调度之后，不论是通过setState还是ReactDOM.render，在创建完更新后，它们的后续操作都是由调度器管理的，和创建更新调用的哪个api没有任何关系。
 
 <!-- more -->
+
+### 重要概念
+
+1. ReactRoot
+
+这个对象的主要用途是创建FiberRoot
+
+2. FiberRoot
+
+FiberRoot是一个特殊的Fiber对象，它用来：
+
+  - 作为整个应用的起点
+  - 包含应用挂在的目标节点（DOM节点对象，比如#root）
+  - 记录整个应用更新过程的各种信息
+
+FiberRoot各个属性的含义参见BaseFiberRootProperties，后续遇到再详细分析和补充。
+
+3. Fiber
+
+一个ReactElement对象对应一个Fiber对象，它的作用包括：
+
+  - 记录节点的各种状态：比如class component中state，props都是记录在Fiber对象上的然后在Fiber更新后，才会更新到this.state或this.props上。**简单的说就是更新先记录在Fiber上，再挂到this上，这也为没有this的function component实现Hook提供了基础。**
+  - 串联起整个应用形成树结构，其组织方式和对应关系如下图
+    - ReactElement使用**props.children**组成树结构
+    - Fiber使用**return**，**child**，**sibling**组成树结构
+
+  ![ReactElement-tree-vs-Fiber-tree](/images/react/ReactElement-tree-vs-Fiber-tree.png)
 
 ### 流程
 
@@ -273,6 +298,61 @@ legacyRenderSubtreeIntoContainer函数中的root对象是下面这种结构的�
   }
 ```
 
+这里是FiberRoot的属性定义，待用到再返回头来看
+
+文件地址：packages/react-reconciler/src/ReactFiberRoot.js
+
+```js
+  type BaseFiberRootProperties = {|
+    // The type of root (legacy, batched, concurrent, etc.)
+    tag: RootTag,
+
+    // Any additional information from the host associated with this root.
+    containerInfo: any,
+    // Used only by persistent updates.
+    pendingChildren: any,
+    // The currently active root fiber. This is the mutable root of the tree.
+    current: Fiber,
+
+    pingCache:
+      | WeakMap<Thenable, Set<ExpirationTime>>
+      | Map<Thenable, Set<ExpirationTime>>
+      | null,
+
+    finishedExpirationTime: ExpirationTime,
+    // A finished work-in-progress HostRoot that's ready to be committed.
+    finishedWork: Fiber | null,
+    // Timeout handle returned by setTimeout. Used to cancel a pending timeout, if
+    // it's superseded by a new one.
+    timeoutHandle: TimeoutHandle | NoTimeout,
+    // Top context object, used by renderSubtreeIntoContainer
+    context: Object | null,
+    pendingContext: Object | null,
+    // Determines if we should attempt to hydrate on the initial mount
+    +hydrate: boolean,
+    // Node returned by Scheduler.scheduleCallback
+    callbackNode: *,
+    // Expiration of the callback associated with this root
+    callbackExpirationTime: ExpirationTime,
+    // Priority of the callback associated with this root
+    callbackPriority: ReactPriorityLevel,
+    // The earliest pending expiration time that exists in the tree
+    firstPendingTime: ExpirationTime,
+    // The earliest suspended expiration time that exists in the tree
+    firstSuspendedTime: ExpirationTime,
+    // The latest suspended expiration time that exists in the tree
+    lastSuspendedTime: ExpirationTime,
+    // The next known expiration time after the suspended range
+    nextKnownPendingLevel: ExpirationTime,
+    // The latest time at which a suspended component pinged the root to
+    // render again
+    lastPingedTime: ExpirationTime,
+    lastExpiredTime: ExpirationTime,
+  |};
+```
+
+
+
 10.  createHostRootFiber
 
 ```js
@@ -381,6 +461,140 @@ createHostRootFiber(tag: RootTag): Fiber {
   }
 ```
 
+这里是FiberNode的类型定义
+
+```js
+  type Fiber = {|
+    // These first fields are conceptually members of an Instance. This used to
+    // be split into a separate type and intersected with the other Fiber fields,
+    // but until Flow fixes its intersection bugs, we've merged them into a
+    // single type.
+
+    // An Instance is shared between all versions of a component. We can easily
+    // break this out into a separate object to avoid copying so much to the
+    // alternate versions of the tree. We put this on a single object for now to
+    // minimize the number of objects created during the initial render.
+
+    // Tag identifying the type of fiber.
+    tag: WorkTag,
+
+    // Unique identifier of this child.
+    key: null | string,
+
+    // The value of element.type which is used to preserve the identity during
+    // reconciliation of this child.
+    elementType: any,
+
+    // The resolved function/class/ associated with this fiber.
+    type: any,
+
+    // The local state associated with this fiber.
+    stateNode: any,
+
+    // Conceptual aliases
+    // parent : Instance -> return The parent happens to be the same as the
+    // return fiber since we've merged the fiber and instance.
+
+    // Remaining fields belong to Fiber
+
+    // The Fiber to return to after finishing processing this one.
+    // This is effectively the parent, but there can be multiple parents (two)
+    // so this is only the parent of the thing we're currently processing.
+    // It is conceptually the same as the return address of a stack frame.
+    return: Fiber | null,
+
+    // Singly Linked List Tree Structure.
+    child: Fiber | null,
+    sibling: Fiber | null,
+    index: number,
+
+    // The ref last used to attach this node.
+    // I'll avoid adding an owner field for prod and model that as functions.
+    ref:
+      | null
+      | (((handle: mixed) => void) & {_stringRef: ?string, ...})
+      | RefObject,
+
+    // Input is the data coming into process this fiber. Arguments. Props.
+    pendingProps: any, // This type will be more specific once we overload the tag.
+    memoizedProps: any, // The props used to create the output.
+
+    // A queue of state updates and callbacks.
+    updateQueue: UpdateQueue<any> | null,
+
+    // The state used to create the output
+    memoizedState: any,
+
+    // Dependencies (contexts, events) for this fiber, if it has any
+    dependencies: Dependencies | null,
+
+    // Bitfield that describes properties about the fiber and its subtree. E.g.
+    // the ConcurrentMode flag indicates whether the subtree should be async-by-
+    // default. When a fiber is created, it inherits the mode of its
+    // parent. Additional flags can be set at creation time, but after that the
+    // value should remain unchanged throughout the fiber's lifetime, particularly
+    // before its child fibers are created.
+    mode: TypeOfMode,
+
+    // Effect
+    effectTag: SideEffectTag,
+
+    // Singly linked list fast path to the next fiber with side-effects.
+    nextEffect: Fiber | null,
+
+    // The first and last fiber with side-effect within this subtree. This allows
+    // us to reuse a slice of the linked list when we reuse the work done within
+    // this fiber.
+    firstEffect: Fiber | null,
+    lastEffect: Fiber | null,
+
+    // Represents a time in the future by which this work should be completed.
+    // Does not include work found in its subtree.
+    expirationTime: ExpirationTime,
+
+    // This is used to quickly determine if a subtree has no pending changes.
+    childExpirationTime: ExpirationTime,
+
+    // This is a pooled version of a Fiber. Every fiber that gets updated will
+    // eventually have a pair. There are cases when we can clean up pairs to save
+    // memory if we need to.
+    alternate: Fiber | null,
+
+    // Time spent rendering this Fiber and its descendants for the current update.
+    // This tells us how well the tree makes use of sCU for memoization.
+    // It is reset to 0 each time we render and only updated when we don't bailout.
+    // This field is only set when the enableProfilerTimer flag is enabled.
+    actualDuration?: number,
+
+    // If the Fiber is currently active in the "render" phase,
+    // This marks the time at which the work began.
+    // This field is only set when the enableProfilerTimer flag is enabled.
+    actualStartTime?: number,
+
+    // Duration of the most recent render time for this Fiber.
+    // This value is not updated when we bailout for memoization purposes.
+    // This field is only set when the enableProfilerTimer flag is enabled.
+    selfBaseDuration?: number,
+
+    // Sum of base times for all descendants of this Fiber.
+    // This value bubbles up during the "complete" phase.
+    // This field is only set when the enableProfilerTimer flag is enabled.
+    treeBaseDuration?: number,
+
+    // Conceptual aliases
+    // workInProgress : Fiber ->  alternate The alternate used for reuse happens
+    // to be the same as work in progress.
+    // __DEV__ only
+    _debugID?: number,
+    _debugSource?: Source | null,
+    _debugOwner?: Fiber | null,
+    _debugIsCurrentlyTiming?: boolean,
+    _debugNeedsRemount?: boolean,
+
+    // Used to verify that the order of hooks does not change between renders.
+    _debugHookTypes?: Array<HookType> | null,
+  |};
+```
 13. markContainerAsRoot
 
 hostRoot是Container DOM对象对应的Fiber对象
@@ -497,3 +711,7 @@ export function updateContainer(
 ### 函数所在文件路径
 
 ![ReactDOM.render函数路径图](/images/react/ReactDOM.render函数路径图.png)
+
+### 参考
+
+1. https://react.jokcy.me/book/api/react-structure.html
