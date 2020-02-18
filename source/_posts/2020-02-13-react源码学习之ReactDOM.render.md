@@ -595,7 +595,26 @@ createHostRootFiber(tag: RootTag): Fiber {
     _debugHookTypes?: Array<HookType> | null,
   |};
 ```
-13. markContainerAsRoot
+
+13. initializeUpdateQueue
+
+这里完成了updatequeue的初始化
+
+```js
+  function initializeUpdateQueue<State>(fiber: Fiber): void {
+    const queue: UpdateQueue<State> = {
+      baseState: fiber.memoizedState,
+      baseQueue: null,
+      shared: {
+        pending: null,
+      },
+      effects: null,
+    };
+    fiber.updateQueue = queue;
+  }
+```
+
+14. markContainerAsRoot
 
 hostRoot是Container DOM对象对应的Fiber对象
 
@@ -609,7 +628,7 @@ node是Container DOM对象
   }
 ```
 
-14. updateContainer
+15. updateContainer
 
 到此开始创建更新。
 
@@ -660,7 +679,7 @@ export function updateContainer(
 }
 ```
 
-15. createUpdate
+16. createUpdate
 
 ```js
 // 去除dev的条件判断和不相关的判断代码
@@ -685,7 +704,36 @@ export function updateContainer(
   }
 ```
 
-16. getPublicRootInstance
+update的类型定义如下：
+
+```js
+  type Update<State> = {|
+    expirationTime: ExpirationTime,
+    suspenseConfig: null | SuspenseConfig,
+
+    tag: 0 | 1 | 2 | 3,
+    payload: any,
+    callback: (() => mixed) | null,
+
+    next: Update<State>,
+
+    // DEV only
+    priority?: ReactPriorityLevel,
+  |};
+```
+
+updateQueue的类型定义如下：
+
+```js
+  type UpdateQueue<State> = {|
+    baseState: State,
+    baseQueue: Update<State> | null,
+    shared: SharedQueue<State>,
+    effects: Array<Update<State>> | null,
+  |};
+```
+
+17. getPublicRootInstance
 
 会走第一个分支，返回null
 
@@ -706,6 +754,7 @@ export function updateContainer(
     }
   }
 ```
+
 
 
 ### 函数所在文件路径
