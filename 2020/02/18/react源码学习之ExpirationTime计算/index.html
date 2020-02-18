@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="react,ExpirationTime,">
+  
+
+  
+    <meta name="description" content="react源码学习之ExpirationTime计算">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>react源码学习之ExpirationTime计算 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        react源码学习之ExpirationTime计算
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-02-17T16:00:00.000Z">
+        2020-02-18
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ExpirationTime/">ExpirationTime</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>基于16.12.0。</p>
+<p>本篇主要记录：</p>
+<ol>
+<li>expirationTime的创建代码整理</li>
+<li>两次放大时间间隙原因的猜想</li>
+</ol>
+<p>有一个不明白的，计算过程中使用到了四个常量参数，这些常量的值是如何确定的？目前没有找到这方面的资料。。。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_EXPIRATION = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_BATCH_SIZE = <span class="number">250</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_EXPIRATION = __DEV__ ? <span class="number">500</span> : <span class="number">150</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_BATCH_SIZE = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="ExpirationTime的作用"><a href="#ExpirationTime的作用" class="headerlink" title="ExpirationTime的作用"></a>ExpirationTime的作用</h3><p>为防止某个update因为低优先级额的原因一直被打断而始终未能执行，当时间到了ExpirationTime，如果某个update还未执行，React将会强制执行该update。</p>
+<h3 id="ExpirationTime的种类"><a href="#ExpirationTime的种类" class="headerlink" title="ExpirationTime的种类"></a>ExpirationTime的种类</h3><ol>
+<li>sync模式：优先级最高，创建完成后立即更新到DOM中（创建即更新的流程）</li>
+<li>异步模式：会进行调度，可能会被中断，根据优先级（分为Interactive和普通异步两种，Interactive一般由事件触发）更新</li>
+<li>指定context模式，外部强制更新（还不清楚这是个啥）</li>
+<li>suspense模式（还不清楚这是个啥）</li>
+</ol>
+<h3 id="ExpirationTime的计算过程"><a href="#ExpirationTime的计算过程" class="headerlink" title="ExpirationTime的计算过程"></a>ExpirationTime的计算过程</h3><p>这里想单独说下<code>msToExpirationTime</code>函数和<code>ceiling</code>函数。</p>
+<p><code>msToExpirationTime</code>函数是用来计算currentTime的，参数来源是<code>now()</code>的执行结果，其内部封装了<code>Performance.now()</code>，查文档看到新的浏览器才支持，这个api相对于页面加载开始计时，在数量级上更精确，返回浮点数形式的ms，这些特点符合react要求精确的场景，同时能满足react使用32位整数处理的要求。因为这个api返回的是浮点数形式的ms，<code>msToExpirationTime</code>中取整操作用来将expiration time取整是为了数学上的方便这样的猜想感觉更靠谱了，虽然能抹除10ms的差距，但感觉并非是主要目的。</p>
+<p><code>ceiling</code>函数才是主要放大时间区间的地方，低优先级的两个update之间的先后时间差不大于25个expiration time单位，就被视为同一批次更新，高优先级的在生产环境下是10个expiration time单位。（在网上看到的参考资料，都说这里是25ms，感觉他们说的不对，从单位上就说不通，如果换成ms应该是250ms的时间差。）</p>
+<p>关于ExpirationTime的纯计算代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> MAX_SIGNED_31_BIT_INT = <span class="number">1073741823</span>; <span class="comment">// 单位是expiration time单位</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Sync = MAX_SIGNED_31_BIT_INT; <span class="comment">// 单位是expiration time单位</span></span><br><span class="line"><span class="keyword">const</span> Batched = Sync - <span class="number">1</span>; <span class="comment">// 单位是expiration time单位</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> UNIT_SIZE = <span class="number">10</span>; <span class="comment">// 感觉这里的单位是 10ms/expiration time单位</span></span><br><span class="line"><span class="keyword">const</span> MAGIC_NUMBER_OFFSET = Batched - <span class="number">1</span>; <span class="comment">// 单位是expiration time单位</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个函数是将ms转换为expiration time</span></span><br><span class="line"><span class="comment">// 1单位的expiration time表示10ms</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msToExpirationTime</span>(<span class="params">ms: number</span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Always add an offset so that we don't clash with the magic number for NoWork.</span></span><br><span class="line">  <span class="comment">// 这里是怕出现结果为零的情况</span></span><br><span class="line">  <span class="comment">// 按位或是舍弃小数取整</span></span><br><span class="line">  <span class="keyword">return</span> MAGIC_NUMBER_OFFSET - ((ms / UNIT_SIZE) | <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个函数是将expiration time 转换为ms</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">expirationTimeToMs</span>(<span class="params">expirationTime: ExpirationTime</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (MAGIC_NUMBER_OFFSET - expirationTime) * UNIT_SIZE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个函数是将</span></span><br><span class="line"><span class="comment">// expiration time值相近的时间按precision来归类</span></span><br><span class="line"><span class="comment">// 这里的相近表示差值没有大于等于1个precision的计算结果都是相同的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ceiling</span>(<span class="params">num: number, precision: number</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (((num / precision) | <span class="number">0</span>) + <span class="number">1</span>) * precision;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个函数是实际计算expiration time的地方</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeExpirationBucket</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  currentTime,</span></span></span><br><span class="line"><span class="function"><span class="params">  expirationInMs,</span></span></span><br><span class="line"><span class="function"><span class="params">  bucketSizeMs,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    MAGIC_NUMBER_OFFSET -</span><br><span class="line">    ceiling(</span><br><span class="line">      MAGIC_NUMBER_OFFSET - currentTime + expirationInMs / UNIT_SIZE,</span><br><span class="line">      bucketSizeMs / UNIT_SIZE,</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里是用来处理异步模式中的低优先级的部分</span></span><br><span class="line"><span class="comment">// 一个疑问是LOW_PRIORITY_EXPIRATION和LOW_PRIORITY_BATCH_SIZE是如何确定的</span></span><br><span class="line"><span class="comment">// 没有找到相关资料</span></span><br><span class="line"><span class="comment">// 猜测和页面的更新频率有关</span></span><br><span class="line"><span class="keyword">const</span> LOW_PRIORITY_EXPIRATION = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">const</span> LOW_PRIORITY_BATCH_SIZE = <span class="number">250</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeAsyncExpiration</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  currentTime: ExpirationTime,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> computeExpirationBucket(</span><br><span class="line">    currentTime,</span><br><span class="line">    LOW_PRIORITY_EXPIRATION,</span><br><span class="line">    LOW_PRIORITY_BATCH_SIZE,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里是用来处理异步模式中高优先级的部分</span></span><br><span class="line"><span class="comment">// 同样不明白HIGH_PRIORITY_EXPIRATION和HIGH_PRIORITY_BATCH_SIZE是怎么确定出来的</span></span><br><span class="line"><span class="keyword">const</span> HIGH_PRIORITY_EXPIRATION = __DEV__ ? <span class="number">500</span> : <span class="number">150</span>;</span><br><span class="line"><span class="keyword">const</span> HIGH_PRIORITY_BATCH_SIZE = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeInteractiveExpiration</span>(<span class="params">currentTime: ExpirationTime</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> computeExpirationBucket(</span><br><span class="line">    currentTime,</span><br><span class="line">    HIGH_PRIORITY_EXPIRATION,</span><br><span class="line">    HIGH_PRIORITY_BATCH_SIZE,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是具体的代码流程</p>
+<ol>
+<li>updateContainer</li>
+</ol>
+<p>创建expirationTime的过程发生在updateContainer函数中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 已删除测试代码和其他与创建expirationTime的代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  element: ReactNodeList,</span></span></span><br><span class="line"><span class="function"><span class="params">  container: OpaqueRoot,</span></span></span><br><span class="line"><span class="function"><span class="params">  parentComponent: ?React$Component&lt;any, any&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> current = container.current;</span><br><span class="line">  <span class="keyword">const</span> currentTime = requestCurrentTimeForUpdate();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> suspenseConfig = requestCurrentSuspenseConfig();</span><br><span class="line">  <span class="keyword">const</span> expirationTime = computeExpirationForFiber(</span><br><span class="line">    currentTime,</span><br><span class="line">    current,</span><br><span class="line">    suspenseConfig,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>requestCurrentTimeForUpdate</li>
+</ol>
+<p>这里先不看细节，总之就是调用<code>msToExpirationTime(now())</code>获取当前时间。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestCurrentTimeForUpdate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ((executionContext &amp; (RenderContext | CommitContext)) !== NoContext) &#123;</span><br><span class="line">    <span class="comment">// We're inside React, so it's fine to read the actual time.</span></span><br><span class="line">    <span class="keyword">return</span> msToExpirationTime(now());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// We're not inside React, so we may be in the middle of a browser event.</span></span><br><span class="line">  <span class="keyword">if</span> (currentEventTime !== NoWork) &#123;</span><br><span class="line">    <span class="comment">// Use the same start time for all updates until we enter React again.</span></span><br><span class="line">    <span class="keyword">return</span> currentEventTime;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// This is the first update since React yielded. Compute a new start time.</span></span><br><span class="line">  currentEventTime = msToExpirationTime(now());</span><br><span class="line">  <span class="keyword">return</span> currentEventTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>requestCurrentSuspenseConfig</li>
+</ol>
+<p>直接过</p>
+<ol start="4">
+<li>computeExpirationForFiber</li>
+</ol>
+<p>来到了实际给fiber计算expiration time的地方，也是大概区分下不同模式的计算地方，具体看不明白。。。</p>
+<p>这里要记录下按位与和按位或的神奇用法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeExpirationForFiber</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  currentTime: ExpirationTime,</span></span></span><br><span class="line"><span class="function"><span class="params">  fiber: Fiber,</span></span></span><br><span class="line"><span class="function"><span class="params">  suspenseConfig: null | SuspenseConfig,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> mode = fiber.mode;</span><br><span class="line">  <span class="comment">// sync模式</span></span><br><span class="line">  <span class="keyword">if</span> ((mode &amp; BlockingMode) === NoMode) &#123;</span><br><span class="line">    <span class="keyword">return</span> Sync;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> priorityLevel = getCurrentPriorityLevel();</span><br><span class="line">  <span class="keyword">if</span> ((mode &amp; ConcurrentMode) === NoMode) &#123;</span><br><span class="line">    <span class="keyword">return</span> priorityLevel === ImmediatePriority ? Sync : Batched;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里对应指定context模式，也就是外部强制更新</span></span><br><span class="line">  <span class="keyword">if</span> ((executionContext &amp; RenderContext) !== NoContext) &#123;</span><br><span class="line">    <span class="comment">// Use whatever time we're already rendering</span></span><br><span class="line">    <span class="keyword">return</span> renderExpirationTime;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> expirationTime;</span><br><span class="line">  <span class="comment">// 这里对应suspense模式</span></span><br><span class="line">  <span class="keyword">if</span> (suspenseConfig !== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// Compute an expiration time based on the Suspense timeout.</span></span><br><span class="line">    expirationTime = computeSuspenseExpiration(</span><br><span class="line">      currentTime,</span><br><span class="line">      suspenseConfig.timeoutMs | <span class="number">0</span> || LOW_PRIORITY_EXPIRATION,</span><br><span class="line">    );</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 这里对应异步模式</span></span><br><span class="line">    <span class="comment">// Compute an expiration time based on the Scheduler priority.</span></span><br><span class="line">    <span class="keyword">switch</span> (priorityLevel) &#123;</span><br><span class="line">      <span class="keyword">case</span> ImmediatePriority:</span><br><span class="line">        expirationTime = Sync;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> UserBlockingPriority:</span><br><span class="line">        expirationTime = computeInteractiveExpiration(currentTime);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> NormalPriority:</span><br><span class="line">      <span class="keyword">case</span> LowPriority: </span><br><span class="line">        expirationTime = computeAsyncExpiration(currentTime);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> IdlePriority:</span><br><span class="line">        expirationTime = Idle;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        invariant(<span class="literal">false</span>, <span class="string">'Expected a valid priority level'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// If we're in the middle of rendering a tree, do not update at the same</span></span><br><span class="line">  <span class="comment">// expiration time that is already rendering.</span></span><br><span class="line">  <span class="keyword">if</span> (workInProgressRoot !== <span class="literal">null</span> &amp;&amp; expirationTime === renderExpirationTime) &#123;</span><br><span class="line">    <span class="comment">// This is a trick to move this update into a separate batch</span></span><br><span class="line">    expirationTime -= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="https://stackoverflow.com/questions/30795525/performance-now-vs-date-now" target="_blank" rel="noopener">https://stackoverflow.com/questions/30795525/performance-now-vs-date-now</a></li>
+<li><a href="https://react.jokcy.me/book/update/expiration-time.html" target="_blank" rel="noopener">https://react.jokcy.me/book/update/expiration-time.html</a></li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpirationTime的作用"><span class="toc-text">ExpirationTime的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpirationTime的种类"><span class="toc-text">ExpirationTime的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExpirationTime的计算过程"><span class="toc-text">ExpirationTime的计算过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/02/13/react源码学习之ReactDOM.render/" rel="next" title="react源码学习之ReactDOM.render">
+          react源码学习之ReactDOM.render
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>

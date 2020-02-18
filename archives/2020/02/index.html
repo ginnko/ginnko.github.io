@@ -101,6 +101,32 @@
       <div class="archives">
   
   <div class="archive">
+  <a class="post-go" href="/2020/02/18/react源码学习之ExpirationTime计算/">
+    <div>
+      <span class="date">
+        02-18
+      </span>
+      <span class="slash">/</span>
+      react源码学习之ExpirationTime计算
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p>基于16.12.0。</p>
+<p>本篇主要记录：</p>
+<ol>
+<li>expirationTime的创建代码整理</li>
+<li>两次放大时间间隙原因的猜想</li>
+</ol>
+<p>有一个不明白的，计算过程中使用到了四个常量参数，这些常量的值是如何确定的？目前没有找到这方面的资料。。。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_EXPIRATION = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_BATCH_SIZE = <span class="number">250</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_EXPIRATION = __DEV__ ? <span class="number">500</span> : <span class="number">150</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_BATCH_SIZE = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2020/02/13/react源码学习之ReactDOM.render/">
     <div>
       <span class="date">
