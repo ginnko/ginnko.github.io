@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content>
+    <meta name="keywords" content="网络,">
   
 
   
-    <meta name="description" content="Ginnko&#39;s,blog">
+    <meta name="description" content="计算机网络概论学习笔记">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>archives: 2/2020: 2020 [ Ginnko&#39;s ]</title>
+  <title>计算机网络概论学习笔记 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -64,7 +64,7 @@
           
       
           
-            <li class="pure-menu-item actived"><a href="/archives" class="pure-menu-link">归档</a></li>
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
           
       
           
@@ -86,112 +86,150 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
       
 
-  
-  
-    
-    
-    <section class="post page archives">
-      <h3 class="archive-year-wrap">
-        <a href="/archives/2020" class="archive-year">
-          2020
-        </a>
-      </h3>
-      <div class="archives">
-  
-  <div class="archive">
-  <a class="post-go" href="/2020/02/24/计算机网络概论学习笔记/">
-    <div>
-      <span class="date">
-        02-24
-      </span>
-      <span class="slash">/</span>
-      计算机网络概论学习笔记
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p>这个主要是一个网络课程的<strong>笔记</strong>，主要记录网络的结构和运作原理。</p>
-<p>2020-02-24： </p>-->
-    <!--</div>-->
-  </a>
-
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2020/02/18/react源码学习之ExpirationTime计算/">
-    <div>
-      <span class="date">
-        02-18
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        计算机网络概论学习笔记
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-02-23T16:00:00.000Z">
+        2020-02-24
+      </time>
+        
       </span>
       <span class="slash">/</span>
-      react源码学习之ExpirationTime计算
-    </div>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
 
-    <!--<div class="excerpt">-->
-      <!--<p>基于16.12.0。</p>
-<p>本篇主要记录：</p>
-<ol>
-<li>expirationTime的创建代码整理</li>
-<li>两次放大时间间隙原因的猜想</li>
+    <div class="post-content">
+      <p>这个主要是一个网络课程的<strong>笔记</strong>，主要记录网络的结构和运作原理。</p>
+<p>2020-02-24： </p>
+<a id="more"></a>
+<h3 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h3><ol>
+<li><p>设计网络</p>
+<p> 下面这两个因素会影响演算法(不知道是啥)和架构的设计：</p>
+<ul>
+<li>bandwidth: 频宽，表示传送数据有多快</li>
+<li>delay: 从一端送到另一端要多久能完成传输，表示传送数据要多久</li>
+</ul>
+</li>
+<li><p>TCP协议(Transmission Control Protocol)</p>
+<p> 位于第4层，提供可靠的传输(如果封包丢失，会要求对方再重新送一次)。</p>
+<p> 对于一个http请求，大概需要17条信息：</p>
+<ul>
+<li>6条用来寻找IP地址</li>
+<li>3条用来建立TCP链接</li>
+<li>4条用于http请求和acknowledgement</li>
+<li>4条用于关闭TCP连接</li>
+</ul>
+</li>
+<li><p>基本概念</p>
+<ul>
+<li>packet: 网络传递信息的基本单位</li>
+<li>message: 原始的资料，比较长</li>
+<li>switch: 可以是第二、三、四层的设备，一般会接成有回路(回路可以增加网络的可靠性，但也会导致错误)的交换机网络</li>
+<li>router/gateway: 连接局域网的设备，通常broadcast会被router挡掉</li>
+<li>spanning tree: 将交换机及工作站连起来，变成一个树状结构(任意两个node之间只有唯一路径)，spanning tree本身也提供了routing的路径</li>
+<li>address: 网卡的位置使用MAC address，主机的位置使用IP address</li>
+<li>LAN: 表示一个局域网络</li>
+<li>WAN: 表示世界范围的网络</li>
+</ul>
+</li>
+<li><p>关于router</p>
+<ul>
+<li>router会把连接的网络的状态告知其他router，彼此之间相互交换信息，就能知道整个网络当前的状态(这个状态是随时变动的)</li>
+<li>每个封包走哪条路线是根据上面这个动态的状态决定的</li>
+<li>router的一个很重的功能就是分包，讲一个大封包切成小封包(每一个封包都有一个完整的地址)，切分的原因是每一种网络都有一个封包最大值，比如：Ethernet最大值是1518bit，WIFI(IEEE 802.11)是2312bit</li>
+<li>任何一个封包在网络中绕(靠router绕)，router每处理一个封包，上面记录的一个数字就会被减一，减到零的时候就把这个封包丢掉，这是<em>丢包的一种可能性</em></li>
+<li>封包从LAN网送到Router的速度快，从Router从到WAN网的速度慢，导致封包在路由器处堆积发生丢包，这是<em>丢包的另一种可能性</em></li>
+<li>internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的</li>
+</ul>
+</li>
 </ol>
-<p>有一个不明白的，计算过程中使用到了四个常量参数，这些常量的值是如何确定的？目前没有找到这方面的资料。。。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_EXPIRATION = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> LOW_PRIORITY_BATCH_SIZE = <span class="number">250</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_EXPIRATION = __DEV__ ? <span class="number">500</span> : <span class="number">150</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HIGH_PRIORITY_BATCH_SIZE = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2020/02/13/react源码学习之ReactDOM.render/">
-    <div>
-      <span class="date">
-        02-13
-      </span>
-      <span class="slash">/</span>
-      react源码学习之ReactDOM.render
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<p>基于16.12.0。</p>
-<p>ReactDOM.render是将react元素和dom节点对象绑定的api。整个流程主要负责三件事：</p>
-<ol>
-<li>创建ReactRoot</li>
-<li>创建FiberRoot和Fiber对象</li>
-<li>创建更新</li>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://www.bilibili.com/video/av69421265?p=5" target="_blank" rel="noopener">https://www.bilibili.com/video/av69421265?p=5</a></li>
 </ol>
-<p>再之后将进入调度过程。进入调度之后，不论是通过setState还是ReactDOM.render，在创建完更新后，它们的后续操作都是由调度器管理的，和创建更新调用的哪个api没有任何关系。</p>-->
-    <!--</div>-->
-  </a>
 
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2020/02/08/react源码学习之mapChildren/">
-    <div>
-      <span class="date">
-        02-08
-      </span>
-      <span class="slash">/</span>
-      react源码学习之mapChildren
     </div>
 
-    <!--<div class="excerpt">-->
-      <!--<p>基于16.12.0。</p>
-<p>我们都知道children是react元素对象的一个属性，用来承载一个父组件所有包含的子组件。react官方推出了一套api用来处理children对象，这篇就是用来记录学习react对map函数的实现。</p>-->
-    <!--</div>-->
-  </a>
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本知识"><span class="toc-text">基本知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
 
+
+  </div>
 </div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
 
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
 
-  </div></section>
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/02/18/react源码学习之ExpirationTime计算/" rel="next" title="react源码学习之ExpirationTime计算">
+          react源码学习之ExpirationTime计算
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
 
     </div>
 
