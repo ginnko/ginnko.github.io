@@ -122,14 +122,13 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 4 分钟</span>
+      <span class="read">阅读耗时 14 分钟</span>
     </header>
 
     <div class="post-content">
       <p>这个主要是一个网络课程的<strong>笔记</strong>，主要记录网络的结构和运作原理。</p>
-<p>2020-02-24： </p>
 <a id="more"></a>
-<h3 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h3><ol>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ol>
 <li><p>设计网络</p>
 <p> 下面这两个因素会影响演算法(不知道是啥)和架构的设计：</p>
 <ul>
@@ -165,14 +164,169 @@
 <li>每个封包走哪条路线是根据上面这个动态的状态决定的</li>
 <li>router的一个很重的功能就是分包，讲一个大封包切成小封包(每一个封包都有一个完整的地址)，切分的原因是每一种网络都有一个封包最大值，比如：Ethernet最大值是1518bit，WIFI(IEEE 802.11)是2312bit</li>
 <li>任何一个封包在网络中绕(靠router绕)，router每处理一个封包，上面记录的一个数字就会被减一，减到零的时候就把这个封包丢掉，这是<em>丢包的一种可能性</em></li>
-<li>封包从LAN网送到Router的速度快，从Router从到WAN网的速度慢，导致封包在路由器处堆积发生丢包，这是<em>丢包的另一种可能性</em></li>
-<li>internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的</li>
+<li>封包从LAN网送到Router的速度快，从Router从到WAN网的速度慢，导致封包在路由器处堆积发生丢包，这是<em>丢包的另一种可能性</em><br><img src="/images/network/传送速度不同导致丢包.png" alt="传送速度不同导致丢包"></li>
 </ul>
+</li>
+<li><p>internet本身会<strong>尽力</strong>将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的</p>
+</li>
+<li><p>网络资源的有效共享</p>
+<ul>
+<li><p>网络资源包括：</p>
+<ul>
+<li>link：因为link频宽有限，就涉及到link共享的问题</li>
+<li>node</li>
+<li>switch</li>
+<li>router</li>
+</ul>
+</li>
+<li><p>link共享技术: 多路复用(multiplexing)</p>
+<ol>
+<li>FDM(Frequency Division Multiplexing):每一个频宽都只有原来的1/4，但任何时候都可以用</li>
+<li>TDM(synchronous Time Division multiplexing): 使用整个频宽，但是时间有间隔<br><img src="/images/network/FDM&amp;TDM.png" alt="FDM&amp;TDM"></li>
+<li>statical multiplexing<ul>
+<li>FIFO(queue)</li>
+<li>Round-Robin(scheduler/queue)</li>
+<li>priority</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>logial chennal</p>
+</li>
+</ol>
+<p>指连接关系的存在，真正指具体哪一条链路都没有关系。TCP建立连线指的就是logical channel。</p>
+<ol start="8">
+<li><p>网络的不可靠性</p>
+<ul>
+<li>bit丢失/burst errors(大量bit丢失)</li>
+<li>router阻塞导致的丢包</li>
+<li>link/node的宕机</li>
+<li>信息延迟</li>
+<li>信息乱序</li>
+<li>第三方的窜改(因为router是store-and-forward，给了第三方窜改的机会)</li>
+</ul>
+</li>
+<li><p>网络协议</p>
+<ul>
+<li>水平维度：比如电脑对电脑，电脑对设备，设备对设备之间的协议</li>
+<li>竖向维度：比如application layer的服务建立在presentation layer服务上，后者又建立在session layer基础上，后者又建立在transport layer上，后者又建立在network layer之上，后者又建立在data-link layer上，最底层是physical layer，每一层都需要定义协议进行服务间的通信</li>
+</ul>
+</li>
+<li><p>协议结构</p>
+<p><img src="/images/network/协议结构.png" alt="协议结构"></p>
+</li>
+<li><p>OSI Architecture</p>
+<p>OSI: open system interconnection</p>
+<ol>
+<li>Transport层(蓝色)：提供可靠/不可靠传输</li>
+<li>Network层(绿色)：解决如何从一端送到另一端的选路线的问题</li>
+<li>DataLink层(红色)：解决如何往前送一步的问题</li>
+<li>Physical层(黄色)：如何通过实体介质传送<br><img src="/images/network/OSI结构.png" alt="OSI结构"></li>
+</ol>
+</li>
+<li><p>主机和路由器是如何相连的(以经过两个交换机为例)</p>
+<ul>
+<li>switch：layer2设备，作用是把收进来的封包转出去，依据这一层header中的网卡位置</li>
+<li>router：layer3设备，作用是根据目标ip选择路径，依据这一层header中的ip信息</li>
+<li>从data-link层(红色)出来的封包包含送封包的网卡和收封包的网卡的位置(48位)，相当于网卡对网卡</li>
+<li>从network层(绿色)出来的封包包含两端主机的ip(ipv4 32位)，是主机对主机的关系</li>
+<li>当主机和switch使用ethernet相连时，data-link层使用ethernet协议；当主机和AP使用无线相连时，data-link层使用wireless协议<br><img src="/images/network/host-to-router.png" alt="host-to-router"></li>
+</ul>
+</li>
+<li><p>physical layer</p>
+</li>
+</ol>
+<p><strong>解决如何将原始材料在介质上传输的问题</strong>，基本传输单位是bit</p>
+<ul>
+<li><p>材质</p>
+<ul>
+<li>coaxial cable：同轴电缆</li>
+<li>twisted pair：双绞线</li>
+<li>optical fiber：光纤</li>
+<li>air space</li>
+</ul>
+</li>
+<li><p><strong>coding</strong>：coding是physical layer最重要的功能，是将二进制数据以特定的形式表达，比如高低电位、光的明暗，同时要把发送方的clock送给接收方，使得双方使用相同的传输速度处理数据</p>
+</li>
+</ul>
+<ol start="14">
+<li>data link layer</li>
+</ol>
+<p><strong>这一层关心如何将frame传给直接相连的主机或设备</strong>，注意是<strong>直接相连</strong>的，基本传输单位是frame</p>
+<ul>
+<li>CSMA/CD: IEEE802.3 Ethernet使用这个MAC(media access protocol)协议</li>
+<li>CSMA/CA: IEEE802.11 wireless使用这个协议</li>
+</ul>
+<ol start="15">
+<li>network layer</li>
+</ol>
+<p><strong>这一层关心如何将封包(packet)透过internet送到目的地主机</strong>，基本传输单位是packet</p>
+<ul>
+<li>处理routing：router之间会彼此通过<strong>routing protocol(RIP, OSPF, BGP)</strong>交换线路状况的情报，通过协议计算出来的路径结果存入<strong>routing table</strong>中，内容会动态更新</li>
+<li>一个封包进入router后，首先拿到destination IP，然后查routing tabel，找寻路径</li>
+</ul>
+<ol start="16">
+<li>transport layer</li>
+</ol>
+<p><strong>这一层提供不同主机process之间资料(message)的传送</strong>，基本传输单位是message，是host对host的关系，不同主机意味着跨网络</p>
+<ol start="17">
+<li>session layer</li>
+</ol>
+<p>provides a name space that is used to tie together the potentially different transport streams that are part of a single application</p>
+<ol start="18">
+<li>presentaion layer</li>
+</ol>
+<p>concerned about the format of data exchanged between peers</p>
+<ol start="19">
+<li>application layer</li>
+</ol>
+<p>standardize common type of exchanges</p>
+<ol start="20">
+<li><p>OSI结构的特点</p>
+<ol>
+<li><p>可以跨层<br><img src="/images/network/osi跨层.png" alt="osi跨层"></p>
+</li>
+<li><p>协议结构构成沙漏型状<br><img src="/images/network/osi沙漏.png" alt="osi沙漏"></p>
+</li>
+</ol>
+</li>
+<li><p>网络性能</p>
+<ul>
+<li>指标</li>
+</ul>
+<ol>
+<li><p>带宽：指1秒可以传送的bit数</p>
+<p>1Mbps = 1 x 10^6 bits/second，也就是1 x 10^-6 second(1 micro second，这个单位表明1个bit在时间轴上有多宽)传送1bit</p>
+<p>抓数据是在1个bit宽的中间抓取，速度越快，1bit的宽度越窄，越不好抓，所以高速网络不好实现</p>
+</li>
+<li><p>latency（delay） = propagation time + transmission time + queuing time</p>
+<p>propagation time = 距离/速度(也就是信号实际传送的时间)</p>
+<p>transmission time = 信息size/bandwidth(也就是信息发送需要的时间)</p>
+<p>queuing time = 信息排队等待发送的时间</p>
+</li>
+</ol>
+<ul>
+<li>基于上面两个指标，就有如下两种情况</li>
+</ul>
+<ol>
+<li><p>短资料很快就送完，但需要长时间才能传送到对方，也就是资料已经发送完毕，但是前导资料还未到对方，这个时候propagation time远大于transmission time</p>
+</li>
+<li><p>长资料很慢才能发送完，未发送完之前，前导资料已经送达对方，这个时候transmission time远大于propagation time</p>
+</li>
+</ol>
+<ul>
+<li>bandwidth x delay</li>
+</ul>
+<ol>
+<li>pipe：一堆process（TCP级）之间的实际连接可以视为一个pipe，同一message的不同部分pipe可能不同</li>
+</ol>
 </li>
 </ol>
 <hr>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
-<li><a href="https://www.bilibili.com/video/av69421265?p=5" target="_blank" rel="noopener">https://www.bilibili.com/video/av69421265?p=5</a></li>
+<li><a href="https://www.bilibili.com/video/av69421265" target="_blank" rel="noopener">https://www.bilibili.com/video/av69421265</a></li>
 </ol>
 
     </div>
@@ -183,7 +337,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本知识"><span class="toc-text">基本知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 
