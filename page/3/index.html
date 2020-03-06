@@ -92,7 +92,7 @@
     
 
       <article class="recent-post-item">
-        <a class="title" href="/2019/05/07/基于链表的背包实现/"><h2>基于链表的背包实现</h2></a>
+        <a class="title" href="/2019/05/07/基于链表的队列实现/"><h2>基于链表的队列实现</h2></a>
         <div class="post-meta">
           
           <time class="time" datetime="2019-05-06T16:00:00.000Z">
@@ -108,10 +108,16 @@
 
         
           <div class="post-excerpt">
-            <p>本文记录java中基于链表包的实现。有数据类型通用性，链表的大小可调整，能够迭代。</p>
+            <p>使用链表能达到最优设计目标：</p>
+<ol>
+<li>可以处理任意类型的数据</li>
+<li>所需的空间总是和集合的大小成正比</li>
+<li>操作所需的时间总是和集合的大小无关</li>
+</ol>
+<p>在下面的实现代码中能看到队列和栈的区别，栈由于是后进先出，所以只涉及头部，操控一个first变量即可。队列是先进先出，所以要操控first和last两个Node变量。</p>
           </div>
         
-        <a class="more" href="/2019/05/07/基于链表的背包实现/"> 阅读全文〉</a>
+        <a class="more" href="/2019/05/07/基于链表的队列实现/"> 阅读全文〉</a>
       </article>
     
 
@@ -320,6 +326,31 @@
     
 
       <article class="recent-post-item">
+        <a class="title" href="/2018/12/17/dva学习/"><h2>Dva初步学习</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-12-16T16:00:00.000Z">
+            2018-12-17
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Dva/">Dva</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>这篇博客摘自<a href="https://dvajs.com/guide/" target="_blank" rel="noopener">此处</a>，是从方便自己理解的角度整理了下。</p>
+<h3 id="Dva的本质"><a href="#Dva的本质" class="headerlink" title="Dva的本质"></a>Dva的本质</h3><p>Dva = React-Router + Redux + Redux-saga</p>
+          </div>
+        
+        <a class="more" href="/2018/12/17/dva学习/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
         <a class="title" href="/2018/12/17/pure-component/"><h2>React纯组件</h2></a>
         <div class="post-meta">
           
@@ -345,31 +376,6 @@
           </div>
         
         <a class="more" href="/2018/12/17/pure-component/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2018/12/17/dva学习/"><h2>Dva初步学习</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2018-12-16T16:00:00.000Z">
-            2018-12-17
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Dva/">Dva</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>这篇博客摘自<a href="https://dvajs.com/guide/" target="_blank" rel="noopener">此处</a>，是从方便自己理解的角度整理了下。</p>
-<h3 id="Dva的本质"><a href="#Dva的本质" class="headerlink" title="Dva的本质"></a>Dva的本质</h3><p>Dva = React-Router + Redux + Redux-saga</p>
-          </div>
-        
-        <a class="more" href="/2018/12/17/dva学习/"> 阅读全文〉</a>
       </article>
     
   </div>
