@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="网络,">
+  
+
+  
+    <meta name="description" content="《计算机网络概论》学习笔记整理之概述">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>《计算机网络概论》学习笔记整理之概述 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        《计算机网络概论》学习笔记整理之概述
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-02-23T16:00:00.000Z">
+        2020-02-24
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 15 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这个主要是一个网络课程的<strong>笔记</strong>，包含概述部分（第一周）的笔记整理，涉及网络主要资源，网络结构，网络协议的介绍。</p>
+<a id="more"></a>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><h4 id="1-设计网络"><a href="#1-设计网络" class="headerlink" title="1. 设计网络"></a>1. 设计网络</h4><p>  下面这两个因素会影响演算法(不知道是啥)和架构的设计：</p>
+<ul>
+<li>bandwidth: 频宽，表示传送数据有多快</li>
+<li>delay: 从一端送到另一端要多久能完成传输，表示传送数据要多久</li>
+</ul>
+<h4 id="2-TCP协议-Transmission-Control-Protocol"><a href="#2-TCP协议-Transmission-Control-Protocol" class="headerlink" title="2. TCP协议(Transmission Control Protocol)"></a>2. TCP协议(Transmission Control Protocol)</h4><p>  位于第4层，提供可靠的传输(如果封包丢失，会要求对方再重新送一次)。</p>
+<p>  对于一个http请求，大概需要17条信息：</p>
+<ul>
+<li>6条用来寻找IP地址</li>
+<li>3条用来建立TCP链接</li>
+<li>4条用于http请求和acknowledgement</li>
+<li>4条用于关闭TCP连接</li>
+</ul>
+<h4 id="3-基本概念"><a href="#3-基本概念" class="headerlink" title="3. 基本概念"></a>3. 基本概念</h4><ul>
+<li>packet: 网络传递信息的基本单位</li>
+<li>message: 原始的资料，比较长</li>
+<li>switch: 可以是第二、三、四层的设备，一般会接成有回路(回路可以增加网络的可靠性，但也会导致错误)的交换机网络</li>
+<li>router/gateway: 连接局域网的设备，通常broadcast会被router挡掉</li>
+<li>spanning tree: 将交换机及工作站连起来，变成一个树状结构(任意两个node之间只有唯一路径)，spanning tree本身也提供了routing的路径</li>
+<li>address: 网卡的位置使用MAC address，主机的位置使用IP address</li>
+<li>LAN: 表示一个局域网络</li>
+<li>WAN: 表示世界范围的网络</li>
+</ul>
+<h4 id="4-关于router"><a href="#4-关于router" class="headerlink" title="4. 关于router"></a>4. 关于router</h4><ul>
+<li>router会把连接的网络的状态告知其他router，彼此之间相互交换信息，就能知道整个网络当前的状态(这个状态是随时变动的)</li>
+<li>每个封包走哪条路线是根据上面这个动态的状态决定的</li>
+<li>router的一个很重的功能就是分包，讲一个大封包切成小封包(每一个封包都有一个完整的地址)，切分的原因是每一种网络都有一个封包最大值，比如：Ethernet最大值是1518bit，WIFI(IEEE 802.11)是2312bit</li>
+<li>任何一个封包在网络中绕(靠router绕)，router每处理一个封包，上面记录的一个数字就会被减一，减到零的时候就把这个封包丢掉，这是<em>丢包的一种可能性</em></li>
+<li>封包从LAN网送到Router的速度快，从Router从到WAN网的速度慢，导致封包在路由器处堆积发生丢包，这是<em>丢包的另一种可能性</em><br><img src="/images/network/传送速度不同导致丢包.png" alt="传送速度不同导致丢包"></li>
+</ul>
+<h4 id="5-internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的"><a href="#5-internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的" class="headerlink" title="5. internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的"></a>5. internet本身会<strong>尽力</strong>将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的</h4><h4 id="6-网络资源的有效共享"><a href="#6-网络资源的有效共享" class="headerlink" title="6. 网络资源的有效共享"></a>6. 网络资源的有效共享</h4><ul>
+<li><p>网络资源包括：</p>
+<ul>
+<li>link：因为link频宽有限，就涉及到link共享的问题</li>
+<li>node</li>
+<li>switch</li>
+<li>router</li>
+</ul>
+</li>
+<li><p>link共享技术: 多路复用(multiplexing)</p>
+<ol>
+<li>FDM(Frequency Division Multiplexing):每一个频宽都只有原来的1/4，但任何时候都可以用</li>
+<li>TDM(synchronous Time Division multiplexing): 使用整个频宽，但是时间有间隔<br><img src="/images/network/FDM&amp;TDM.png" alt="FDM&amp;TDM"></li>
+<li>statical multiplexing<ul>
+<li>FIFO(queue)</li>
+<li>Round-Robin(scheduler/queue)</li>
+<li>priority</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="7-logial-chennal"><a href="#7-logial-chennal" class="headerlink" title="7. logial chennal"></a>7. logial chennal</h4><p>指连接关系的存在，真正指具体哪一条链路都没有关系。TCP建立连线指的就是logical channel。</p>
+<h4 id="8-网络的不可靠性"><a href="#8-网络的不可靠性" class="headerlink" title="8. 网络的不可靠性"></a>8. 网络的不可靠性</h4><ul>
+<li>bit丢失/burst errors(大量bit丢失)</li>
+<li>router阻塞导致的丢包</li>
+<li>link/node的宕机</li>
+<li>信息延迟</li>
+<li>信息乱序</li>
+<li>第三方的窜改(因为router是store-and-forward，给了第三方窜改的机会)</li>
+</ul>
+<h4 id="9-网络协议"><a href="#9-网络协议" class="headerlink" title="9. 网络协议"></a>9. 网络协议</h4><ul>
+<li>水平维度：比如电脑对电脑，电脑对设备，设备对设备之间的协议</li>
+<li>竖向维度：比如application layer的服务建立在presentation layer服务上，后者又建立在session layer基础上，后者又建立在transport layer上，后者又建立在network layer之上，后者又建立在data-link layer上，最底层是physical layer，每一层都需要定义协议进行服务间的通信</li>
+</ul>
+<h4 id="10-协议结构"><a href="#10-协议结构" class="headerlink" title="10. 协议结构"></a>10. 协议结构</h4><p>  <img src="/images/network/协议结构.png" alt="协议结构"></p>
+<h4 id="11-OSI-Architecture"><a href="#11-OSI-Architecture" class="headerlink" title="11. OSI Architecture"></a>11. OSI Architecture</h4><p>  OSI: open system interconnection</p>
+<ol>
+<li>Transport层(蓝色)：提供可靠/不可靠传输</li>
+<li>Network层(绿色)：解决如何从一端送到另一端的选路线的问题</li>
+<li>DataLink层(红色)：解决如何往前送一步的问题</li>
+<li>Physical层(黄色)：如何通过实体介质传送<br><img src="/images/network/OSI结构.png" alt="OSI结构"></li>
+</ol>
+<h4 id="12-主机和路由器是如何相连的-以经过两个交换机为例"><a href="#12-主机和路由器是如何相连的-以经过两个交换机为例" class="headerlink" title="12. 主机和路由器是如何相连的(以经过两个交换机为例)"></a>12. 主机和路由器是如何相连的(以经过两个交换机为例)</h4><ul>
+<li>switch：layer2设备，作用是把收进来的封包转出去，依据这一层header中的网卡位置</li>
+<li>router：layer3设备，作用是根据目标ip选择路径，依据这一层header中的ip信息</li>
+<li>从data-link层(红色)出来的封包包含送封包的网卡和收封包的网卡的位置(48位)，相当于网卡对网卡</li>
+<li>从network层(绿色)出来的封包包含两端主机的ip(ipv4 32位)，是主机对主机的关系</li>
+<li>当主机和switch使用ethernet相连时，data-link层使用ethernet协议；当主机和AP使用无线相连时，data-link层使用wireless协议<br><img src="/images/network/host-to-router.png" alt="host-to-router"></li>
+</ul>
+<h4 id="13-physical-layer"><a href="#13-physical-layer" class="headerlink" title="13. physical layer"></a>13. physical layer</h4><p><strong>解决如何将原始材料在介质上传输的问题</strong>，基本传输单位是bit</p>
+<ul>
+<li><p>材质</p>
+<ul>
+<li>coaxial cable：同轴电缆</li>
+<li>twisted pair：双绞线</li>
+<li>optical fiber：光纤</li>
+<li>air space</li>
+</ul>
+</li>
+<li><p><strong>coding</strong>：coding是physical layer最重要的功能，是将二进制数据以特定的形式表达，比如高低电位、光的明暗，同时要把发送方的clock送给接收方，使得双方使用相同的传输速度处理数据</p>
+</li>
+</ul>
+<h4 id="14-data-link-layer"><a href="#14-data-link-layer" class="headerlink" title="14. data link layer"></a>14. data link layer</h4><p><strong>这一层关心如何将frame传给直接相连的主机或设备</strong>，注意是<strong>直接相连</strong>的，基本传输单位是frame</p>
+<ul>
+<li>CSMA/CD: IEEE802.3 Ethernet使用这个MAC(media access protocol)协议</li>
+<li>CSMA/CA: IEEE802.11 wireless使用这个协议</li>
+</ul>
+<h4 id="15-network-layer"><a href="#15-network-layer" class="headerlink" title="15. network layer"></a>15. network layer</h4><p><strong>这一层关心如何将封包(packet)透过internet送到目的地主机</strong>，基本传输单位是packet</p>
+<ul>
+<li>处理routing：router之间会彼此通过<strong>routing protocol(RIP, OSPF, BGP)</strong>交换线路状况的情报，通过协议计算出来的路径结果存入<strong>routing table</strong>中，内容会动态更新</li>
+<li>一个封包进入router后，首先拿到destination IP，然后查routing tabel，找寻路径</li>
+</ul>
+<h4 id="16-transport-layer"><a href="#16-transport-layer" class="headerlink" title="16. transport layer"></a>16. transport layer</h4><p><strong>这一层提供不同主机process之间资料(message)的传送</strong>，基本传输单位是message，是host对host的关系，不同主机意味着跨网络</p>
+<h4 id="17-session-layer"><a href="#17-session-layer" class="headerlink" title="17. session layer"></a>17. session layer</h4><p>provides a name space that is used to tie together the potentially different transport streams that are part of a single application</p>
+<h4 id="18-presentaion-layer"><a href="#18-presentaion-layer" class="headerlink" title="18. presentaion layer"></a>18. presentaion layer</h4><p>concerned about the format of data exchanged between peers</p>
+<h4 id="19-application-layer"><a href="#19-application-layer" class="headerlink" title="19. application layer"></a>19. application layer</h4><p>standardize common type of exchanges</p>
+<h4 id="20-OSI结构的特点"><a href="#20-OSI结构的特点" class="headerlink" title="20. OSI结构的特点"></a>20. OSI结构的特点</h4><ol>
+<li><p>可以跨层<br><img src="/images/network/osi跨层.png" alt="osi跨层"></p>
+</li>
+<li><p>协议结构构成沙漏型状<br><img src="/images/network/osi沙漏.png" alt="osi沙漏"></p>
+</li>
+</ol>
+<h4 id="21-网络性能"><a href="#21-网络性能" class="headerlink" title="21. 网络性能"></a>21. 网络性能</h4><ul>
+<li><p>指标</p>
+<ol>
+<li><p>带宽：指1秒可以传送的bit数</p>
+<p>1Mbps = 1 x 10^6 bits/second，也就是1 x 10^-6 second(1 micro second，这个单位表明1个bit在时间轴上有多宽)传送1bit</p>
+<p>抓数据是在1个bit宽的中间抓取，速度越快，1bit的宽度越窄，越不好抓，所以高速网络不好实现</p>
+</li>
+<li><p>latency（delay） = propagation time + transmission time + queuing time</p>
+<p>propagation time = 距离/速度(也就是信号实际传送的时间)</p>
+<p>transmission time = 信息size/bandwidth(也就是信息发送需要的时间)</p>
+<p>queuing time = 信息排队等待发送的时间</p>
+</li>
+</ol>
+</li>
+<li><p>基于上面两个指标，就有如下两种情况</p>
+<ol>
+<li><p>短资料很快就送完，但需要长时间才能传送到对方，也就是资料已经发送完毕，但是前导资料还未到对方，这个时候propagation time远大于transmission time </p>
+</li>
+<li><p>长资料很慢才能发送完，未发送完之前，前导资料已经送达对方，这个时候transmission time远大于propagation time</p>
+</li>
+</ol>
+</li>
+<li><p>bandwidth x delay：感觉这是衡量网络效能的又一个指标，本质也是propagation time和transmission time的较量</p>
+<ol>
+<li>pipe：一对process（TCP级）之间的实际连接可以视为一个pipe，同一message的不同部分pipe可能不同</li>
+<li>delay：对应上面的propagation time和pipe的长度有关，而bandwidth决定上面transmission time</li>
+<li>bandwidth x delay：表明在pipe中可以存的最大量的资料</li>
+<li>对于大资料的传输，bandwidth就很重要</li>
+<li>对于小数据比如http，delay就很重要，和上面的讨论结果一致</li>
+</ol>
+</li>
+</ul>
+<h4 id="22-throughput"><a href="#22-throughput" class="headerlink" title="22. throughput"></a>22. throughput</h4><p>一方送资料，在<strong>等待(送一波后会停止)</strong>对方回应前，送出去的资料量<strong>塞满(delay x bandwidth)</strong>情况下，throughput越好。</p>
+<ul>
+<li>RTT(round-trip time)：送/回时间</li>
+<li>Transmission time: TransferSize / Bandwidth</li>
+<li>Transfer time: Transmission time + RTT</li>
+<li>Throughput: TransferSize / Transfer time</li>
+</ul>
+<p><img src="/images/network/throughput.png" alt="throughput"></p>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://www.bilibili.com/video/av69421265" target="_blank" rel="noopener">https://www.bilibili.com/video/av69421265</a></li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-设计网络"><span class="toc-text">1. 设计网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-TCP协议-Transmission-Control-Protocol"><span class="toc-text">2. TCP协议(Transmission Control Protocol)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-基本概念"><span class="toc-text">3. 基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-关于router"><span class="toc-text">4. 关于router</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的"><span class="toc-text">5. internet本身会尽力将封包送至目的地，但是不能保证一定送到，因为会发生丢包，所以其本身是不可靠的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-网络资源的有效共享"><span class="toc-text">6. 网络资源的有效共享</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-logial-chennal"><span class="toc-text">7. logial chennal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-网络的不可靠性"><span class="toc-text">8. 网络的不可靠性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-网络协议"><span class="toc-text">9. 网络协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-协议结构"><span class="toc-text">10. 协议结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-OSI-Architecture"><span class="toc-text">11. OSI Architecture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-主机和路由器是如何相连的-以经过两个交换机为例"><span class="toc-text">12. 主机和路由器是如何相连的(以经过两个交换机为例)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-physical-layer"><span class="toc-text">13. physical layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-data-link-layer"><span class="toc-text">14. data link layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-network-layer"><span class="toc-text">15. network layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-transport-layer"><span class="toc-text">16. transport layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#17-session-layer"><span class="toc-text">17. session layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#18-presentaion-layer"><span class="toc-text">18. presentaion layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#19-application-layer"><span class="toc-text">19. application layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#20-OSI结构的特点"><span class="toc-text">20. OSI结构的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#21-网络性能"><span class="toc-text">21. 网络性能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#22-throughput"><span class="toc-text">22. throughput</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/02/18/react源码学习之ExpirationTime计算/" rel="next" title="react源码学习之ExpirationTime计算">
+          react源码学习之ExpirationTime计算
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
