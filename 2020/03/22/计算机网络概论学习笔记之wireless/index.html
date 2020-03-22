@@ -29,15 +29,15 @@
 </script> -->
   
   
-    <meta name="keywords" content="algorithm,《算法》,java,">
+    <meta name="keywords" content="网络,">
   
 
   
-    <meta name="description" content="基于链表的下压堆栈的实现">
+    <meta name="description" content="《计算机网络概论》学习笔记整理之wireless LAN">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>基于链表的下压堆栈的实现 [ Ginnko&#39;s ]</title>
+  <title>《计算机网络概论》学习笔记整理之wireless LAN [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,19 +102,19 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        基于链表的下压堆栈的实现
+        《计算机网络概论》学习笔记整理之wireless LAN
       </h1>
       <span>
         
-        <time class="time" datetime="2019-05-06T16:00:00.000Z">
-        2019-05-07
+        <time class="time" datetime="2020-03-21T16:00:00.000Z">
+        2020-03-22
       </time>
         
       </span>
       <span class="slash">/</span>
       <span class="post-meta">
       <span class="post-tags">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
       </span>
     </span>
       <span class="slash">/</span>
@@ -122,31 +122,198 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 3 分钟</span>
+      <span class="read">阅读耗时 10 分钟</span>
     </header>
 
     <div class="post-content">
-      <p><strong>链表</strong>在java中是非直接支持的数据结构。<strong>链表是一种递归的数据结构，它或者为空(null)，或者是指向一个结点(node)的引用，该结点含有一个泛型的元素和一个指向另一条链表的引用。</strong></p>
-<a id="more"></a>
-<h1 id="实现描述"><a href="#实现描述" class="headerlink" title="实现描述"></a>实现描述</h1><ul>
-<li><p>结点记录</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">  Item item;</span><br><span class="line">  Node next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码：</p>
+      <p>在上一篇概述的基础上探讨wireless的运作原理，主要涉及以下10个方面：</p>
 <ol>
-<li>Node类型的实例变量显示了这种数据结构的<strong>链式</strong>本质</li>
-<li>记录：为了强调我们在组织数据时只使用了Node类，没有定义任何方法且会在代码中直接引用实例变量，这种类型的类有时也被称为记录。<strong>在我们的实现中，Node和它的用例代码都会被封装在相同的类中且无法被该类的用例访问。</strong></li>
+<li>无线的两种重要特征</li>
+<li>无线采用的协议是CSMA/CA而不是CSMA/CD</li>
+<li>RTC/CTS的作用和工作原理</li>
+<li>ACK存在的作用和工作过程</li>
+<li>carrier sense的方式</li>
+<li>CSMA/CA的工作方式</li>
+<li>3个priority的级别：SIFS &lt; PIFS &lt; DIFS</li>
+<li>DCF运行原理</li>
+<li>PCF运行原理</li>
+<li>SuperFrame运行原理</li>
+</ol>
+<a id="more"></a>
+<hr>
+<h3 id="IEEE802-11标准"><a href="#IEEE802-11标准" class="headerlink" title="IEEE802.11标准"></a>IEEE802.11标准</h3><p>无线技术使用的标准是：<em>IEEE802.11</em>，这个标准用来处理有限区域(比如家庭、办公室、校园)的无线传输。传输介质是空气(通过空气广播)，这个标准还规定了：电源管理和安全机制。</p>
+<p>该标准使用的协议是：CSMA/CA，Carrier Sense Multiple Access with Collision Avoidance</p>
+<p>该标准定义了2种物理层实现，以解决信息互相干扰的问题，具体情况不清楚，也不感兴趣：</p>
+<ol>
+<li>frequency hopping(跳频技术)：把信息切分到不同的频道发送</li>
+<li>direct sequence：对不同的频道进行不同的加密</li>
+</ol>
+<hr>
+<h3 id="无线传输的2个重要特征"><a href="#无线传输的2个重要特征" class="headerlink" title="无线传输的2个重要特征"></a>无线传输的2个重要特征</h3><ol>
+<li><p>hidden node problem(hidden terminal)</p>
+<p>下图中，A、C两个节点虽然听不到对方的信号，但同时传送给相同的节点B，会造成双方的信号碰撞，导致各自的封包都失效。</p>
+<p>在无线环境中，没有办法侦测到collision。</p>
+</li>
+</ol>
+<p><img src="/images/network/hiddenNodeProblem.png" width="400" alt="hidden node problem"></p>
+<ol>
+<li><p>exposed node problem</p>
+<p>双方虽然听得到对方的信号，但同时传送给不同的节点不会发生干扰</p>
+</li>
+</ol>
+<h3 id="CSMA-CA协议中的封包"><a href="#CSMA-CA协议中的封包" class="headerlink" title="CSMA/CA协议中的封包"></a>CSMA/CA协议中的封包</h3><ol>
+<li><p>封包类型</p>
+<ul>
+<li><p>control frames</p>
+<ul>
+<li>RTS</li>
+<li>CTS</li>
+<li>ACK</li>
+<li>POLL</li>
+</ul>
+</li>
+<li><p>management frams</p>
+<ul>
+<li>Probe Request/Response</li>
+<li>Beacon(用于扫描)</li>
+<li>Authentication(验证)</li>
+</ul>
+</li>
+<li><p>标准封包</p>
+<ul>
+<li>data</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>RTS和CTS</p>
+<p>RTS和CTS都是control frame类型的封包，作用是告诉起始工作站和目的地工作站范围内的其他节点，有信息将要开始传送，不要同时发送干扰。</p>
+<ul>
+<li>RTS：Request to send，用于宣告要送的封包，附带有需要多长时间发送</li>
+<li>CTS：Clear to send，用于宣告将要收封包，并附带需要多长时间接受</li>
+</ul>
+<p>RTS和CTS都以广播的形式在工作站范围内发送，下图的场景是B将向C发送信息，B先发送一个RTS，C收到后，发送一个CTS：</p>
+<p><img src="/images/network/RTS&CTS.png" width="400" alt="RTS和CTS"></p>
+<ul>
+<li>B、D同时给C发送封包就会发生hidden terminal问题</li>
+<li>所有蓝色范围内的工作站，即听到CTS的等下都不能向C发送信号，但这些节点可以给其他节点发送</li>
+</ul>
+<p>后面将整理这两个封包实际是如何工作的。</p>
+</li>
+<li><p>ACK frame</p>
+<p>这个控制封包用来在一个节点成功收到另一个节点发来的信息，且信息无误的情况下，会向源头节点返回一个ACK封包，表明刚才那个信息成功收到。</p>
+</li>
+</ol>
+<h3 id="802-11分散式系统DS-distributed-system"><a href="#802-11分散式系统DS-distributed-system" class="headerlink" title="802.11分散式系统DS(distributed system)"></a>802.11分散式系统DS(distributed system)</h3><ol>
+<li><p>现状：在无线环境中，node可以移动，并且是不完全连接(经由1~2次hub连接起来)(没搞明白什么叫不完全连接，没查到，不影响理解，直接跳过)</p>
+</li>
+<li><p>node被分为两类：</p>
+<pre><code>1. 允许移动的：手机，笔记本电脑
+2. 和有线网络相连的：AP(AP和后端建设的基础设施相连，这个基础设施就是DS，DS会将多个AP连接起来)
+</code></pre></li>
+<li><p>分散式系统</p>
+<p>DS是layer2的系统，下面是它的原理图：</p>
+<p><img src="/images/network/DistributedSystem.png" width="400" alt="distributed system"></p>
+<p>分散式系统的目的：用分散式系统将多个AP连接起来，让802.11覆盖的范围更广</p>
+<ol start="4">
+<li>扫描</li>
+</ol>
+<p>由上图可见，每一个AP都会覆盖一些节点，节点B处在AP1和AP2两个范围内，这就涉及到node选择AP的问题。有两种情况需要扫描：</p>
+<ol>
+<li>节点刚进入无线环境</li>
+<li><p>node从一个AP范围进入另一个AP范围</p>
+</li>
+<li><p>扫描的类型</p>
+</li>
+</ol>
+<ul>
+<li><p>主动扫描</p>
+<ol>
+<li>笔电或者手机送一个probe frame(问一下周围有哪些基地台听到的我)</li>
+<li>所有在范围里能听到的AP都会回一个probe Response frame</li>
+<li>node会从这些回应的AP里选一个向这个AP发送一个Association Request Frame，通常会选信号强、速度快的</li>
+<li>AP回复一个Association Response Frame后建立连接</li>
+</ol>
+</li>
+<li><p>被动扫描</p>
+<ol>
+<li>AP会周期性的发送Beacon frame，告知自身的能力，包括其支持的transmission rate</li>
+<li>node如果要连接会发送一个Association Request frame给该AP</li>
+<li>AP再回复一个Association Response frame建立连接</li>
 </ol>
 </li>
 </ul>
-<h1 id="java实现"><a href="#java实现" class="headerlink" title="java实现"></a>java实现</h1>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Node first;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> N;</span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    Item item;</span><br><span class="line">    Node next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> first == <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> N;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">    Node oldfirst = first;</span><br><span class="line">    first = <span class="keyword">new</span> Node();</span><br><span class="line">    first.item = item;</span><br><span class="line">    first.next = oldfirst;</span><br><span class="line">    N++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Item item = first.item;</span><br><span class="line">    first = first.next;</span><br><span class="line">    N--;</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 待补充iterator()的实现</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Stack&lt;String&gt; s = <span class="keyword">new</span> Stack&lt;String&gt;();</span><br><span class="line">    <span class="keyword">while</span> (!StdIn.isEmpty()) &#123;</span><br><span class="line">      String item = StdIn.readString();</span><br><span class="line">      <span class="keyword">if</span> (!item.equals(<span class="string">"-"</span>)) &#123;</span><br><span class="line">        s.push(item);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!s.isEmpty()) &#123;</span><br><span class="line">        StdOut.print(s.pop() + <span class="string">" "</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    StdOut.println(<span class="string">"("</span> + s.size() + <span class="string">" left on stack)"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="上述实现的特性"><a href="#上述实现的特性" class="headerlink" title="上述实现的特性"></a>上述实现的特性</h1><p>  满足上述描述的实现几乎达到了任意集合类数据类型的实现的最佳性能：</p>
+</li>
+</ol>
+<h3 id="802-11-MAC封包格式"><a href="#802-11-MAC封包格式" class="headerlink" title="802.11 MAC封包格式"></a>802.11 MAC封包格式</h3><p>  下面是一个MAC分包：</p>
+<p>  <img src="/images/network/MACFrameFormat.png" width="800" alt="802.11 MAC封包格式"></p>
+<p>另外封包中有四个地址，有两个用来表示工作站，两个表示经过的基地台，将表示地址和来去向的字段总结成下表：</p>
+<table>
+<thead>
+<tr>
+<th>ToDS</th>
+<th>FromDS</th>
+<th>Addr1</th>
+<th>Addr2</th>
+<th>Addr3</th>
+<th>Addr4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>DA</td>
+<td>SA</td>
+<td>BSSID</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>DA</td>
+<td>BSSID</td>
+<td>SA</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>BSSID</td>
+<td>SA</td>
+<td>DA</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>RA</td>
+<td>TA</td>
+<td>DA</td>
+<td>SA</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>每项操作的用时都与集合大小无关</li>
-<li>空间需求总是不超过集合大小乘以一个常数</li>
+<li>BBSID：MAC address of an AP</li>
+<li>SA：Original Source address</li>
+<li>DA：Final Destination address</li>
+<li>TA：Transmitter address</li>
+<li>RA：Receiver address</li>
 </ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li>《算法》p89-p94</li>
+<p>上表中：</p>
+<ul>
+<li>第一行表示两个node直接互相发送信息</li>
+<li>最后一行是最复杂的情况，表示由一个基地台送到另一个基地台</li>
 </ul>
+<p>当A向E发送消息时，封包中四个地址的变化如下：</p>
+<p>   <img src="/images/network/DistributedSystem.png" width="400" alt="distributed system"></p>
+<ol>
+<li>A =&gt; AP1：封包由A送给AP1，但最终的目的是E，四个地址为：|AP1|A|E|N/A|</li>
+<li>AP1 =&gt; AP3：封包由AP1送给AP3，起始是A，最终的目的地是E，四个地址为： |AP3|AP1|E|A|</li>
+<li>AP3 =&gt; E：封包由AP3送到E，起始是A，四个地址为：|E|AP3|A|N/A|</li>
+</ol>
+<p>未完待续。。。</p>
 
     </div>
 
@@ -156,7 +323,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现描述"><span class="toc-text">实现描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java实现"><span class="toc-text">java实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上述实现的特性"><span class="toc-text">上述实现的特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li></ol>
   </div>
 
 
@@ -179,19 +346,14 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2019/05/07/集合类数据类型的实现/" rel="next" title="集合类数据类型的实现">
-          集合类数据类型的实现
+          <a href="/2020/03/12/计算机网络概论学习笔记之Ethernet/" rel="next" title="《计算机网络概论》学习笔记整理之Ethernet">
+          《计算机网络概论》学习笔记整理之Ethernet
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2019/05/07/基于链表的队列实现/" rel="prev" title="基于链表的队列实现">
-            基于链表的队列实现
-          </a>
-          <span>〉</span>
-        
       </div>
     </div>
   
