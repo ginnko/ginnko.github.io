@@ -122,7 +122,7 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 10 分钟</span>
+      <span class="read">阅读耗时 12 分钟</span>
     </header>
 
     <div class="post-content">
@@ -161,6 +161,7 @@
 <p>双方虽然听得到对方的信号，但同时传送给不同的节点不会发生干扰</p>
 </li>
 </ol>
+<hr>
 <h3 id="CSMA-CA协议中的封包"><a href="#CSMA-CA协议中的封包" class="headerlink" title="CSMA/CA协议中的封包"></a>CSMA/CA协议中的封包</h3><ol>
 <li><p>封包类型</p>
 <ul>
@@ -204,6 +205,7 @@
 <p>这个控制封包用来在一个节点成功收到另一个节点发来的信息，且信息无误的情况下，会向源头节点返回一个ACK封包，表明刚才那个信息成功收到。</p>
 </li>
 </ol>
+<hr>
 <h3 id="802-11分散式系统DS-distributed-system"><a href="#802-11分散式系统DS-distributed-system" class="headerlink" title="802.11分散式系统DS(distributed system)"></a>802.11分散式系统DS(distributed system)</h3><ol>
 <li><p>现状：在无线环境中，node可以移动，并且是不完全连接(经由1~2次hub连接起来)(没搞明白什么叫不完全连接，没查到，不影响理解，直接跳过)</p>
 </li>
@@ -245,6 +247,7 @@
 </ul>
 </li>
 </ol>
+<hr>
 <h3 id="802-11-MAC封包格式"><a href="#802-11-MAC封包格式" class="headerlink" title="802.11 MAC封包格式"></a>802.11 MAC封包格式</h3><p>  下面是一个MAC分包：</p>
 <p>  <img src="/images/network/MACFrameFormat.png" width="800" alt="802.11 MAC封包格式"></p>
 <p>另外封包中有四个地址，有两个用来表示工作站，两个表示经过的基地台，将表示地址和来去向的字段总结成下表：</p>
@@ -307,11 +310,47 @@
 <li>最后一行是最复杂的情况，表示由一个基地台送到另一个基地台</li>
 </ul>
 <p>当A向E发送消息时，封包中四个地址的变化如下：</p>
-<p>   <img src="/images/network/DistributedSystem.png" width="400" alt="distributed system"></p>
+<p>  <img src="/images/network/DistributedSystem.png" width="400" alt="distributed system"></p>
 <ol>
 <li>A =&gt; AP1：封包由A送给AP1，但最终的目的是E，四个地址为：|AP1|A|E|N/A|</li>
 <li>AP1 =&gt; AP3：封包由AP1送给AP3，起始是A，最终的目的地是E，四个地址为： |AP3|AP1|E|A|</li>
 <li>AP3 =&gt; E：封包由AP3送到E，起始是A，四个地址为：|E|AP3|A|N/A|</li>
+</ol>
+<hr>
+<h3 id="IEEE-802-11-MAC-Archetecture"><a href="#IEEE-802-11-MAC-Archetecture" class="headerlink" title="IEEE 802.11 MAC Archetecture"></a>IEEE 802.11 MAC Archetecture</h3><p>  下图是无线环境下的MAC架构：</p>
+<p>  <img src="/images/network/DCF&PCF.png" width="400" alt="DCF&PCF"></p>
+<ol>
+<li><p>DCF：DCF本身提供竞争式服务，适合于没有即时性需求的，比如一般的信息、文件的传输</p>
+<ul>
+<li>DCF使用的最关键的技术是CSMA/CA，CA只能做到尽量不冲撞，没有办法100%保证</li>
+<li>DCF的使用权完全是分散式的，交由相连的node，大家去竞争使用权</li>
+<li>所有的节点、AP都需要有DCF并实现CSMA/CA</li>
+<li>DCF的IFS要大于PCF的IFS，一般使用DIFS表示，优先级低于PCF</li>
+<li>DCF可以建立在下面的结构上：<ul>
+<li>Ad hoc：不通过AP，直接是node之间的通信</li>
+<li>建立在一个基础设施之上，比如DS</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>PCF：PCF建构在DCF上，使用竞争式的服务提供非竞争式的服务，会做比较优先权的控制。频宽和延迟都能得到保证，适合传送即时性信息，比如视频、音频</p>
+<ul>
+<li>实现的方式是通过设置某些参数(SIFS)，让PCF可以控制频宽的使用</li>
+<li>PCF由point coordinator(通常就是基地台)来控制当前的频宽由谁来控制，下一个由谁来使用</li>
+<li>point coordinator有一个清单，清单的内容是该AP服务的node本身。PC会按照这个List一个一个去轮询有没有信息要传送</li>
+<li>PCF的高优先级，是通过Inter-Frame-Space(两个frame之间的时间间隔)参数实现的</li>
+<li>PCF也是用CSMA/CA</li>
+</ul>
+</li>
+<li><p>Super Frame</p>
+<p>下图是超级讯框的图示：</p>
+<p><img src="/images/network/superFrame.png" width="400" alt="superFrame"></p>
+<ul>
+<li>AP会周期性的重复SF</li>
+<li>每一个SF的长度不固定</li>
+<li>PCF和DCF的分割点也不固定</li>
+</ul>
+</li>
 </ol>
 <p>未完待续。。。</p>
 
@@ -323,7 +362,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE-802-11-MAC-Archetecture"><span class="toc-text">IEEE 802.11 MAC Archetecture</span></a></li></ol>
   </div>
 
 
