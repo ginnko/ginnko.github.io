@@ -122,7 +122,7 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 12 分钟</span>
+      <span class="read">阅读耗时 17 分钟</span>
     </header>
 
     <div class="post-content">
@@ -317,7 +317,7 @@
 <li>AP3 =&gt; E：封包由AP3送到E，起始是A，四个地址为：|E|AP3|A|N/A|</li>
 </ol>
 <hr>
-<h3 id="IEEE-802-11-MAC-Archetecture"><a href="#IEEE-802-11-MAC-Archetecture" class="headerlink" title="IEEE 802.11 MAC Archetecture"></a>IEEE 802.11 MAC Archetecture</h3><p>  下图是无线环境下的MAC架构：</p>
+<h3 id="802-11-MAC-Archetecture"><a href="#802-11-MAC-Archetecture" class="headerlink" title="802.11 MAC Archetecture"></a>802.11 MAC Archetecture</h3><p>  下图是无线环境下的MAC架构：</p>
 <p>  <img src="/images/network/DCF&PCF.png" width="400" alt="DCF&PCF"></p>
 <ol>
 <li><p>DCF：DCF本身提供竞争式服务，适合于没有即时性需求的，比如一般的信息、文件的传输</p>
@@ -352,6 +352,66 @@
 </ul>
 </li>
 </ol>
+<hr>
+<h3 id="DCF细节"><a href="#DCF细节" class="headerlink" title="DCF细节"></a>DCF细节</h3><ol>
+<li><p>时间间隔</p>
+<p>每一个封包送完之后，其他节点都会监听channel上是idle还是busy，发现是idle，需要等一个<em>间隔</em>，当光等这一个间隔还是不够，还是会发生collision，所以还需要一个<em>random back-off</em>，这两个间隔共同作用能够尽量保证错开冲撞，但不能完全保证。</p>
+<p>所以DCF中有两个时间间隔：</p>
+<ul>
+<li><p>IFS：就是上面提到的两个封包之间的时间间隔，有长短不同的三种：</p>
+<ul>
+<li>SIFS：时间最短，用于RTS、CTS、ACK、station responding to poll</li>
+<li>PIFS：时间长度中等，用于PCF环境下的封包</li>
+<li>DIFS：时间最长，用于一般的数据封包，DCF环境下</li>
+</ul>
+</li>
+<li><p>random back-off：作用是尽量保证发送的公平和进一步错开可能的冲撞</p>
+</li>
+</ul>
+</li>
+<li><p>ACK frame(MAC-Level ACK，Positive Acknowledgement)</p>
+<p>A送给B一个封包，如果B成功收到了，要<em>立刻</em>(立刻就是一个SIFS)返回一个ACK封包，表明这个封包发送成功，对方已经成功收到。</p>
+<p>也就是说：</p>
+<ol>
+<li>必须返回一个ACK</li>
+<li>这个ACK必须立刻返回</li>
+<li>这个立刻使用最短间隔SIFS(short inter frame space)</li>
+<li>需要返回ACK的场景(如果没有返回就会被以错误处理)<ul>
+<li>data</li>
+<li>poll</li>
+<li>probe request</li>
+<li>probe response</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Carrier sense的两种方式</p>
+<ul>
+<li>physical：使用物理的形式，比如天线实际去侦听channel</li>
+<li>virtual mechanism：比如CTS、RTS中带有发送和接受<em>所需的时间(duration time)</em>，就把这段时间当成busy。MAC提供的这种机制被称为NAV(Net Allocation Vector)，会根据duration field来做一段对未来traffic的预测。</li>
+</ul>
+</li>
+<li><p>优先级</p>
+<p>就是上面描述的时间间隔，这里复制一下：</p>
+<ul>
+<li>SIFS：时间最短，用于RTS、CTS、ACK、station responding to poll</li>
+<li>PIFS：时间长度中等，用于PCF环境下的封包</li>
+<li>DIFS：时间最长，用于一般的数据封包，DCF环境下</li>
+</ul>
+</li>
+</ol>
+<p>  时间越短，优先级越高。</p>
+<ol start="5">
+<li><p>Random Back-off Time</p>
+<p>back-off time = INT(CW <em> random()) </em> slot time</p>
+<p>上面公式中：</p>
+<ul>
+<li>slot time = Transmitter turn-on delay + medium propagation delay + medium busy detect response time</li>
+<li>random会生成一个随机数</li>
+<li>CW指contention window，是CWmin(7)和CWmax(255)之间的一个整数，和第几次传输数据有关系，随着送的次数增大而增大。对于同一条数据，重送的次数越多，这个值越大，表明网络越拥挤</li>
+</ul>
+</li>
+</ol>
 <p>未完待续。。。</p>
 
     </div>
@@ -362,7 +422,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE-802-11-MAC-Archetecture"><span class="toc-text">IEEE 802.11 MAC Archetecture</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC-Archetecture"><span class="toc-text">802.11 MAC Archetecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF细节"><span class="toc-text">DCF细节</span></a></li></ol>
   </div>
 
 
