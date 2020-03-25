@@ -403,13 +403,24 @@
 <p>  时间越短，优先级越高。</p>
 <ol start="5">
 <li><p>Random Back-off Time</p>
-<p>back-off time = INT(CW <em> random()) </em> slot time</p>
+<p>back-off time = INT(CW × random()) × slot time</p>
 <p>上面公式中：</p>
 <ul>
 <li>slot time = Transmitter turn-on delay + medium propagation delay + medium busy detect response time</li>
 <li>random会生成一个随机数</li>
 <li>CW指contention window，是CWmin(7)和CWmax(255)之间的一个整数，和第几次传输数据有关系，随着送的次数增大而增大。对于同一条数据，重送的次数越多，这个值越大，表明网络越拥挤</li>
 </ul>
+</li>
+</ol>
+<hr>
+<h3 id="DCF-Access-Procedure"><a href="#DCF-Access-Procedure" class="headerlink" title="DCF Access Procedure"></a>DCF Access Procedure</h3><ol>
+<li><p>CSMA/CA的运作方式</p>
+<p>802.3中node听到是idle可以立刻送；802.11中node听到是idle不能立刻送，以为此刻可能正介于发送ACK前的时间点。</p>
+<ol>
+<li>station送信息前，监听medium如果听到的是idle，在一个DIFS时长后，如果还是idle就可以送消息了</li>
+<li>如果station听到的busy，就听完，再听一个DIFS时长后再加一个random back-off</li>
+</ol>
+<p><img src="/images/network/DCFAccess.png" width="700" alt="DCFAccess"></p>
 </li>
 </ol>
 <p>未完待续。。。</p>
@@ -422,7 +433,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC-Archetecture"><span class="toc-text">802.11 MAC Archetecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF细节"><span class="toc-text">DCF细节</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC-Archetecture"><span class="toc-text">802.11 MAC Archetecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF细节"><span class="toc-text">DCF细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF-Access-Procedure"><span class="toc-text">DCF Access Procedure</span></a></li></ol>
   </div>
 
 
