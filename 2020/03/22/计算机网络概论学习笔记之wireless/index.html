@@ -122,7 +122,7 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 17 分钟</span>
+      <span class="read">阅读耗时 24 分钟</span>
     </header>
 
     <div class="post-content">
@@ -422,8 +422,83 @@
 </ol>
 <p><img src="/images/network/DCFAccess.png" width="700" alt="DCFAccess"></p>
 </li>
+<li><p>back-off procedure</p>
+<p>back-off time存在的主要目的是希望实现FCFS(first come first sercice)，达到公平的目的</p>
+<ul>
+<li>先计算一个CW</li>
+<li>计算出back-off time之后就开始倒计时，变成0才可以开始送封包</li>
+<li>如果在倒计时的过程中，侦测到medium变为busy状态，就暂停倒计时(frozen)</li>
+<li>当侦测到medium再次变为idle状态，且等了1个DIFS之后，medium依然为idle，才可以再次开启倒计时</li>
+<li>如果1个station刚刚发送了1个封包，准备好传送另一个，同样需要执行back-off过程(出于公平的目的)</li>
+</ul>
+<p><img src="/images/network/backoffTime.png" width="800" alt="backoffTime"></p>
+</li>
+<li><p>设定NAV(Net allocation Vector)</p>
+<p>Duration filede的计算：from the end of the RTS or CTS frame until the end od the ACK frame</p>
+<p><img src="/images/network/NAVsetting.png" width="800" alt="NAVsetting"></p>
+</li>
+<li><p>频道控制</p>
+<p>抢到channel控制权的station允许进行多次传送。</p>
+<p><img src="/images/network/fragmentBurst.png" width="800" alt="fragmentBurst"></p>
+<p>Once a station has contended for the channel, it will continue to send fragments until <em>either</em>：</p>
+<ul>
+<li>all fragments(每一个fragment都对应一个ACK frame) of a station have been sent</li>
+<li>an ack is not received(这种情况会在一个back-off time之后尝试重送，当过了这段时间后，sender station将在contention window中竞争控制权)</li>
+<li>the station can not send any additional fragment due to a dwell time boundary(出于公平性，有控制时间的上限)</li>
+</ul>
+</li>
+<li><p>RTS/CTS在fragmentBurst中的使用</p>
+<ul>
+<li>如果有多个fragment，前1个data和ACK就扮演RTS和CTS的角色，定义下一个fragment和ACK的duration field</li>
+<li><p>最后一个fragment和ACK duration会被设置为0</p>
+<p><img src="/images/network/fragmentBurstWithNAVsetting.png" width="800" alt="fragmentBurstWithNAVsetting"></p>
+</li>
+<li><p>如果目标工作站没有发出ACK，仅能听到目标工作站的station就不会再更新它们的NAV，这些station将能free to access the channel</p>
+</li>
+<li>起始工作站没有收到ACK必须等到NAV(来自封包1)过期才能去竞争channel</li>
+<li><p>all station will be free to access the channel after the NAV from 封包1 到时间</p>
+<p><img src="/images/network/fragmentBurstWithNAVsettingWhenACKnotsent.png" width="800" alt="fragmentBurstWithNAVsettingWhenACKnotsent"></p>
+</li>
+<li><p>如果封包的大小太短，就不需要RTS、CTS(反而浪费带宽);如果比较大，就很有用，因为802.11会将封包完全发出，发出后又发生collision就会很浪费，所以大封包使用RTS/CTS才有意义。这个区分是否使用RTS/CTS的大小被称为<em>RTS-Threshhold</em></p>
+<p><img src="/images/network/DCMwithoutRTSandCTS.png" width="800" alt="DCMwithoutRTSandCTS"></p>
+</li>
+</ul>
+</li>
 </ol>
-<p>未完待续。。。</p>
+<hr>
+<h3 id="PCF"><a href="#PCF" class="headerlink" title="PCF"></a>PCF</h3><ol>
+<li>The PCF provides contention free services</li>
+<li>It is an option（PCF是station提供的，有的工作站有，有的没有）for a station to become the Point Coordination(PC), which genatates the Super Frame(SF)</li>
+<li>PCF protocol基于polling scheme</li>
+<li>PIFS小于DIFS，优先权高</li>
+<li>PCF中有两类封包<ul>
+<li>node =&gt; cf-up封包 =&gt; PC</li>
+<li>PC =&gt; cf-down封包 =&gt; node</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="PCF-Access-Procedure"><a href="#PCF-Access-Procedure" class="headerlink" title="PCF Access Procedure"></a>PCF Access Procedure</h3><ol>
+<li>一个SF开始，PC先侦测medium</li>
+<li>如果medium是idle，PC将等1个PIFS，然后传送<ol>
+<li>Data frame with CF-Poll subtype bit，这是一个cf-down类型的封包，用来问station有无数据要传送，按轮询列表的顺序挨个征询</li>
+<li>都征询完毕会广播一个cf-end frame</li>
+</ol>
+</li>
+<li>不参与contention-free的station要将NAV设定为cf-period length的最大值(在每一次SF开始的时候)</li>
+<li>在PCF的结尾，所有收到cf-end frame 的station都会重置NAV，将其清零，在清零前都假设这个channel busy</li>
+</ol>
+<hr>
+<h3 id="PCF-Transfer-Procedure"><a href="#PCF-Transfer-Procedure" class="headerlink" title="PCF Transfer Procedure"></a>PCF Transfer Procedure</h3><ol>
+<li>station必须立刻(这个立刻的时间就是SIFS)回复CF-Poll，否则就会被PC认定没有信息需要发送，转而去征询下一个station</li>
+<li>a burst of CF traffic：就是PC按照列表上的顺序挨个去征询station，每次都执行相同的过程：PC先发一个CF-poll给station，station在1个SIFS后回复一个封包给PC</li>
+<li><p>cf-up frame带有1个bit的cf-ack，用来表明成功送到以及验证封包的正确性</p>
+<p><img src="/images/network/PCFprocedure.png" width="800" alt="PCFprocedure"></p>
+</li>
+<li><p>当被问的station需要将封包送给第三者，第三者返回1个ACk后经过1个SIFS，PC才能拿回轮询控制权，再去征询下一个</p>
+<p><img src="/images/network/PCFprocedureWithStationToStation.png" width="800" alt="PCFprocedureWithStationToStation"></p>
+</li>
+</ol>
 
     </div>
 
@@ -433,7 +508,7 @@
     
   <div id="toc" class="toc-article">
     <strong class="toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC-Archetecture"><span class="toc-text">802.11 MAC Archetecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF细节"><span class="toc-text">DCF细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF-Access-Procedure"><span class="toc-text">DCF Access Procedure</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEEE802-11标准"><span class="toc-text">IEEE802.11标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线传输的2个重要特征"><span class="toc-text">无线传输的2个重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSMA-CA协议中的封包"><span class="toc-text">CSMA/CA协议中的封包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11分散式系统DS-distributed-system"><span class="toc-text">802.11分散式系统DS(distributed system)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC封包格式"><span class="toc-text">802.11 MAC封包格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11-MAC-Archetecture"><span class="toc-text">802.11 MAC Archetecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF细节"><span class="toc-text">DCF细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCF-Access-Procedure"><span class="toc-text">DCF Access Procedure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCF"><span class="toc-text">PCF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCF-Access-Procedure"><span class="toc-text">PCF Access Procedure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCF-Transfer-Procedure"><span class="toc-text">PCF Transfer Procedure</span></a></li></ol>
   </div>
 
 
