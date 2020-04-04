@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="网络,">
+  
+
+  
+    <meta name="description" content="《计算机网络概论》学习笔记整理之bridge">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>《计算机网络概论》学习笔记整理之bridge [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        《计算机网络概论》学习笔记整理之bridge
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-04-02T16:00:00.000Z">
+        2020-04-03
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 13 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这一篇主要涉及以下4个方面：</p>
+<ol>
+<li>A bridge is a layer2 device which relays frames among physically seperated LANs and makes the physical LANs appear as <em>one logical LAN</em> to the end stations</li>
+<li>Bridge的基本功能（）<ul>
+<li>封包转送和过滤</li>
+<li>address learning</li>
+<li>解决拓扑结构中的环状结构问题</li>
+</ul>
+</li>
+<li>spanning tree algotithm，涉及到root、root port、designated port、RPC</li>
+<li>spanning tree的维护</li>
+</ol>
+<a id="more"></a>
+<hr>
+<h3 id="Bridge"><a href="#Bridge" class="headerlink" title="Bridge"></a>Bridge</h3><p>bridge是MAC层的设备，用于在物理分隔的LAN之间转播封包。对于LAN上相连的stations，bridge的存在让相连的LAN表现的好像<em>一个逻辑LAN(one logical LAN)</em>.</p>
+<p><img src="/images/network/bridge.png" width="400" alt="bridge"></p>
+<p>one logical LAN：station 4和station 5本来位于不同的LAN上，但通过bridge相连后，在逻辑上可以看成在同一个LAN上（one logical LAN）</p>
+<p>bridge的重要功能：</p>
+<ol>
+<li>封包的转送和过滤</li>
+<li>address learning：知晓网络上的每一个station在什么地方</li>
+<li>解决拓扑结构中可能出现的回路问题，使用spanning tree algorithm</li>
+</ol>
+<p>bridge的其他功能：</p>
+<ol>
+<li>congestion control(拥塞控制)：比如由于连接的双方网络网速不同，导致封包拥塞，使用buffer来解决</li>
+<li>static filter：从安全角度出发，提前设定好参数，不允许某个station给某个station送封包</li>
+<li>封包转送：比如将1个Ethernet封包转送到wireless上（两类封包格式不同）</li>
+<li>路由</li>
+<li>segmentation：将大封包切割用于传送</li>
+</ol>
+<p>bridge的参数</p>
+<ol>
+<li>id：由8bytes构成<ul>
+<li>priority part(2 parts): programmable</li>
+<li>address part(6 parts)</li>
+</ul>
+</li>
+<li>bridge之间要相互交流，如果一个封包带有特定形式的MAC address就是广播形式的封包，所有的bridge都要收起来处理</li>
+<li>bridge上的每一个端口都有一个唯一id，用于进行端口的识别</li>
+</ol>
+<hr>
+<h3 id="Bridge-LAN-BLAN"><a href="#Bridge-LAN-BLAN" class="headerlink" title="Bridge LAN(BLAN)"></a>Bridge LAN(BLAN)</h3><p><img src="/images/network/BLAN.png" width="900" alt="BLAN"></p>
+<p>BLAN的特点：</p>
+<ol>
+<li>提高网络的可靠性</li>
+<li>提高网络的传输性能，因为不同的LAN上可以有封包同时传送</li>
+<li>提高网络的安全性</li>
+<li>可以覆盖较大的地理区域</li>
+</ol>
+<p>在BLAN中，每个bridge收到封包都有两个重要的任务：</p>
+<ol>
+<li><p>转送和过滤(forwarding)</p>
+<p>每个bridge都维护一个<em>entry:[address, port, time]</em>结构的database，每一个封包进来，bridge都会用封包中的<em>destination MAC address</em>去database中寻找。首次或不知道的情况下会进行广播。</p>
+<p>使用的参数就是下图中的DA。</p>
+</li>
+<li><p>address learning</p>
+<p>将封包中的<em>source Mac address</em>及相关参数存入database中。</p>
+<p>使用的参数是下图中的SA。</p>
+<p><img src="/images/network/ethernetFrameFormat.png" width="500" alt="ethernetFrameFormat"></p>
+</li>
+</ol>
+<p>forwarding and address learning algorithm：</p>
+<p><img src="/images/network/forwardingAndAddressLearningAlgorithm.png" width="500" alt="forwardingAndAddressLearningAlgorithm"></p>
+<hr>
+<h3 id="有回路BLAN的问题和解决办法"><a href="#有回路BLAN的问题和解决办法" class="headerlink" title="有回路BLAN的问题和解决办法"></a>有回路BLAN的问题和解决办法</h3><p>回路是为了提高网络的可靠性，但同时会造成下面的问题：</p>
+<ol>
+<li>封包会重复接收(frame duplication)</li>
+<li><p>回路会造成错误的address learning(比如不清楚一个station到底来自哪个port)</p>
+<p><img src="/images/network/LoopBlanProblem.png" width="500" alt="LoopBlanProblem"></p>
+<p>当A向B发送数据时：</p>
+<ol>
+<li>LAN2是双向传输，t0时刻，BridgeX和BridgeY都会收到封包，BridgeX记录A的地址及进入端口是X1，BridgeY记录A的地址及进入端口Y1</li>
+<li>BridgeX继续将封包转输到LAN1上，t1时刻，封包被B收到，继续向前传输，从BridgeY的Y2端口进入，BridgeY修改A的地址及进入端口Y2</li>
+<li>BridgeY继续将封包转输到LAN1上，t2时刻，B再次收到相同封包，继续向前传输，从BridgeX的Y2端口进入，BridgeX修改A的地址及进入端口X2</li>
+</ol>
+<p>造成的结果：</p>
+<ol>
+<li>B会收到2次相同的封包</li>
+<li>当B给A送封包时，BridgeX和BridgeY都会过滤，因为它们认为A和B在同一侧，导致封包无法到达A</li>
+</ol>
+</li>
+</ol>
+<p>解决办法：spanning tree algorithm</p>
+<hr>
+<h3 id="spanning-tree-algorithm"><a href="#spanning-tree-algorithm" class="headerlink" title="spanning tree algorithm"></a>spanning tree algorithm</h3><p>该算法中的重要概念：</p>
+<ul>
+<li>root bridge: The bridge with the lowest value of bridge identifier(id最小的bridge，使用分散式的方法找到网络上id最小的bridge)</li>
+<li>path cost: For each port, the cost of transmitting a frame onto a LAN(从一个prot发送数据所花的成本，速度越慢，传输成本越高)</li>
+<li>root port: For each bridge, the port on the minimum cost path to the root bridge(对于每一个bridge，走哪个port通向root bridge的cost最小，这个port就是root port)</li>
+<li>root port cost(rpc): For each bridge, the cost of the path to the root bridge with minimum cost</li>
+<li>designated bridge: For each LAN, the bridge that provides the minimum cost path to the root bridge. The only bridge allowed to forward frames to and from the LAN(LAN本身没有处理封包的能力，它不知道经由哪条路线送封包到root bridge的cost最小，就要找到1个bridge完成这个任务，找到之后，所有的封包都要通过该bridge，因为cost最小，这个bridge就是designated bridge，cost相同的情况下，选id小的bridge)</li>
+<li>designaged port: The port of the designated bridge that attacheds the bridge to the LAN. All internet traffic to and from the LAN pass through the designated port.</li>
+</ul>
+<p>spanning tree（分散式演算法）的步骤：</p>
+<ol>
+<li>决定root bridge：bridge之间互相通信，比较bridge id的大小</li>
+<li>决定其他bridge的root port</li>
+<li><p>决定每一个LAN的designated port</p>
+<ul>
+<li>如果1个bridge有两个cost相同的port接到1个LAN上，选择id小的那个</li>
+<li>如果多个bridge都提供相同的rpc，选择bridge id小的那个</li>
+</ul>
+<p>一旦通过spanning tree algorithm计算得到结果，所有的路线就都确定，每一个bridge仅有一个R port，每一个LAN仅有一个D port，比如下图：</p>
+<p><img src="/images/network/spanningTree.png" width="500" alt="spanningTree"></p>
+</li>
+</ol>
+<hr>
+<h3 id="port的状态机"><a href="#port的状态机" class="headerlink" title="port的状态机"></a>port的状态机</h3><p>每一个port只可能扮演一个角色：或者Root Port(R port)或者Designated Port(D port)，没有扮演角色的port就会被block，成为block port，相当于断线，封包进来不再转送，也不再进行address learning</p>
+<p>  <img src="/images/network/portStateMachine.png" width="500" alt="portStateMachine"></p>
+<p>对上述状态转换的描述：</p>
+<ol>
+<li>开始，所有的bridge都只知道自己的id，认为自己是最小的，都把自己认作root bridge，然后向其他bridge发送自己的信息</li>
+<li>其他bridge收到，如果id比自己小，就被征服，帮助扩散这个小id的bridge的信息，如果比自己大，就反扑回去</li>
+<li>所有port在bridge开机前都是block状态，开机后都是D port状态，然后在上述交流过程中，可能变为R port或者重新回到block状态</li>
+<li>再经过15s后没变成可forward的port就彻底稳定，完成spanning tree的构建</li>
+</ol>
+<hr>
+<h3 id="Bridge-Protocol-Data-Unit-BPDU"><a href="#Bridge-Protocol-Data-Unit-BPDU" class="headerlink" title="Bridge Protocol Data Unit(BPDU)"></a>Bridge Protocol Data Unit(BPDU)</h3><p>Bridge交换的封包有两种类型：</p>
+<ul>
+<li>network configration BPDU</li>
+<li><p>topology change BPDU</p>
+<p><img src="/images/network/BPDU.png" width="500" alt="BPDU"></p>
+</li>
+</ul>
+<p>计算一个bridge的rpc是将其他bridge发来的封包带的rpc加上它自己发出方向的port的transmitting cost</p>
+<hr>
+<h3 id="spanning-tree的特点"><a href="#spanning-tree的特点" class="headerlink" title="spanning tree的特点"></a>spanning tree的特点</h3><ol>
+<li>spanning tree中，每一个bridge到root bridge的rpc最小（每一个bridge都有一个R port）</li>
+<li>spanning tree中，每一个LAN通过代理bridge到root bridge的rpc最小（每一个LAN都有一个D port）</li>
+<li>不是图学中的minimum cost spanning tree（也不知道图中的这个是个啥。。。）</li>
+<li>BLAN中的的spanning tree是可以人工计算的</li>
+</ol>
+<hr>
+<h3 id="spanning-tree的维护"><a href="#spanning-tree的维护" class="headerlink" title="spanning tree的维护"></a>spanning tree的维护</h3><ol>
+<li>root会启动configuration BPDU的传送</li>
+<li>root会周期性的发送configuration BPDU，送往相连的所有LAN</li>
+<li>configuration会沿着spanning tree传送下去</li>
+<li>如果有bridge或link断掉，就可能会启用其他的线路以修复spanning tree(正常的block port会收到configuration BPDU，断掉后，block port会timeout，然后尝试成为相连LAN的代理，进入竞争阶段)，然后向root发送TCN(topology change notification)封包，这种封包为保证可靠性，通过TCP协议</li>
+<li>root收到后，通知其他bridge重新做address learning</li>
+<li>如果是LAN坏掉，可能会导致整个网络被切分。被切的那个会形成一个新的root bridge，进而形成一个新的网络(这样部分网段被隔离，很浪费，所以要连成环状，增加网络可靠性)</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge"><span class="toc-text">Bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge-LAN-BLAN"><span class="toc-text">Bridge LAN(BLAN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有回路BLAN的问题和解决办法"><span class="toc-text">有回路BLAN的问题和解决办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spanning-tree-algorithm"><span class="toc-text">spanning tree algorithm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#port的状态机"><span class="toc-text">port的状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge-Protocol-Data-Unit-BPDU"><span class="toc-text">Bridge Protocol Data Unit(BPDU)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spanning-tree的特点"><span class="toc-text">spanning tree的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spanning-tree的维护"><span class="toc-text">spanning tree的维护</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/03/22/计算机网络概论学习笔记之wireless/" rel="next" title="《计算机网络概论》学习笔记整理之wireless LAN">
+          《计算机网络概论》学习笔记整理之wireless LAN
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
