@@ -101,6 +101,31 @@
       <div class="archives">
   
   <div class="archive">
+  <a class="post-go" href="/2018/07/24/javascript查漏补缺之十二-迭代器和生成器/">
+    <div>
+      <span class="date">
+        07-24
+      </span>
+      <span class="slash">/</span>
+      javascript查漏补缺之十二 ——《迭代器和生成器》
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_Generators" target="_blank" rel="noopener">链接地址</a></p>
+<ol>
+<li><p>迭代器</p>
+<p> 迭代器是一个<strong>对象</strong>，知道如何每次访问集合中的一项，并跟踪该序列中的当前位置。它提供一个<code>next()</code>方法，用来返回序列中的下一项。这个方法返回包含两个属性：<code>done</code>和<code>value</code>。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个迭代器对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeIterator</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> nextIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> nextIndex &lt; array.length ?</span><br><span class="line">          &#123;<span class="attr">value</span>: array[nextIndex++], <span class="attr">done</span>: <span class="literal">false</span>&#125; :</span><br><span class="line">          &#123;<span class="attr">done</span>: <span class="literal">true</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> it = makeIterator([<span class="string">'yo'</span>, <span class="string">'ya'</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(it.next().value); <span class="comment">// 'yo'</span></span><br><span class="line"><span class="built_in">console</span>.log(it.next().value); <span class="comment">// 'ya'</span></span><br><span class="line"><span class="built_in">console</span>.log(it.next().done); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2018/07/23/javascript查漏补缺之十一-对象模型的细节/">
     <div>
       <span class="date">
@@ -317,31 +342,6 @@
 <li><p>js中数字的范围和类型</p>
 <p>范围： -(2^53 - 1) ~ (2^53 - 1)</p>
 <p>类型： 普通数字， +Infinity， -Infinity， NaN</p>
-</li>
-</ol>-->
-    <!--</div>-->
-  </a>
-
-</div>
-
-  
-  
-  <div class="archive">
-  <a class="post-go" href="/2018/07/06/chrome调试技巧/">
-    <div>
-      <span class="date">
-        07-06
-      </span>
-      <span class="slash">/</span>
-      chrome开发者工具使用技巧
-    </div>
-
-    <!--<div class="excerpt">-->
-      <!--<ol>
-<li><p>使用开发者工具查看dom节点的监听函数</p>
-<ol>
-<li>使用console查看</li>
-</ol>
 </li>
 </ol>-->
     <!--</div>-->

@@ -101,6 +101,76 @@
       <div class="archives">
   
   <div class="archive">
+  <a class="post-go" href="/2020/04/17/计算机网络概论学习笔记之可靠传输/">
+    <div>
+      <span class="date">
+        04-17
+      </span>
+      <span class="slash">/</span>
+      《计算机网络概论》学习笔记整理之Reliable Transmission
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!--<p>这篇笔记主要记录：</p>
+<ol>
+<li><p>提供可靠传输的两种技术</p>
+<ol>
+<li>Acknowledgements</li>
+<li>Timeout</li>
+</ol>
+</li>
+<li><p>Stop-and-Wait Protocol </p>
+<p>这种协议能提供可靠传输，但是效能堪忧：</p>
+<ol>
+<li>有且仅有一个封包在外传输</li>
+<li>可能会收到重复封包</li>
+</ol>
+</li>
+<li><p>Sliding Window Protocol</p>
+<p>这种协议能提供可靠传输，且效能很好</p>
+<ol>
+<li>每一个封包上都会添加一个sequence number，滑动窗口的工作方式建立在这个序号的基础上</li>
+<li>同时可有多个封包在外传输(keeping pipefull)</li>
+<li>sender(window的滑动时机)<ol>
+<li>Sending Window Size(SWS) = delay * bandwidth</li>
+<li>Last Acknowledgement Received(LAR)</li>
+<li>Last Frame Sent(LFS)</li>
+</ol>
+</li>
+<li>Receiver(window的滑动时机)<ol>
+<li>Receiving Window Size(RWS) = 1 or SWS</li>
+<li>Largest Acceptable Frame(LAF)</li>
+<li>Last Frame Received(LFR)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>SWS和RWS可以不相等</p>
+</li>
+<li><p>如果RWS = SWS，最好让<code>SWS &lt; (MaxSeqNum + 1) / 2</code>，否则，receiver可能会收到重复封包</p>
+</li>
+<li><p>Acknowledgement机制的实现方式视具体实现而定，常用的有：</p>
+<ol>
+<li>NAK</li>
+<li>Cumulative acknowledgement</li>
+</ol>
+</li>
+<li><p>Sliding Window protocol 提供了三个特性</p>
+<ol>
+<li>提供可靠传输</li>
+<li>Perserve order，虽然在传输过程是无序的，但是往上一层协议送的时候是有序的</li>
+<li>流量控制，receiver determines the RWS</li>
+</ol>
+</li>
+</ol>-->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive">
   <a class="post-go" href="/2020/04/09/计算机网络概论学习笔记之VLAN/">
     <div>
       <span class="date">
