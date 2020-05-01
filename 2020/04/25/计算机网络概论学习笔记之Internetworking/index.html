@@ -1,0 +1,868 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="网络,">
+  
+
+  
+    <meta name="description" content="《计算机网络概论》学习笔记整理之Internet working">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>《计算机网络概论》学习笔记整理之Internet working [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        《计算机网络概论》学习笔记整理之Internet working
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-04-24T16:00:00.000Z">
+        2020-04-25
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 24 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇笔记主要是关于IP协议的，内容超级多，其中subnet mask和CIDR的关系或是区别感觉不是很明白，但不予深究，仅把理解的记下来，日后碰到再说。</p>
+<p>本篇主要包含下面内容：</p>
+<ol>
+<li>router的作用：用来建立大规模的异质网络</li>
+<li>IP(Internet Protocol)的作用是用于整个网络中的node和router的沟通使用，有两个特点：<ol>
+<li>Connectionless model for data deliverying</li>
+<li>Best-effort(Unreliable Service)，由于网络中的不可靠因素导致，不可靠因素包括：<ol>
+<li>packets lost</li>
+<li>packets out of order during deliverying</li>
+<li>duplicate copies of a packet</li>
+<li>packets delay for a long time</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>router：最重要的工作是routing table lookup</li>
+<li>IP subnetting<ol>
+<li>subnet mask</li>
+<li>subnet number</li>
+</ol>
+</li>
+<li>classless Inter-Domain Routing(CIDR)<ol>
+<li>合并路由表(routes aggregated to reduce routing table size)</li>
+<li>prefix and prefix length<ol>
+<li>192.4.16/21 表示8个class c网络</li>
+<li>192.4.16/22 表示4个class c网络</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>DHCP</li>
+<li>ICMP</li>
+<li>Distance Vector(routing protocol)，RIP(Routing Information Protocol)使用这种方法</li>
+<li>Link State(routing protocol)，OSPF(Open Shortest Path First)使用了这种方法</li>
+</ol>
+<a id="more"></a>
+<hr>
+<h3 id="Internet-Working"><a href="#Internet-Working" class="headerlink" title="Internet Working"></a>Internet Working</h3><ol>
+<li><p>什么是internet working</p>
+<p>An arbitrary collection of networks interconnected to provide some sort of host-to-host packet delivery service</p>
+</li>
+<li><p>什么是IP</p>
+<ol>
+<li>用来构建可扩展的异质网络的重要工具</li>
+<li>在网络中的所有节点上都会运行</li>
+<li>对使用者来看，就好像是一个logical Internet Working</li>
+</ol>
+</li>
+<li><p>IP service model</p>
+<ol>
+<li>packet delivery model(类似邮政系统)<ol>
+<li>connectionless model for data delivery</li>
+<li>best-effort delivery(unreliable service)，可能会出现下面几种情况：<ol>
+<li>packets are lost</li>
+<li>packets are delivered out of order</li>
+<li>duplicate copies of a packet are delivery</li>
+<li>packets can be delayed for a long time</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Global Addressing Scheme: Provides a way to identify all hosts in the network</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="router-layer-3-device-是如何工作的"><a href="#router-layer-3-device-是如何工作的" class="headerlink" title="router(layer 3 device)是如何工作的"></a>router(layer 3 device)是如何工作的</h3><ol>
+<li><p>router使用<em>store and forward</em>的方式处理封包</p>
+<p>router通过routing protocol一共会维护2张表：</p>
+<ol>
+<li>Forwarding Table：从这张表中查找destination IP，对应的下一步去向，目的地是和该router直接相连还是间接相连，然后去下表中查找对应的MAC address</li>
+<li>IP/MAC mapping table：拥有该IP的主机或router和其对应的MAC address的映射(真正收封包的是硬件网卡，所以需要知道网卡的MAC address)</li>
+</ol>
+<p>如果在第一张表中没有找到destination IP，这个封包就会从default port出去，继续后面的处理</p>
+</li>
+<li><p>这种工作方式的router最大的问题是查表的速度</p>
+<p>IP地址共有2^32（40亿）个，如果查表速度不够快，就会在router中累积，出现丢包。现代的router为了提高查表速度，都使用硬件的解决方案，使用专门的芯片，能够实现线速(wire-speed forwarding)</p>
+</li>
+<li><p>Not plug-and-play</p>
+<p>router必须经过设定才能正常工作，无法像switch即插即用</p>
+</li>
+</ol>
+<hr>
+<h3 id="IP封包的组成"><a href="#IP封包的组成" class="headerlink" title="IP封包的组成"></a>IP封包的组成</h3><p>  每个网络都有一个MTU(Maxium Transmission Unit)特性，用来表示能传输的单个封包的大小上限</p>
+<p>  封包的重要字段：</p>
+<ol>
+<li>identification：在切割封包时，用于标识小封包是否属于同一个大封包</li>
+<li>Fragment：在封包被切割时，该字段用于记录每一个片段在原封包的什么位置</li>
+<li>Protocol：上一层协议，比如TCP或者UDP</li>
+<li>Time to Live(TTL)：该处为一个数字，每经过一个router就减1，当减为0时，router就会将其丢弃，防止封包永久存在于网络上</li>
+<li><p>flags：用来标记封包是否允许切割，不能切割的封包有两条选择：</p>
+<ol>
+<li>走另外一条允许大封包通过的路</li>
+<li><p>无路丢弃</p>
+<p>flags由3个bit组成：</p>
+<ol>
+<li>固定值0</li>
+<li>DF：0表示 may fragment，1表示don’t fragment</li>
+<li>MF：0表示 last fragment，1表示more fragment</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Total length：封包大小</li>
+<li>Header checksum：由IP Header的内容生成的校验码，校验封包内容在传输过程中是否错误</li>
+<li>Source IP Address和Destination IP Address：封包发送方和接收方的IP地址，IPv4版本是32bits，IPv6版本是128bits</li>
+<li><p>Type of Service：8个bit，用来标识这个IP封包的功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|precedence|D|T|R|O|O|</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<pre><code>precedence：3个bit，
+- 111：Network Control
+- 110：Internetwork Control
+- 101：CRITIC/ECP
+- 100：Flash Override
+- 011：Flash
+- 010：Immediate
+- 001：Priority
+- 000：Routine
+
+D：1个bit，表示Delay
+- 0：Normal
+- 1：Low
+
+T：1个bit，表示Through put
+- 0：Normal
+- 1：High
+
+R：1个bit，表示Reliability
+- 0：Normal
+- 1：High
+</code></pre><hr>
+<h3 id="IP-Address的特点"><a href="#IP-Address的特点" class="headerlink" title="IP Address的特点"></a>IP Address的特点</h3><ol>
+<li>IPv4 32 bits，每个都是全球唯一的，<em>用来定位唯一一台host</em></li>
+<li>层级：<em>network + host</em></li>
+<li>class A type：network(8) + host(24)</li>
+<li>class B type: network(16) + host(16)</li>
+<li>class C type: newwork(24) + host(8)</li>
+</ol>
+<hr>
+<h3 id="Intra-LAN-and-Inter-LAN-Communications"><a href="#Intra-LAN-and-Inter-LAN-Communications" class="headerlink" title="Intra-LAN and Inter-LAN Communications"></a>Intra-LAN and Inter-LAN Communications</h3><p><img src="/images/network/InterLanCommunication.png" width="800" alt="InterLanCommunication"></p>
+<ol>
+<li><p>B =&gt; Y(Intra LAN)</p>
+<p>send the frame to the destination directly</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|MAC(Y)|MAC(B)|IP(Y)|IP(B)|IP datagram|</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>B =&gt; A(Inter-LAN)</p>
+<ol>
+<li>send the frame to attached Router first</li>
+<li>Router will forward to the destination</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|MAC(R)|MAC(B)|IP(A)|IP(B)|IP Datagram|</span><br><span class="line"></span><br><span class="line">|MAC(A)|MAC(R)|IP(A)|IP(B)|IP Datagram|</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h3 id="IP-Datagram-Forwarding"><a href="#IP-Datagram-Forwarding" class="headerlink" title="IP Datagram Forwarding"></a>IP Datagram Forwarding</h3><p>router的每一个port都有1个IP</p>
+<p>策略：</p>
+<ul>
+<li>every datagram contains destination’s address</li>
+<li>if directly connected to destination network, then forward to host</li>
+<li>if not directed connected to destination network, then forward to some router</li>
+<li>forwarding table maps network number into next hop</li>
+<li>each host has a default router</li>
+<li>each router maintains a forwarding table</li>
+</ul>
+<hr>
+<h3 id="IP-Fragmentation-and-Reassembly"><a href="#IP-Fragmentation-and-Reassembly" class="headerlink" title="IP Fragmentation and Reassembly"></a>IP Fragmentation and Reassembly</h3><ol>
+<li><p>MTU(Maximum Transmission Unit)</p>
+<p>每一种网络都有一个MTU，表示这种网络可以接受的封包的最大的size</p>
+<ul>
+<li>Ethernet：1518bytes</li>
+<li>IEEE802.11 wireless：2312bytes</li>
+<li>FDDI：4500bytes</li>
+</ul>
+<p>封包的size大过MTU就不能送进这个网络</p>
+</li>
+<li><p>策略</p>
+<ul>
+<li>Fragmentation occurs in a router when it receives a datagram that it wants to forward over a network which has MTU &lt; datagram(封包切割发生在router上)</li>
+<li>Reassembly is done at the receiving host(封包组合发生在host上)</li>
+<li>All the fragments carry the same identifier(IP的header会被复制不切，切的是内容)</li>
+<li>Fragments are self-contained datagrams</li>
+<li>IP does not recover from missing(封包组合不起俩就会被丢弃)</li>
+</ul>
+</li>
+<li><p>组合</p>
+</li>
+</ol>
+<p>下图中：</p>
+<ul>
+<li>MF：表示该封包后面是否还有封包，0表示没有(就是说该封包就是最后一个)，1表示还有</li>
+<li>offset：表示该封包中第一个byte的位置，0表示该封包位于整个资料的最前面</li>
+<li>MF和offset都为0表示该封包没有被切割过</li>
+<li>封包组合时，会设置一个时间上限，超时未组合完毕就会被丢弃</li>
+</ul>
+<p><img src="/images/network/reassemblyFrafmentation.png" width="600" alt="reassemblyFrafmentation"></p>
+<hr>
+<h3 id="Router的特征"><a href="#Router的特征" class="headerlink" title="Router的特征"></a>Router的特征</h3><ol>
+<li><p>Network Layer Routing</p>
+<ul>
+<li>Network layer protocol dependent</li>
+<li>Filter <em> MAC broadcast and multicast packets </em></li>
+<li>Easy to support mixed media(每一个端口都可以支持不同的媒介)</li>
+<li>Packet fragmentation and reassembly(router本身具有组合封包的能力，但一般交给host来处理)</li>
+<li>Filtering on network(IP) address and information(ACL: Access Control List)，也就是说router本身具有防火墙的功能</li>
+<li>accounting：计费能力，根据封包的流量计费</li>
+</ul>
+</li>
+<li><p>Direct Communication between endpoints and routers</p>
+<ul>
+<li>Highly configurable and hard to get right</li>
+<li>Handle speed mismatch(通过buffer来平衡)</li>
+<li>Congestion control and avoidance，拥挤控制方法包括：<ol>
+<li>丢弃封包</li>
+<li>通过router之间的交流，告诉其他的封包送的慢点儿</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Routing Protocols</p>
+<ol>
+<li>Interconnect layer 3 networks and exploit arbitrary topologies</li>
+<li>Determing which route to take</li>
+<li>Static routing:固定两个IP之间的路线，不受网络状态影响，不受距离远近、网速快慢影响</li>
+<li>Dynamic routing protocol support<ol>
+<li>RIP：Routing Information Protocol</li>
+<li>OSPF：Open shortest Path First</li>
+</ol>
+</li>
+<li>Provides reliability with alternate routes</li>
+</ol>
+</li>
+<li>Router management<ol>
+<li>Troubleshooting capabilities</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="Differences-between-Bridges-and-Routers"><a href="#Differences-between-Bridges-and-Routers" class="headerlink" title="Differences between Bridges and Routers"></a>Differences between Bridges and Routers</h3><table>
+<thead>
+<tr>
+<th>Bridges</th>
+<th>Routers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operation at layer 2</td>
+<td>operation at layer 3</td>
+</tr>
+<tr>
+<td>protocol independent</td>
+<td>protocol dependent</td>
+</tr>
+<tr>
+<td>automatic address learning/filtering</td>
+<td>administration required for address, internet and routers</td>
+</tr>
+<tr>
+<td>pass MAC multicast/broadcast</td>
+<td>MAC multicast/broadcast can be filtered</td>
+</tr>
+<tr>
+<td>lower cost</td>
+<td>higher cost</td>
+</tr>
+<tr>
+<td>no flow/congestion control</td>
+<td>flow/congestion control</td>
+</tr>
+<tr>
+<td>limited security</td>
+<td>complex security</td>
+</tr>
+<tr>
+<td>transparent to end systems</td>
+<td>non-transparent</td>
+</tr>
+<tr>
+<td>well suited for simple/small networks</td>
+<td>for wan\larger networks</td>
+</tr>
+<tr>
+<td>no frames segmentation/reassembly</td>
+<td>frames segmentation/reassembly</td>
+</tr>
+<tr>
+<td>spanning tree based routing</td>
+<td>optimal routing and load sharing(routing选的路线更好)</td>
+</tr>
+<tr>
+<td>plug and play</td>
+<td>requires central administrator(需要设定才能运作)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="IP-subnetting"><a href="#IP-subnetting" class="headerlink" title="IP subnetting"></a>IP subnetting</h3><ul>
+<li>subnet: another level to address/routing hierarchy(在a、b、c三层网络下再加一层子网络)</li>
+<li><p>subnet masks(用来定义子网络的大小): define variable partition of host part of class A and class B address</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|network number|host number|</span><br><span class="line"></span><br><span class="line">IP地址的层级结构如上，一个class B的ip地址，host unmber由16个bit组成，共有2^16=65536个</span><br><span class="line"></span><br><span class="line">|11111111|11111111|11111111|00000000|</span><br><span class="line"></span><br><span class="line">每个1表示一个mask，上面就是255.255.255.0，这个子网共有2^8=256台host</span><br><span class="line">submask为255.255.255.128时，有2^7=128台host</span><br><span class="line">submask为255.255.255.192时，有2^6=64台host</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="Subnet-Forwarding-Algorithm"><a href="#Subnet-Forwarding-Algorithm" class="headerlink" title="Subnet Forwarding Algorithm"></a>Subnet Forwarding Algorithm</h3><p>下面这个表格是子网和下一站的映射</p>
+<table>
+<thead>
+<tr>
+<th>subnet Number</th>
+<th>Subnet Mask</th>
+<th>Next Hop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>128.96.34.0</td>
+<td>255.255.255.128</td>
+<td>Interface 0</td>
+</tr>
+<tr>
+<td>128.96.34.128</td>
+<td>255.255.255.128</td>
+<td>Interface 1</td>
+</tr>
+<tr>
+<td>128.96.33.0</td>
+<td>255.255.255.0</td>
+<td>R2</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">D = destination IP address</span><br><span class="line">for each entry &lt; Subnet Number, Subnet Mask, Next Hop &gt;</span><br><span class="line">D1 = (Subnet Mask) AND (D)</span><br><span class="line">if D1 = Subnet Number(每一个子网络都有一个编号)</span><br><span class="line">   if Next Hop is an interface</span><br><span class="line">     deliver datagram directly to destination</span><br><span class="line">   else</span><br><span class="line">     deliver datagram to Next Hop(router)</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li>A default router is used if nothing matches</li>
+<li>Not necessary for all ones in subnet mask to be contiguous(mask的1不一定要连续)</li>
+<li>subnets not visible from the rest of the Internet(子网络是router内部规划的结果)</li>
+<li>Can put multiple subnets on one physical network</li>
+</ol>
+<hr>
+<h3 id="Classless-Addressing"><a href="#Classless-Addressing" class="headerlink" title="Classless Addressing"></a>Classless Addressing</h3><ol>
+<li><p>Classless Inter-Domain Routing(CIDR)</p>
+<p>用来解决网络上的2个规模问题：</p>
+<ol>
+<li>The growth of backbone routing table as more and more network numbers need to be stored in them</li>
+<li>Potential exhaustion of the 32-bit address space</li>
+</ol>
+</li>
+<li><p>CIDR uses aggregate routes(合并路由)</p>
+<ol>
+<li>Uses a <em>single entry</em> in the forwarding table to tell the router how to reach a lot of different newworks</li>
+<li>Breaks the regid(严格的) boundaries between address classes</li>
+</ol>
+</li>
+<li><p>示例</p>
+<ol>
+<li>For example, an AS with 16 class c network numbers</li>
+<li>Instead of handling out 16 addresses at random, handle out a block of contiguous class c address</li>
+<li>Suppose we assign the class C network numbers from 192.4.16(prefix,可以是2~32bits的任何长度) through 192.4.31</li>
+<li>Observe that top 20 bits of all the addresses in this range are the same(11000000 00000100 0001)</li>
+<li>Requires to handle out blocks of class c addresses that share a common prefix</li>
+<li>The convention is to place a /x after the prefix where x is the prefix length in bits</li>
+<li>For example, the 20-bit prefix for all the networks 192.4.16 through 192.4.31 is represented as 192.4.16/20</li>
+<li>By contrast, if we wanted to represent a single class c network number 192.4.16, which is 24 bits long,we would write it 192.4.16/24</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">对于class c，host前用24bits表示network</span><br><span class="line">192.4.16/21时，24-21=3，2^3=8，表示有8个连续的网络</span><br><span class="line">192.4.16/20时，24-20=4，2^4=16，表示有16个连续的网络</span><br><span class="line">192.4.16/23时，24-23=1，2^1=2，表示有2个连续的网络</span><br></pre></td></tr></table></figure>
+<p>这种方式可以让多个entry合并为1个，减小router table的大小</p>
+</li>
+<li><p>longest prefix matching</p>
+<p>比对prefix可能出现的多个结果，比如：</p>
+<p>171.69.10.5</p>
+<ul>
+<li>171.69/16</li>
+<li>171.69.10/24</li>
+</ul>
+<p>这两种情况都能匹配上，router对这种情况的处理方式就是使用最长的prefix</p>
+</li>
+</ol>
+<hr>
+<h3 id="Address-Resolution-Protocol-ARP"><a href="#Address-Resolution-Protocol-ARP" class="headerlink" title="Address Resolution Protocol(ARP)"></a>Address Resolution Protocol(ARP)</h3><ol>
+<li><p>用途</p>
+<p>Map IP address(1. destination host 2. next hop router) into physical(MAC) address</p>
+</li>
+<li><p>过程</p>
+<ol>
+<li>table of IP to physical address bindings</li>
+<li>broadcast request if IP address not in the table</li>
+<li>target machine responds with its physical address</li>
+<li>table entries are discarded if not refreshed</li>
+</ol>
+</li>
+<li><p>ARP封包的重要字段</p>
+<ol>
+<li>target protocol addr：对方的IP</li>
+<li>source protocol addr：问的IP</li>
+<li>source hardware addr：自己的MAC</li>
+<li>target hardware addr：对方的MAC</li>
+<li>operation：是问是答</li>
+</ol>
+</li>
+<li><p>Dynamic Host Configuration Protocol(DHCP)</p>
+<p>一台host要设置如下参数，才能正常工作：</p>
+<ol>
+<li>IP</li>
+<li>default router</li>
+<li>subnet mask</li>
+<li>domain name</li>
+</ol>
+<ol>
+<li>关于DHCP<ol>
+<li>DHCP server is responsible for providing configuration information to host</li>
+<li>There is at least one DHCP server for an administrative domain</li>
+<li>DHCP server maintains a pool of available address(这种方式允许动态分配时可以对IP的时效性做控制)</li>
+</ol>
+</li>
+<li>过程<ol>
+<li>Newly booted on attached host sends DHCP DISCOVER message to a special IP address(255.255.255.255)</li>
+<li>DHCP relay(中继设备) agent unicasts the message to DHCP server and waits for the reponse</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="Internet-Control-Message-Protocol-ICMP"><a href="#Internet-Control-Message-Protocol-ICMP" class="headerlink" title="Internet Control Message Protocol(ICMP)"></a>Internet Control Message Protocol(ICMP)</h3><ol>
+<li><p>Defines a collection of error messages that are sent back to the source host whenever a router or host is unable to process an IP datagram successfully，下面这些场景都会导致router发出ICMP封包</p>
+<ol>
+<li>Destination host unreachable due to link/nodd failure</li>
+<li>Reassembly process failed</li>
+<li>TTL(time-to-live) had reached to(so dataframs don’t cycle forever)</li>
+<li>IP header checksum failed</li>
+</ol>
+</li>
+<li><p>ICMP-Redirect</p>
+<ol>
+<li>From router to a source host</li>
+<li>with a better route information</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="Routing-Protocol"><a href="#Routing-Protocol" class="headerlink" title="Routing Protocol"></a>Routing Protocol</h3><p>router有两项重要的工作：forwarding和routing，同时对应的也会构建两张表：forwarding table和routing table</p>
+<ol>
+<li>Forwarding: to select an output port based on destination address and routing table</li>
+<li><p>Routing: process to build the routing table</p>
+<p>find the lowest-cost path between any two nodes，通过routing protocol，每一个router都会获得整个网络的拓扑结构</p>
+</li>
+<li><p>Forwarding table</p>
+<ol>
+<li>Used when a packet is being forwarded</li>
+<li>An entry in the forwarding table contains the mapping from a network umber(哪一个网络) to an outgoing interface(哪一个port) and some MAC information, such as Ethernet Address of the next hop</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>prefix/length</th>
+<th>Interface</th>
+<th>MAC address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>140.114/16</td>
+<td>0</td>
+<td>8:0:2c:e3:b:2:20</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>Routing table<ol>
+<li>Built by the routing algorithm</li>
+<li>Generally contains mapping from network numbers to next hops</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>cost</th>
+<th>prefix/Length</th>
+<th>Next Hop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>140.114/16</td>
+<td>171.34.45.12</td>
+</tr>
+</tbody>
+</table>
+<p>每一个routing只需记住下一站，不需要记住全程</p>
+<ol start="5">
+<li><p>Distance Vector Protocol(一种分布式动态routing protocol)</p>
+<ol>
+<li>Each node constructs a one dimensinal array(a vector) containing the “distances”(costs) to all other nodes and distributes that vector to its immediate neightbours</li>
+<li>Assume that each node knows the cost of the link to each of its directly connected neightbours</li>
+<li>Every T seconds each router sends its routing table to its neighbours</li>
+<li>Each router then updates its routing table based on the new information</li>
+<li>problems include:<ol>
+<li>fast response to good news</li>
+<li>slow response to bad news</li>
+<li>too much messages to update</li>
+</ol>
+</li>
+</ol>
+<p>在真实网络中，经过router的数量的最大值是16(可以认为是count-to-infinity中的infinity)。Distance Vector Procol中存在的最大的一个问题是：count-to-infinity problem，简单来说就是相邻的两个router循环向对方发送routing table：<code>A &lt;=&gt; B</code>，解决办法如下：</p>
+<ol>
+<li>split horizon: when a node sends a routing update to its neightbours, it does not send those routes it learned from each neighbours back to that neightbours</li>
+<li>split horizon with poizon reverse: B actially sends that back route to A, but it puts negative information(route(0,oo)) in the route to ensure that A will not eventually use B to get to other node</li>
+</ol>
+</li>
+<li><p>Link State Protocol(另一种分布式动态routing protocol)</p>
+<ol>
+<li>策略：send to all nodes(not just neighbours) information about directly connected links(not entire routing table)</li>
+<li>LSP封包(Link State Packet)，执行上述过程的时候借助该类封包，包含：<ol>
+<li>ID of the node that created the LSP</li>
+<li>cost of link to each directly connected neighbours</li>
+<li>Sequence number(SEQNO)(link的状况只要有变化就会发送出新的LSP)</li>
+<li>Time-to-live(TTL) for this packet</li>
+<li>LSP需要可靠传送，收到LSP的router只需保存最新的SEQNO(因为该封包反映了最新的link的状态)，然后该router继续向外广播(不回送)</li>
+</ol>
+</li>
+<li>实际网络中OSPF(Open Shortest Path First)使用了Link state Protocol<ol>
+<li>Each router computes its routing table directly from the LSP’s it has collected using the Dijkstra’s algorithm</li>
+<li>Find the shortest path from the router to each other node</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Internet-Working"><span class="toc-text">Internet Working</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#router-layer-3-device-是如何工作的"><span class="toc-text">router(layer 3 device)是如何工作的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP封包的组成"><span class="toc-text">IP封包的组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-Address的特点"><span class="toc-text">IP Address的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intra-LAN-and-Inter-LAN-Communications"><span class="toc-text">Intra-LAN and Inter-LAN Communications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-Datagram-Forwarding"><span class="toc-text">IP Datagram Forwarding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-Fragmentation-and-Reassembly"><span class="toc-text">IP Fragmentation and Reassembly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router的特征"><span class="toc-text">Router的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Differences-between-Bridges-and-Routers"><span class="toc-text">Differences between Bridges and Routers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-subnetting"><span class="toc-text">IP subnetting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subnet-Forwarding-Algorithm"><span class="toc-text">Subnet Forwarding Algorithm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Classless-Addressing"><span class="toc-text">Classless Addressing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Address-Resolution-Protocol-ARP"><span class="toc-text">Address Resolution Protocol(ARP)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Internet-Control-Message-Protocol-ICMP"><span class="toc-text">Internet Control Message Protocol(ICMP)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Routing-Protocol"><span class="toc-text">Routing Protocol</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/04/17/计算机网络概论学习笔记之可靠传输/" rel="next" title="《计算机网络概论》学习笔记整理之Reliable Transmission">
+          《计算机网络概论》学习笔记整理之Reliable Transmission
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>

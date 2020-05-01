@@ -92,6 +92,30 @@
     
 
       <article class="recent-post-item">
+        <a class="title" href="/2019/07/21/getDerivedStateFromProps/"><h2>生命周期函数getDerivedStateFromProps的使用</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2019-07-20T16:00:00.000Z">
+            2019-07-21
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/React/">React</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/生命周期函数/">生命周期函数</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>以前写的代码，遇到<code>组件内的状态即来自组件外部props，也来自组件内部的state更新</code>这种情况，都是在生命周期函数<code>componentDidUpdate</code>中解决的，在其他地方看到<code>getDerivedStateFromProps</code>函数的使用，突然发现这个函数才是真正为这个场景而生的。</p>
+          </div>
+        
+        <a class="more" href="/2019/07/21/getDerivedStateFromProps/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
         <a class="title" href="/2019/07/07/算法作业翻译/"><h2>算法作业翻译</h2></a>
         <div class="post-meta">
           
@@ -198,30 +222,6 @@
     
 
       <article class="recent-post-item">
-        <a class="title" href="/2019/05/07/基于链表的背包实现/"><h2>基于链表的背包实现</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-05-06T16:00:00.000Z">
-            2019-05-07
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/java/">java</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <p>本文记录java中基于链表包的实现。有数据类型通用性，链表的大小可调整，能够迭代。</p>
-          </div>
-        
-        <a class="more" href="/2019/05/07/基于链表的背包实现/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
         <a class="title" href="/2019/05/07/基于链表的队列实现/"><h2>基于链表的队列实现</h2></a>
         <div class="post-meta">
           
@@ -248,6 +248,30 @@
           </div>
         
         <a class="more" href="/2019/05/07/基于链表的队列实现/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2019/05/07/基于链表的背包实现/"><h2>基于链表的背包实现</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2019-05-06T16:00:00.000Z">
+            2019-05-07
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/java/">java</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/《算法》/">《算法》</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>本文记录java中基于链表包的实现。有数据类型通用性，链表的大小可调整，能够迭代。</p>
+          </div>
+        
+        <a class="more" href="/2019/05/07/基于链表的背包实现/"> 阅读全文〉</a>
       </article>
     
 
@@ -327,38 +351,6 @@
         <a class="more" href="/2019/05/02/迁移博客/"> 阅读全文〉</a>
       </article>
     
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/04/28/promise/"><h2>关于promise的理解</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-04-27T16:00:00.000Z">
-            2019-04-28
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/Promise/">Promise</a></li><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <h1 id="基于回调函数的异步编程"><a href="#基于回调函数的异步编程" class="headerlink" title="基于回调函数的异步编程"></a>基于回调函数的异步编程</h1><blockquote>
-<p>回调函数真正的问题在于它剥夺了我们使用return和throw这些关键字的能力。相反，我们的整个diamante流程都是基于副作用的：一个函数会附带调用其他函数。<sup>1</sup></p>
-</blockquote>
-<blockquote>
-<p>并且，它会将我们通常在大部分编程语言中能获得的堆栈破坏。<sup>1</sup></p>
-</blockquote>
-<blockquote>
-<p><strong><code>Primise</code>给予我们的是在我们使用异步时丢失的最重要的语言基石：<code>return</code>，<code>throw</code>以及<code>堆栈</code>。</strong><sup>1</sup></p>
-</blockquote>
-          </div>
-        
-        <a class="more" href="/2019/04/28/promise/"> 阅读全文〉</a>
-      </article>
-    
   </div>
 
 
@@ -367,7 +359,7 @@
 
     
       <nav class="page-nav text-center">
-          <a class="extend prev" rel="prev" href="/page/2/">〈</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">〉</a>
+          <a class="extend prev" rel="prev" href="/page/2/">〈</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">〉</a>
       </nav>
     
     <div class="goodle-ads-below-container">
