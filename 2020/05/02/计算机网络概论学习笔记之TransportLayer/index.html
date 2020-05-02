@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="网络,">
+  
+
+  
+    <meta name="description" content="《计算机网络概论》学习笔记整理之Transport Layer">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>《计算机网络概论》学习笔记整理之Transport Layer [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        《计算机网络概论》学习笔记整理之Transport Layer
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-05-01T16:00:00.000Z">
+        2020-05-02
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 18 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>这篇笔记主要是关于传输层的记录，包括两种协议：UDP和TCP。分为下面四部分：</p>
+<ol>
+<li>Introduce how to convert host-to-host packet delivery service to process-to-process communication channel</li>
+<li>UDP for unreliable transmission service</li>
+<li>TCP for reliable transmission service<ol>
+<li>3-way handshaking connection establishment</li>
+<li>TCP connection state diagram</li>
+<li>TCP timeout value calculation</li>
+<li>TCP retransmission scenaries</li>
+<li>TCP fast retransmission</li>
+</ol>
+</li>
+<li>TCP congestion control<ol>
+<li>AIMD(Additive Increase Multiplecative Decrease)</li>
+<li>Slow start</li>
+<li>3-duplicate ACKs(packet lose)</li>
+<li>Timeout</li>
+</ol>
+</li>
+</ol>
+<a id="more"></a>
+<hr>
+<h3 id="End-to-end-protocols"><a href="#End-to-end-protocols" class="headerlink" title="End-to-end protocols"></a>End-to-end protocols</h3><ol>
+<li><p>Transport protocol应该能提供下面的功能：</p>
+<ol>
+<li>Guaranteed message delivery</li>
+<li>Delivers message in the same order they were sent(内容的顺序不能乱)</li>
+<li>Delivers at most one copy of each message</li>
+<li>Supports arbitrarily large messages(支持任意大小信息的传送)</li>
+<li>Supports synchronization between the sender and the receiver</li>
+<li>Allows the reveiver to apply folw control to the sender</li>
+<li>Supports multiple application processes on each host</li>
+</ol>
+</li>
+<li><p>Transport Layer下一层比如IP提供的服务特点：</p>
+<ol>
+<li>Drop messages: overflow/congestion</li>
+<li>Reorder messages</li>
+<li>Delivery duplicate copies of a given message</li>
+<li>Limit messages to some finite size(MTU)</li>
+<li>Delivery messages after an arbitrarily long delay</li>
+</ol>
+<p>以上这些都会导致unreliable service</p>
+</li>
+<li><p>Transport protocol面临的挑战</p>
+<ol>
+<li>UDP：unreliable service =&gt; unreliable service</li>
+<li><em>TCP：unreliable service =&gt; reliable service</em></li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p>IP提供的服务是host-to-host，但真正的信息交流发生在application之间，所以UDP的作用在于：IP只能知道信息属于哪台host，UDP再进一步确定信息发送给该台host上的哪个application：</p>
+<ol>
+<li>Extends host-to-host delivery service of the underlying network into a process-to-process communication service</li>
+<li>Adds a level of demultiplexing which allows multiple application processes on each host to share the network</li>
+</ol>
+<p>不同的application使用port number进行区隔：</p>
+<ol>
+<li>DstPort：收该封包的host的应用的port number</li>
+<li>SrcPort：丢该封包的host的应用的port number</li>
+<li>Checksum</li>
+<li>Length</li>
+<li>Data</li>
+</ol>
+<p><img src="/images/network/UDP.png" width="800" alt="UDP"></p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>TCP是Transmission Control Protocol的缩写，具有下面的特点：</p>
+<ol>
+<li><p>Reliable Byte Stream</p>
+<ol>
+<li>Reliable</li>
+<li>connection oriented</li>
+<li>Byte-Stream service</li>
+</ol>
+<p>第三点是说TCP关注数据的总量，不在乎这些数据使用几个封包传送，简单来说可以看成一连串的byte，只要总量和顺序对就OK，不要求两边的节奏也一样</p>
+</li>
+<li><p>Flow control vs Congestion control</p>
+<ol>
+<li>Flow control: involves preventing senders from overrunning the capacity of the reveivers</li>
+<li>Congestion control: involves preventing too much data from being injected into the network, thereby causing routers/switchers or links to become overloaded，在处理constion的时候，面临两个问题：<ol>
+<li>如何侦测到internet正在congestion</li>
+<li>侦测到congestion如何处理</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>TCP segment</p>
+<ol>
+<li>TCP is a byte-oriented protocol</li>
+<li>The sender writes byte into a TCP connection and the receiver reads byte out of the TCP connection</li>
+<li>However, TCP does not transmit individual bytes over Internet(会将byte累积起来再送)</li>
+<li>The source TCP buffers enough bytes from the sending process to fill a reasonable sized packet and then sends this packet to its peer on the destination host</li>
+<li>The destination TCP then puts the contents of the packet into a receiver buffer, and the receiving process reads from the buffer</li>
+<li>The packets exchanged between TCP peears are called segments</li>
+</ol>
+<p><img src="/images/network/TCPStream.png" width="800" alt="TCPStream"></p>
+</li>
+<li><p>TCP header</p>
+<ol>
+<li>Source Port：发送该封包的host上的application对应的port，用于确定具体的application</li>
+<li>Destination Port：接收该封包的host上的application对应的port，用于确定具体的application</li>
+<li>Sequence Number(32bits)：表示封包带的data的第一个byte在整个byte stream中的编号是第几号(TCP是byte-oriented，每个byte都有一个sequence number)</li>
+<li>Acknowledgement Number(32bits)：告诉对方这个number之前的byte通通都收到了</li>
+<li>Flags<ol>
+<li>SYN(1bit)：设为1表示建立连线</li>
+<li>FIN(1bit)：设为1表示对方要把连线关掉</li>
+<li>ACK(1bit)：设为1表示上面的Acknowledgement Number是有意义的值</li>
+<li>RST(1bit)：设为1表示强制激励将连接清除</li>
+<li>PSH(1bit)：设为1表示不管buffer里的内容为多少，都强制将其冲出去</li>
+<li>URG(1bit)：设为1表示该封包带有紧急的资料，从Urgent Pointer字段中可以查看</li>
+</ol>
+</li>
+<li>Urgent Pointer：指向data中某个位置，该位置之前都是紧急的资料(比如控制信息)，之后才是普通数据</li>
+<li>Advertised Window(16bits)：用来做flow control(不是congestion control)，2^16=65536byte=64k，表示receiver给sender最多的量就是64k，所以sender可以送过来的量最多就是advertised window中的数字，最大为64k。64k的额度额度(credit)用完，sender就需要停下，等receiver送来下一个额度</li>
+<li>Checksum：used exactly the same way as for UDP——it is computed over the TCP header, the TCP data, andt the psendoheader, which is made up of the source address, destination address, and length fields from the IP header，这样能做全面的校验，保证数据的有效性</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="TCP-Connection-Management"><a href="#TCP-Connection-Management" class="headerlink" title="TCP Connection Management"></a>TCP Connection Management</h3><ol>
+<li>TCP sender, receiver establish connection before exchanging data segments</li>
+<li>initialize TCP variables：<ol>
+<li>sequence numbers(不一定从0开始，双方商议好即可)</li>
+<li>Buffers, flow control info(advertised window)</li>
+</ol>
+</li>
+<li><p>Client: connection initiator</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Socket clientSocket = new Socket(hostname, port number);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server：contacted by client</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server端也事先打开端口，时时准备接受client端发送来的数据</span><br><span class="line"></span><br><span class="line">Socket connectionSocket = weilcomeSocket.accept();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3-way handshake</p>
+<ol>
+<li>Client sends TCP SYN segment to server<ul>
+<li>specifies initial seq#</li>
+<li>no data</li>
+</ul>
+</li>
+<li>Server receives SYN, replies with SYN/ACK segment<ul>
+<li>server allocates(分配) buffers</li>
+<li>specifies server initial seq#</li>
+</ul>
+</li>
+<li>client receives SYN/ACK, replies with ACK segment, which may contain data</li>
+</ol>
+<p><img src="/images/network/establishTCPConnection.png" width="600" alt="establishTCPConnection"></p>
+</li>
+<li><p>关闭一个连接</p>
+<p>关闭连接双方多可以发起，以客户端发起为例:</p>
+<ol>
+<li>clientSocket.close();</li>
+<li>client sends TCP FIN control segment to server</li>
+<li>server receives FIN, replies with ACK, closes connection and sends FIN</li>
+<li>client receives FIN, replies with ACK and enters “timed wait” will respond with ACK to received FINs</li>
+<li>server receives ACK, connection closed</li>
+</ol>
+<p><img src="/images/network/closeTCPConnection.png" width="600" alt="closeTCPConnection"></p>
+</li>
+<li><p>TCP状态图</p>
+<p><img src="/images/network/TCPStateDiagram.png" width="600" alt="TCPStateDiagram"></p>
+</li>
+</ol>
+<hr>
+<h3 id="TCP-timeout的设计"><a href="#TCP-timeout的设计" class="headerlink" title="TCP timeout的设计"></a>TCP timeout的设计</h3><p>在每一个封包送出去时，都会涉及一个timer，希望能在这个timer timeout之前收到对方的acknowledgement</p>
+<ol>
+<li><p>Original Algorithm</p>
+<ol>
+<li>Measure sampleRTT for each segment/ACK pair</li>
+<li><p>Compute weighted average of RTT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EstRTT = α × EstRTT + (1-α) × sampleRTT</span><br><span class="line"></span><br><span class="line">α between 0.8 and 0.9</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Set timeout based on EstRTT: Timeout = 2 × EstRTT</li>
+</ol>
+</li>
+</ol>
+<p>这种算法的问题在于如果出现封包重送，无法分辨ACK是属于第一次送出的还是后续送出的，导致算不准sampleRTT</p>
+</li>
+<li><p>Karn/Partridge Algorithm</p>
+<ol>
+<li>Do not sample RTT when retransmitting</li>
+<li>Double timeout after each retransmission</li>
+</ol>
+<p>这种方法没有办法消除网络的congestion</p>
+</li>
+<li><p>Jscobson/Karels Algorithm</p>
+<p>原版算法最主要的问题是没有考虑variance of SampleRTT</p>
+<ol>
+<li>For small variance among sampleRTTs<ol>
+<li>Then the EstRTT can be better trusted</li>
+<li>There is no need to multiply this by 2 to compute the timeout</li>
+</ol>
+</li>
+<li>For large variance among sampleRTTs<ol>
+<li>The timeout value should not be tightly coupled to the EstRTT</li>
+</ol>
+</li>
+</ol>
+<p>也就是说为了准确的计算timeout，要将EstRTT的variance的变动幅度也考虑进来</p>
+<ol>
+<li>Difference = sampleRTT - EstRtt</li>
+<li>EstRTT = EstRTT + (δ × Difference)</li>
+<li>Deviation(偏差) = Deviation + δ × (|Difference| - Deviation), where δ is a factor between 0 and 1</li>
+<li><p>Timeout = μ × EstRTT + φ × Deviation</p>
+<ul>
+<li>where based on experience, μ = 1 and φ = 4</li>
+<li>Thus, <em>when the variance is small, Timeout is close to EstRTT; a large variance causes the deviation term to dominate the calculation</em></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="TCP-retransmission-scenarios"><a href="#TCP-retransmission-scenarios" class="headerlink" title="TCP retransmission scenarios"></a>TCP retransmission scenarios</h3><p>  <img src="/images/network/TCPRetransmissionScenarios.png" width="1000" alt="TCPRetransmissionScenarios"></p>
+<p>  左侧是2中重送的场景，右侧是ACK累计的场景</p>
+<hr>
+<h3 id="TCP-fast-Retransmission"><a href="#TCP-fast-Retransmission" class="headerlink" title="TCP fast Retransmission"></a>TCP fast Retransmission</h3><p>  <img src="/images/network/TCPFastRetransmission.png" width="500" alt="TCPFastRetransmission"></p>
+<ol>
+<li>Every time a data packet arrives at the receiving side, the receiver responds with an acknowledgement, even if this sequence number has already been acknowledged</li>
+<li>Thus, when a packet arrives out of order —— TCP resends the same acknowledgement it sent the last time</li>
+<li>This second transmission of the same acknowledgement is called a duplicate ACK</li>
+<li>When the sending side sees a duplicate ACK, it knows that the other side must have received a packet out of order, which suggests that an earlier packet might have been lost</li>
+<li>Since it is also possible that the earlier packet has only been delayed rather than lost, the sender waits until it sees some number of duplicate ACKs and then retransmits the missing packet</li>
+<li>TCP waits until it has seen <em>three duplicate ACKs</em> before retransmitting the packet</li>
+</ol>
+<p>不用非得等到timeout再重送！！！</p>
+<hr>
+<h3 id="TCP-congestion-control"><a href="#TCP-congestion-control" class="headerlink" title="TCP congestion control"></a>TCP congestion control</h3><ol>
+<li>The idwa of TCP congestion control is for each source to determine <em>how much capacity is available in the network</em>, so that it knows how many packets it can safely have in transit</li>
+<li>TCP is said to be self-clocking by using ACKs to pace the transmission of packets</li>
+<li><p>Additive Increase Multiplicative Decrease(AIMD)</p>
+<p>线性加速，发现壅挤马上减一半</p>
+<ol>
+<li>CongestionWindow: used by the source to limit how much data it is allowed to have in transmit simultaneously for a connection</li>
+<li>The CongestionWindow is congestion control’s counterpart to flow control’s AdvertisedWindow</li>
+<li>The maximum number of bytes of unacknowledged data allowed is now the minimum of the CongestionWindow and the AdvertisedWindow</li>
+<li><p>Transmission rate</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rate = CongestionWindow / RTT bytes/sec</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TCP’s effective window is revised as follows:</p>
+<ul>
+<li>MaxWindow = MIN(CongestionWindow, AdvertisedWindow)</li>
+<li>EffectiveWindow = MaxWindow - (LastByteSent - LastByteAcked)</li>
+</ul>
+</li>
+<li><p>A TCP source is allowed to send no faster than the slowest component can accommodate(容纳)</p>
+<ul>
+<li>the network or</li>
+<li>the destination host</li>
+</ul>
+</li>
+<li><p>CongestionWindow的值如何得到？<br>TCP source sets the CongestionWindow based on the congestion level it observed(MSS 开始最大的一个segment，和面有提到MSS)</p>
+<ul>
+<li>Decreasing the CongestionWindow when the level of congestion goes up and</li>
+<li>Increase the CongestionWindow when the level of congestion goes down</li>
+</ul>
+</li>
+<li><p>TCP 如何判断network congestion？</p>
+<ul>
+<li>TCP interpres packet lose(3-duplicate ACK) as a sign of congestion and reduces the rate</li>
+<li>Each time a packet lose occurs, the source sets CongestionWindow to half of its previous value</li>
+</ul>
+</li>
+<li>CongestionWindow 被定义为bytes的量，这里理解为封包的数量便于理解，不能小于1个MSS(maximum segment size)</li>
+<li>增加CongestionWindow:Every time the source sucessfully sends a CongestionWindow’s worth of packets(all packets sent out during the last RTT have been ACKed), it adds the equivalent of 1 packet of CongestionWindow，也就是1个MSS</li>
+<li>更积极的方法：不等所有ACK都收到才能加1MSS，而是每收到1个ACK就先增加一部分，比如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- cw = 5 x MSS, 每收到一个ACK就先增加1/5MSS</span><br><span class="line">- cw = 8 x MSS, 每收到一个ACK就先增加1/8MSS</span><br><span class="line"></span><br><span class="line">Increment = MSS x (MSS / CongestionWindow)</span><br><span class="line">CongestionWindow += Increment</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>Slow Start</p>
+</li>
+</ol>
+<p>AIMD比较适用的场景是传输的速度快逼近上限，问题在于一开始时，网络上比较空，按AIMD线性加速太慢了</p>
+<ul>
+<li>The additive increase mechanism is good when the source is operating close to the available capacity of the network, but it takes too long to ramp up(加强，加快) a connection when it is starting from scratch</li>
+<li>Slow Start: to increase the CongestionWindow rapidlly from a cold start</li>
+<li>Slow Start effectively incerases the CongestionWindow exponentially rather than linearly</li>
+<li>工作过程<ol>
+<li>Initially, the CongestionWindow = 1 packet</li>
+<li>比如 MSS = 500bytes, RTT = 200msec, initial rate = 20kbps(500 x 8 / 200 = 20, 起始速度很慢，所以叫做slow start)</li>
+<li>When the ACK for this packet arrives, TCP adds 1 to CongestionWindow and then sends 2 packets，也就是说，每收到1个ACK就增加1个MSS</li>
+<li>TCP effectively double the numebr of packets it has in transmit every RTT</li>
+</ol>
+</li>
+</ul>
+<ol start="5">
+<li>After 3 duplicate ACKs:<ul>
+<li>CW is cut in half(减半)</li>
+<li>window then grows linearly</li>
+</ul>
+</li>
+<li>But after timeout event(timeout 更严重)<ul>
+<li>CW instead set to 1 MSS</li>
+<li>window then grows exponentially</li>
+<li>to a threashold(原来cw的一半), then grows linearly</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="TCP-Congestion-Control-Summary"><a href="#TCP-Congestion-Control-Summary" class="headerlink" title="TCP Congestion Control Summary"></a>TCP Congestion Control Summary</h3><ol>
+<li>When CW is below Threshold, sender is in slow-start phase, window grows exponentially</li>
+<li>When CW is above Threshold, sender is in congestion-avoidance phase, window grows linearly</li>
+<li>When a triple duplicate ACK occursm  threshold set to CW/2 and CW set to threshold</li>
+<li><p>When timeout occurs, threshold set to CW/2 and CW is set to 1 MSS</p>
+<p><img src="/images/network/TCPCongestionCurve.png" width="900" alt="TCPCongestionCurve"></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Event</th>
+<th>TCP Sender Action</th>
+<th>Commentary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slow start(SS)</td>
+<td>ACK receipt for previously unacked data</td>
+<td>CW=CW+MSS<br>if(cw &gt; threshold) set state to Conegstion Avoidance(CA)</td>
+<td>Resulting in a doubling of CW every RTT</td>
+</tr>
+<tr>
+<td>CA</td>
+<td>ACK receipt for previously unacked data</td>
+<td>CW=CW+MSSxMSS/CW</td>
+<td>Addivtive increase resulting in increase of CW by MSS/RTT</td>
+</tr>
+<tr>
+<td>SS/CA</td>
+<td>Loss event detected by 3-dup-ACK</td>
+<td>threshold=CW/2<br>CW=CW/2<br>state=CA</td>
+<td>Fast recovery, implementing multiplicative decrease CW will not drop below 1 MSS</td>
+</tr>
+<tr>
+<td>SS/CA</td>
+<td>Timeout</td>
+<td>threshold=CW/2<br>CW=1MSS<br>state=SS</td>
+<td>Enter SS</td>
+</tr>
+<tr>
+<td>SS/CA</td>
+<td>duplicate ACK</td>
+<td>Increaent count of  duplicate ACK for segment added</td>
+<td>CW和threshold不变</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="TCP-throughput"><a href="#TCP-throughput" class="headerlink" title="TCP throughput"></a>TCP throughput</h3><ol>
+<li>Let w be the window size when loss occurs</li>
+<li>When window is w, throughtput is w/RTT</li>
+<li>Just after loss, window drops to w/2, throughput to w/2RTT</li>
+<li>Average throughput is 0.75 w/RTT</li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#End-to-end-protocols"><span class="toc-text">End-to-end protocols</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP"><span class="toc-text">UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP"><span class="toc-text">TCP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-Connection-Management"><span class="toc-text">TCP Connection Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-timeout的设计"><span class="toc-text">TCP timeout的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-retransmission-scenarios"><span class="toc-text">TCP retransmission scenarios</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-fast-Retransmission"><span class="toc-text">TCP fast Retransmission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-congestion-control"><span class="toc-text">TCP congestion control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-Congestion-Control-Summary"><span class="toc-text">TCP Congestion Control Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-throughput"><span class="toc-text">TCP throughput</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/04/25/计算机网络概论学习笔记之Internetworking/" rel="next" title="《计算机网络概论》学习笔记整理之Internet working">
+          《计算机网络概论》学习笔记整理之Internet working
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
