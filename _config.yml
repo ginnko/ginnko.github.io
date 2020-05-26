@@ -46,7 +46,7 @@ highlight:
 # Mermaid (markdwon to flow chart, seq chart, class chart ...)
 mermaid:
   enable: true
-  version: "7.1.2"
+  version: "8.5.1"
   external_link: false
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
