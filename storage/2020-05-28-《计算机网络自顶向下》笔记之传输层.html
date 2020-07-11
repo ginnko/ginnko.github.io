@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content>
+  
+
+  
+    <meta name="description" content="《计算机网络自顶向下》笔记之传输层(-ing)">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>tag: 网络 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        《计算机网络自顶向下》笔记之传输层(-ing)
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-05-27T16:00:00.000Z">
+        2020-05-28
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>传输层直接向不同主机上运行的应用的peocess提供沟通服务。</p>
+<a id="more"></a>
+<hr>
+<h3 id="传输层-transport-layer-和网络层-network-layer-的关系"><a href="#传输层-transport-layer-和网络层-network-layer-的关系" class="headerlink" title="传输层(transport layer)和网络层(network layer)的关系"></a>传输层(transport layer)和网络层(network layer)的关系</h3><ol>
+<li>传输层位于网络层之上</li>
+<li>网络层提供host之间的逻辑链接</li>
+<li>传输层提供host上的应用的process之间的逻辑连接</li>
+<li>如果网络层协议不能为host之间交换的传输层封包提供延迟或带宽的保证，传输层协议也不能为process之间交换的message提供延迟或带宽的保证</li>
+</ol>
+<hr>
+<h3 id="术语约定"><a href="#术语约定" class="headerlink" title="术语约定"></a>术语约定</h3><ul>
+<li>segment: TCP或UDP封包</li>
+<li>datagram: 网络层封包</li>
+</ul>
+<hr>
+<h3 id="UDP和TCP"><a href="#UDP和TCP" class="headerlink" title="UDP和TCP"></a>UDP和TCP</h3><ol>
+<li><p>UDP(User Datagram Protocol): provides an unreliable, connectionless(这个connectionless是指：there is no handshaking between sending and receiving transport-layer entities before sending a segment)service</p>
+<p>提供：</p>
+<ul>
+<li>transport-layer multiplexing and demultiplexing(extending host-to-host delivery to process-to-process delivery)</li>
+<li>完整性检查</li>
+</ul>
+</li>
+<li><p>TCP(Transmission Control Protocol): provides a reliable, connection-oriented service</p>
+<p>提供：</p>
+<ul>
+<li>传输层多路复用和解复用</li>
+<li>完整性检查</li>
+<li>数据可靠传输</li>
+<li>congestion control</li>
+</ul>
+</li>
+</ol>
+<h3 id="demultiplexing和multiplexing"><a href="#demultiplexing和multiplexing" class="headerlink" title="demultiplexing和multiplexing"></a>demultiplexing和multiplexing</h3><ul>
+<li>demultiplexing: The job of deliverying the data in a transport-layer segment to the correct socket</li>
+<li>multiplexing: The job of gathering data chunks at the source host from different sockets, encapsulating each data chunk with header information to create segments, and passing the segments to the network layer</li>
+</ul>
+<p>多路复用和解复用处理的场景是一层上的某个协议被位于其上的多个协议使用，HTTP应用和TCP服务刚好属于这种情况，</p>
+<p>多路复用和解复用的实现：</p>
+<ul>
+<li>sockets have unique identifier</li>
+<li>each segment have special fields that indicate the socket to which the segment is to be delivered</li>
+</ul>
+<p>port number有16位，0~65535，其中0~1023被保留用于默认协议的使用，1024~65535未使用的端口号可用于自行分配</p>
+<ol>
+<li>Connectionless Multiplexing and Demultiplexing</li>
+</ol>
+<p>这种类型的端口号(比如UDP)使用two-tuple来唯一标识：(destination IP address, destination port number)</p>
+<ol start="2">
+<li>Connection-Oriented Multiplexing and Demultiplexing</li>
+</ol>
+<p>这种类型的端口号(比如TCP)使用four-tuple来唯一标识：(source IP address, source port number, destination IP address, destination port number)</p>
+<hr>
+<h3 id="web-server-and-TCP"><a href="#web-server-and-TCP" class="headerlink" title="web server and TCP"></a>web server and TCP</h3><p>Today’s high-performing web servers often use only one process, and create a new thread with a new connection socket for each new client connection</p>
+<hr>
+<h3 id="TCP-vs-UDP"><a href="#TCP-vs-UDP" class="headerlink" title="TCP vs UDP"></a>TCP vs UDP</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>UDP</th>
+<th>TCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>time to send data</td>
+<td>UDP添加UDP封包后立即送到网络层</td>
+<td>TCP先建立连接，有壅挤控制，重送机制</td>
+</tr>
+<tr>
+<td>connection establishment</td>
+<td>没有建立连接带来的延迟</td>
+<td>TCP connection-establishment delay in HTTP is an important contributor to the delays associated with downloading web documents</td>
+</tr>
+<tr>
+<td>connection state</td>
+<td>无状态控制，能支持更多的客户端</td>
+<td>维护receive and send buffers, congestion-control parameters, sequence and acknowledgment number parameters</td>
+</tr>
+<tr>
+<td>packet header</td>
+<td>8 bytes</td>
+<td>20 bytes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="UDP封包的结构"><a href="#UDP封包的结构" class="headerlink" title="UDP封包的结构"></a>UDP封包的结构</h3><p><img src="/images/network/udpSegmentStructure.png" width="300" alt="udpSegmentStructure"></p>
+<p>其中，length字段表示数据和UDP header的和</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#传输层-transport-layer-和网络层-network-layer-的关系"><span class="toc-text">传输层(transport layer)和网络层(network layer)的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#术语约定"><span class="toc-text">术语约定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP和TCP"><span class="toc-text">UDP和TCP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#demultiplexing和multiplexing"><span class="toc-text">demultiplexing和multiplexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-server-and-TCP"><span class="toc-text">web server and TCP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-vs-UDP"><span class="toc-text">TCP vs UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP封包的结构"><span class="toc-text">UDP封包的结构</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+  <script src="https://unpkg.com/mermaid@8.5.1/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'default'});
+    }
+  </script>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>
