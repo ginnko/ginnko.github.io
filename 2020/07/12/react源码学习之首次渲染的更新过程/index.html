@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139540194-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139540194-1');
+</script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6846579683645896",
+    enable_page_level_ads: true
+  });
+</script> -->
+  
+  
+    <meta name="keywords" content="react,源码,">
+  
+
+  
+    <meta name="description" content="react源码学习之首次渲染创建更新的过程">
+  
+  
+  <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
+  <title>react源码学习之首次渲染创建更新的过程 [ Ginnko&#39;s ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://ginnko.github.io/images/ginnko.jpeg">
+    <span class="title">Ginnko&#39;s</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="https://github.com/ginnko" class="pure-menu-link">关于</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <div class="left-ads-container">
+      
+
+<div id="ads-left" class="ads-left">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- left -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="9201612849" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+  </div>
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        react源码学习之首次渲染创建更新的过程
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2020-07-11T16:00:00.000Z">
+        2020-07-12
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 16 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>之前知道了首次渲染主要数据结构的构建过程，现在进入创建更新的过程（下图中的右侧部分）。</p>
+<a id="more"></a>
+<pre class="mermaid" style="background: none">graph TD;
+
+  render --> legacyRenderSubtreeIntoContainer;
+  legacyRenderSubtreeIntoContainer --> legacyCreateRootFromDOMContainer;
+  legacyRenderSubtreeIntoContainer --> unbatchedUpdates;
+  unbatchedUpdates --> updateContainer;
+  updateContainer --> requestCurrentTimeForUpdate;
+  requestCurrentTimeForUpdate --> msToExpirationTime;
+  msToExpirationTime --> getCurrentTime;
+  updateContainer --> requestCurrentSuspenseConfig;
+  updateContainer --> computeExpirationForFiber;
+  updateContainer --> getContextForSubtree;
+  updateContainer --> createUpdate;
+  updateContainer --> enqueueUpdate;
+  updateContainer --> scheduleUpdateOnFiber;</pre>
+
+
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>参数(类型)</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unbatchedUpdates</td>
+<td>fn(Function)</td>
+<td>react-reconciler/src/ReactFiberWorkLoop</td>
+</tr>
+<tr>
+<td>updateContainer</td>
+<td>element(ReactNodelist)、container(OpaqueRoot)、parentComponent(React$Component)、callback(Function)</td>
+<td>react-reconciler/src/ReactFiberReconciler</td>
+</tr>
+<tr>
+<td>requestCurrentTimeForUpdate</td>
+<td></td>
+<td>react-reconciler/src/ReactFiberWorkLoop</td>
+</tr>
+<tr>
+<td>msToExpirationTime</td>
+<td>ms(number)</td>
+<td>react-reconciler/src/ReactFiberExpirationTime</td>
+</tr>
+<tr>
+<td>getCurrentTime</td>
+<td>-</td>
+<td>scheduler/src/forks/SchedulerHostConfig.default</td>
+</tr>
+<tr>
+<td>requestCurrentSuspenseConfig</td>
+<td>-</td>
+<td>react-reconciler/src/ReactFiberSuspenseConfig</td>
+</tr>
+<tr>
+<td>computeExpirationForFiber</td>
+<td>currentTime(ExpirationForFiber)、fiber、suspenseConfig（null 或 SuspenseConfig）</td>
+<td>react-reconciler/src/ReactFiberWorkLoop</td>
+</tr>
+<tr>
+<td>getContextForSubtree</td>
+<td>parentComponent(ReactComponent)</td>
+<td>react-reconciler/src/ReactFiberReconciler</td>
+</tr>
+<tr>
+<td>createUpdate</td>
+<td>expirationTime(ExpirationTime)、suspenseConfig(null 或 SuspenseConfig)</td>
+<td>react-reconciler/src/ReactUpdateQueue</td>
+</tr>
+<tr>
+<td>enqueueUpdate</td>
+<td>fiber(Fiber)、update(Update)</td>
+<td>react-reconciler/src/ReactUpdateQueue</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><ol>
+<li><p>unbatchedUpdates</p>
+<p>这个函数内部代码描述见<a href="https://segmentfault.com/q/1010000019803174" target="_blank" rel="noopener">参考1</a><br>简化后的代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// const NoContext = 0b0000000;</span></span><br><span class="line"><span class="comment">// const BatchedContext = 0b0000001;</span></span><br><span class="line"><span class="comment">// const EventContext = 0b0000010;</span></span><br><span class="line"><span class="comment">// const DiscreteEventContext = 0b0000100;</span></span><br><span class="line"><span class="comment">// const LegacyUnbatchedContext = 0b0001000;</span></span><br><span class="line"><span class="comment">// const RenderContext = 0b0010000;</span></span><br><span class="line"><span class="comment">// const CommitContext = 0b0100000;</span></span><br><span class="line"><span class="comment">// const RetryAfterError = 0b1000000;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unbatchedUpdates</span>(<span class="params">fn, a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> prevExecutionContext = executionContext;</span><br><span class="line">  executionContext &amp;= ~BatchedContext;</span><br><span class="line">  executionContext |= LegacyUnbatchedContext;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fn(a);</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    executionContext = prevExecutionContext;</span><br><span class="line">    <span class="keyword">if</span> (executionContext === NoContext) &#123;</span><br><span class="line">      <span class="comment">// Flush the immediate callbacks that were scheduled during this batch</span></span><br><span class="line">      flushSyncCallbackQueue();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入try代码块代码的执行顺序：</p>
+<ol>
+<li>执行fn(a)</li>
+<li>执行finally中的内容</li>
+<li>返回fn(a)的执行结果</li>
+</ol>
+<p>executionContext这个变量<em>Describes where we are in the React execution stack</em>，变换规则(见<a href="https://juejin.im/post/5dd3bebbe51d453da86c1185#heading-11" target="_blank" rel="noopener">参考2</a>)：</p>
+<ul>
+<li>将当前上下文添加 render：executionContext |= RenderContext</li>
+<li>判断当前是否处于render(<em>感觉这里是否处于并不准确</em>因为可能添加了多个context，这个后面再来修补概念)： executionContext &amp; RenderContext !== noContext</li>
+<li>去除 render: executionContext &amp;= ~RenderContext</li>
+</ul>
+<p>这里先去除BatchedContext状态，又置为LegacyUnbatchedContext盲猜是为其他地方或是fn的执行设置环境，防止出现某些问题。。。</p>
+<p>另外这里涉及流程控制：</p>
+<ol>
+<li>先执行fn(a)</li>
+<li>再执行finally中的部分</li>
+<li>最后返回fn(a)的执行结果</li>
+</ol>
+</li>
+</ol>
+<pre class="mermaid" style="background: none">graph TD;
+  unbatchedUpdates -->|NoContext| flushSyncCallbackQueue;</pre>
+
+<ol start="2">
+<li>updateContainer</li>
+</ol>
+<p>此处调用：<code>updateContainer(children, fiberRoot, parentComponent, callback);</code></p>
+<p>简化后的代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateContainer</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  element,</span></span></span><br><span class="line"><span class="function"><span class="params">  container,</span></span></span><br><span class="line"><span class="function"><span class="params">  parentComponent,</span></span></span><br><span class="line"><span class="function"><span class="params">  callback</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> current = container.current; <span class="comment">// 根节点对应的Fiber</span></span><br><span class="line">  <span class="keyword">const</span> currentTime = requestCurrentTimeForUpdate();</span><br><span class="line">  <span class="keyword">const</span> suspenseConfig = requestCurrentSuspenseConfig(); <span class="comment">// 首次渲染时，该变量被赋值null</span></span><br><span class="line">  <span class="keyword">const</span> expirationTime = computeExpirationForFiber( <span class="comment">// 首次渲染时，该变量被赋值 MAX_SIGNED_31_BIT_INT = 1073741823</span></span><br><span class="line">    currentTime,</span><br><span class="line">    current,</span><br><span class="line">    suspenseConfig,</span><br><span class="line">  ); </span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> context = getContextForSubtree(parentComponent); <span class="comment">// 首次渲染时， 该变量被赋值&#123;&#125;</span></span><br><span class="line">  <span class="keyword">if</span> (container.context === <span class="literal">null</span>) &#123; <span class="comment">// container就是上一篇里创建的FiberRoot，是一个Fiber的实例，他的context属性被赋值&#123;&#125;，构造函数中并没有这个字段</span></span><br><span class="line">    container.context = context;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    container.pendingContext = context;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> update = createUpdate(expirationTime, suspenseConfig);</span><br><span class="line">  <span class="comment">// Caution: React DevTools currently depends on this property</span></span><br><span class="line">  <span class="comment">// being called "element".</span></span><br><span class="line">  update.payload = &#123;element&#125;; <span class="comment">// element 是经过jsx编译及reactElement函数处理过的ReactElement</span></span><br><span class="line"></span><br><span class="line">  callback = callback === <span class="literal">undefined</span> ? <span class="literal">null</span> : callback;</span><br><span class="line">  <span class="keyword">if</span> (callback !== <span class="literal">null</span>) &#123;</span><br><span class="line">    update.callback = callback;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  enqueueUpdate(current, update);</span><br><span class="line">  scheduleUpdateOnFiber(current, expirationTime);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>requestCurrentTimeForUpdate</li>
+</ol>
+<p>简化后的代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Expiration times are computed by adding to the current time (the start</span></span><br><span class="line"><span class="comment">// time). However, if two updates are scheduled within the same event, we</span></span><br><span class="line"><span class="comment">// should treat their start times as simultaneous, even if the actual clock</span></span><br><span class="line"><span class="comment">// time has advanced between the first and second call.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// In other words, because expiration times determine how updates are batched,</span></span><br><span class="line"><span class="comment">// we want all updates of like priority that occur within the same event to</span></span><br><span class="line"><span class="comment">// receive the same expiration time. Otherwise we get tearing.</span></span><br><span class="line"><span class="keyword">let</span> currentEventTime: ExpirationTime = NoWork;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestCurrentTimeForUpdate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ((executionContext &amp; (RenderContext | CommitContext)) !== NoContext) &#123;</span><br><span class="line">    <span class="comment">// We're inside React, so it's fine to read the actual time.</span></span><br><span class="line">    <span class="keyword">return</span> msToExpirationTime(now());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// We're not inside React, so we may be in the middle of a browser event.</span></span><br><span class="line">  <span class="keyword">if</span> (currentEventTime !== NoWork) &#123;</span><br><span class="line">    <span class="comment">// Use the same start time for all updates until we enter React again.</span></span><br><span class="line">    <span class="keyword">return</span> currentEventTime;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// This is the first update since React yielded. Compute a new start time.</span></span><br><span class="line">  currentEventTime = msToExpirationTime(now());</span><br><span class="line">  <span class="keyword">return</span> currentEventTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首次加载前两个条件都会越过，直接到新建</p>
+<ol start="4">
+<li>msToExpirationTime</li>
+</ol>
+<p>简化后的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Max 31 bit integer. The max integer size in V8 for 32-bit systems.</span></span><br><span class="line"><span class="comment">// Math.pow(2, 30) - 1</span></span><br><span class="line"><span class="comment">// 0b111111111111111111111111111111</span></span><br><span class="line"><span class="keyword">const</span> MAX_SIGNED_31_BIT_INT = <span class="number">1073741823</span>;</span><br><span class="line"><span class="keyword">const</span> Sync = MAX_SIGNED_31_BIT_INT;</span><br><span class="line"><span class="keyword">const</span> Batched = Sync - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> UNIT_SIZE = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> MAGIC_NUMBER_OFFSET = Batched - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msToExpirationTime</span>(<span class="params">ms</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Always subtract from the offset so that we don't clash with the magic number for NoWork.</span></span><br><span class="line">  <span class="keyword">return</span> MAGIC_NUMBER_OFFSET - ((ms / UNIT_SIZE) | <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的公式中：</p>
+<p><code>|0</code>表示取整</p>
+<ol start="5">
+<li>now</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (</span><br><span class="line">  <span class="keyword">typeof</span> performance === <span class="string">'object'</span> &amp;&amp;</span><br><span class="line">  <span class="keyword">typeof</span> performance.now === <span class="string">'function'</span></span><br><span class="line">) &#123;</span><br><span class="line">  getCurrentTime = <span class="function"><span class="params">()</span> =&gt;</span> performance.now();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> initialTime = <span class="built_in">Date</span>.now();</span><br><span class="line">  getCurrentTime = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">Date</span>.now() - initialTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里涉及到以前没有接触过的东西：</p>
+<ol>
+<li><p>time origin</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp#The_time_origin" target="_blank" rel="noopener">参考3</a></p>
+<p>在浏览器普通文档环境里，time origin的计算如下：</p>
+<blockquote>
+<p>If the script’s global object is a Window, the time origin is determined as follows:</p>
+<ul>
+<li>If the current Document is the first one loaded in the Window, the time origin is the time at which the browser context was created.</li>
+<li>If during the process of unloading the previous document which was loaded in the window, a confirmation dialog was displayed to let the user confirm whether or not to leave the previous page, the time origin is the time at which the user confirmed that navigating to the new page was acceptable.</li>
+<li>If neither of the above determines the time origin, then the time origin is the time at which the navigation responsible for creating the window’s current Document took place.</li>
+</ul>
+</blockquote>
+</li>
+<li><p>performance.now()返回的是调用时距离time origin的区间差值，双精度浮点数格式，详见<a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now" target="_blank" rel="noopener">参考4</a></p>
+</li>
+</ol>
+<p>至此，计算得到currentTime，回到updateContainer</p>
+<ol start="6">
+<li>requestCurrentSuspenseConfig</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestCurrentSuspenseConfig</span>(<span class="params"></span>): <span class="title">null</span> | <span class="title">SuspenseConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> ReactCurrentBatchConfig.suspense;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首次渲染时，返回null，ReactCurrentBatchConfig.suspense的值获取的比较绕，用到SuspenseConfig情况时再说。</p>
+<ol start="7">
+<li>computeExpirationForFiber</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> NoMode = <span class="number">0b00000</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> StrictMode = <span class="number">0b00001</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> BlockingMode = <span class="number">0b00010</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ConcurrentMode = <span class="number">0b00100</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ProfileMode = <span class="number">0b01000</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> DebugTracingMode = <span class="number">0b10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeExpirationForFiber</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  currentTime: ExpirationTime,</span></span></span><br><span class="line"><span class="function"><span class="params">  fiber: Fiber,</span></span></span><br><span class="line"><span class="function"><span class="params">  suspenseConfig: null | SuspenseConfig,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">ExpirationTime</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> mode = fiber.mode; <span class="comment">// 首次渲染时，mode赋的值是noMode</span></span><br><span class="line">  <span class="keyword">if</span> ((mode &amp; BlockingMode) === NoMode) &#123;</span><br><span class="line">    <span class="keyword">return</span> Sync; <span class="comment">// 首次渲染时，返回的是Sync，此处的Sync等于MAX_SIGNED_31_BIT_INT = 1073741823</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> priorityLevel = getCurrentPriorityLevel();</span><br><span class="line">  <span class="keyword">if</span> ((mode &amp; ConcurrentMode) === NoMode) &#123;</span><br><span class="line">    <span class="keyword">return</span> priorityLevel === ImmediatePriority ? Sync : Batched;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ((executionContext &amp; RenderContext) !== NoContext) &#123;</span><br><span class="line">    <span class="comment">// Use whatever time we're already rendering</span></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Should there be a way to opt out, like with `runWithPriority`?</span></span><br><span class="line">    <span class="keyword">return</span> renderExpirationTime;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> expirationTime;</span><br><span class="line">  <span class="keyword">if</span> (suspenseConfig !== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// Compute an expiration time based on the Suspense timeout.</span></span><br><span class="line">    expirationTime = computeSuspenseExpiration(</span><br><span class="line">      currentTime,</span><br><span class="line">      suspenseConfig.timeoutMs | <span class="number">0</span> || LOW_PRIORITY_EXPIRATION,</span><br><span class="line">    );</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Compute an expiration time based on the Scheduler priority.</span></span><br><span class="line">    <span class="keyword">switch</span> (priorityLevel) &#123;</span><br><span class="line">      <span class="keyword">case</span> ImmediatePriority:</span><br><span class="line">        expirationTime = Sync;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> UserBlockingPriority:</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Rename this to computeUserBlockingExpiration</span></span><br><span class="line">        expirationTime = computeInteractiveExpiration(currentTime);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> NormalPriority:</span><br><span class="line">      <span class="keyword">case</span> LowPriority: <span class="comment">// <span class="doctag">TODO:</span> Handle LowPriority</span></span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Rename this to... something better.</span></span><br><span class="line">        expirationTime = computeAsyncExpiration(currentTime);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> IdlePriority:</span><br><span class="line">        expirationTime = Idle;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        invariant(<span class="literal">false</span>, <span class="string">'Expected a valid priority level'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// If we're in the middle of rendering a tree, do not update at the same</span></span><br><span class="line">  <span class="comment">// expiration time that is already rendering.</span></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> We shouldn't have to do this if the update is on a different root.</span></span><br><span class="line">  <span class="comment">// Refactor computeExpirationForFiber + scheduleUpdate so we have access to</span></span><br><span class="line">  <span class="comment">// the root when we check for this condition.</span></span><br><span class="line">  <span class="keyword">if</span> (workInProgressRoot !== <span class="literal">null</span> &amp;&amp; expirationTime === renderExpirationTime) &#123;</span><br><span class="line">    <span class="comment">// This is a trick to move this update into a separate batch</span></span><br><span class="line">    expirationTime -= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>getContextForSubtree</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getContextForSubtree</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  parentComponent: ?React$Component&lt;any, any&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Object</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!parentComponent) &#123; <span class="comment">// 首次渲染parentComponent为null，执行这个分支，返回emptyContextObject，而emptyContextObject就是一个vanilla object</span></span><br><span class="line">    <span class="keyword">return</span> emptyContextObject; </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> fiber = getInstance(parentComponent);</span><br><span class="line">  <span class="keyword">const</span> parentContext = findCurrentUnmaskedContext(fiber);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (fiber.tag === ClassComponent) &#123;</span><br><span class="line">    <span class="keyword">const</span> Component = fiber.type;</span><br><span class="line">    <span class="keyword">if</span> (isLegacyContextProvider(Component)) &#123;</span><br><span class="line">      <span class="keyword">return</span> processChildContext(fiber, Component, parentContext);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> parentContext;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>createUpdate</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> UpdateState = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ReplaceState = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ForceUpdate = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CaptureUpdate = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createUpdate</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  expirationTime: ExpirationTime, <span class="regexp">//</span> 首次渲染时，该参数为MAX_SIGNED_31_BIT_INT = <span class="number">1073741823</span></span></span></span><br><span class="line"><span class="function"><span class="params">  suspenseConfig: null | SuspenseConfig, <span class="regexp">//</span> 首次渲染时，该参数为null</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Update</span>&lt;*&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> update: Update&lt;*&gt; = &#123;</span><br><span class="line">    expirationTime,</span><br><span class="line">    suspenseConfig,</span><br><span class="line"></span><br><span class="line">    tag: UpdateState,</span><br><span class="line">    payload: <span class="literal">null</span>,</span><br><span class="line">    callback: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">    next: <span class="literal">null</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> update;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>update是包含特殊字段的<em>对象</em>。</p>
+<ol start="10">
+<li>enqueueUpdate</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">enqueueUpdate</span>&lt;<span class="title">State</span>&gt;(<span class="params">fiber: Fiber, update: Update&lt;State&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> updateQueue = fiber.updateQueue;</span><br><span class="line">  <span class="keyword">if</span> (updateQueue === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// Only occurs if the fiber has been unmounted.</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> sharedQueue: SharedQueue&lt;State&gt; = (updateQueue: any).shared;</span><br><span class="line">  <span class="keyword">const</span> pending = sharedQueue.pending;</span><br><span class="line">  <span class="keyword">if</span> (pending === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// This is the first update. Create a circular list.</span></span><br><span class="line">    <span class="comment">// 首次渲染的时候，指向了自己</span></span><br><span class="line">    update.next = update;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    update.next = pending.next;</span><br><span class="line">    pending.next = update;</span><br><span class="line">  &#125;</span><br><span class="line">  sharedQueue.pending = update;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数是将一个update放入了updateQueue，fiber是RootFiber。</p>
+<pre class="mermaid" style="background: none">graph TD;
+
+  RootFiber -->|.updateQueue.shared| Update;
+  Update -->|.next| Update;</pre>
+
+
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>这里总结一下updateContainer中，在进入scheduleUpdateOnFiber之前，各个变量的值都是啥</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==================element=========================</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  $$<span class="keyword">typeof</span>: <span class="built_in">Symbol</span>(react.element),</span><br><span class="line">  _owner: <span class="literal">null</span>,</span><br><span class="line">  key: <span class="literal">null</span>,</span><br><span class="line">  ref: <span class="literal">null</span>,</span><br><span class="line">  type: <span class="built_in">Symbol</span>(react.strict_mode)</span><br><span class="line">  props: &#123;</span><br><span class="line">    children: &#123;</span><br><span class="line">      $$<span class="keyword">typeof</span>: <span class="built_in">Symbol</span>(react.element),</span><br><span class="line">      _owner: <span class="literal">null</span>,</span><br><span class="line">      key: <span class="literal">null</span>,</span><br><span class="line">      props: &#123;&#125;,</span><br><span class="line">      ref: <span class="literal">null</span>,</span><br><span class="line">      type: <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">  &#125;,</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// ===================<span class="title">callback</span>===============================</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">undefined</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// ===========================<span class="title">parentComponent</span>==============================</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">null</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// ===========================<span class="title">current</span>=======================================</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// // <span class="title">Don</span>'<span class="title">t</span> <span class="title">change</span> <span class="title">these</span> <span class="title">two</span> <span class="title">values</span>. <span class="title">They</span>'<span class="title">re</span> <span class="title">used</span> <span class="title">by</span> <span class="title">React</span> <span class="title">Dev</span> <span class="title">Tools</span>.</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">NoEffect</span> = /*                 */ 0<span class="title">b00000000000000</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">PerformedWork</span> = /*            */ 0<span class="title">b00000000000001</span>;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">NoMode</span> = 0<span class="title">b00000</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">StrictMode</span> = 0<span class="title">b00001</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">BlockingMode</span> = 0<span class="title">b00010</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">ConcurrentMode</span> = 0<span class="title">b00100</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">ProfileMode</span> = 0<span class="title">b01000</span>;</span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">DebugTracingMode</span> = 0<span class="title">b10000</span>;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">export</span> <span class="title">const</span> <span class="title">HostRoot</span> = 3;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  actualDuration: <span class="number">0</span>,</span><br><span class="line">  actualStartTime: <span class="number">-1</span>,</span><br><span class="line">  alternate: <span class="literal">null</span>,</span><br><span class="line">  child: <span class="literal">null</span>,</span><br><span class="line">  childExpirationTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  dependencies_old: <span class="literal">null</span>,</span><br><span class="line">  effectTag: NoEffect, <span class="comment">// 0</span></span><br><span class="line">  elementType: <span class="literal">null</span>,</span><br><span class="line">  expirationTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  firstEffect: <span class="literal">null</span>,</span><br><span class="line">  index: <span class="number">0</span>,</span><br><span class="line">  key: <span class="literal">null</span>,</span><br><span class="line">  lastEffect: <span class="literal">null</span>,</span><br><span class="line">  memoizedProps: <span class="literal">null</span>,</span><br><span class="line">  memoizedState: <span class="literal">null</span>,</span><br><span class="line">  mode: NoMode, <span class="comment">// 0</span></span><br><span class="line">  nextEffect: <span class="literal">null</span>,</span><br><span class="line">  pendingProps: <span class="literal">null</span>,</span><br><span class="line">  ref: <span class="literal">null</span>,</span><br><span class="line">  <span class="keyword">return</span>: <span class="literal">null</span>,</span><br><span class="line">  setBaseDuration: <span class="number">0</span>,</span><br><span class="line">  sibling: <span class="literal">null</span>,</span><br><span class="line">  stateNode: container,</span><br><span class="line">  tag: HostRoot, <span class="comment">// 3</span></span><br><span class="line">  treeBaseDuration: <span class="number">0</span>,</span><br><span class="line">  type: <span class="literal">null</span>,</span><br><span class="line">  updateQueue: &#123;</span><br><span class="line">    baseState: <span class="literal">null</span>,</span><br><span class="line">    effects: <span class="literal">null</span>,</span><br><span class="line">    firstBaseUpdate: <span class="literal">null</span>,</span><br><span class="line">    lastBaseUpdate: <span class="literal">null</span>,</span><br><span class="line">    shared: &#123;</span><br><span class="line">      pending: <span class="literal">null</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// =================================container===============================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export const ImmediatePriority: ReactPriorityLevel = 99;</span></span><br><span class="line"><span class="comment">// export const UserBlockingPriority: ReactPriorityLevel = 98;</span></span><br><span class="line"><span class="comment">// export const NormalPriority: ReactPriorityLevel = 97;</span></span><br><span class="line"><span class="comment">// export const LowPriority: ReactPriorityLevel = 96;</span></span><br><span class="line"><span class="comment">// export const IdlePriority: ReactPriorityLevel = 95;</span></span><br><span class="line"><span class="comment">// // NoPriority is the absence of priority. Also React-only.</span></span><br><span class="line"><span class="comment">// export const NoPriority: ReactPriorityLevel = 90;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export const NoWork = 0;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export const LegacyRoot = 0;</span></span><br><span class="line"><span class="comment">// export const BlockingRoot = 1;</span></span><br><span class="line"><span class="comment">// export const ConcurrentRoot = 2;</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  callbackNode: <span class="literal">null</span>,</span><br><span class="line">  callbackPriority_old: Nopriority, <span class="comment">// 90</span></span><br><span class="line">  containerInfo: <span class="string">'&lt;div id="root"&gt;'</span>, <span class="comment">// dom元素()</span></span><br><span class="line">  context: &#123;&#125;,</span><br><span class="line">  current,</span><br><span class="line">  finishedExpirationTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  finishedWork: <span class="literal">null</span>,</span><br><span class="line">  firstPendingTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  firstSuspendedTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  hydrate: <span class="literal">false</span>,</span><br><span class="line">  interactionThreadID: <span class="number">1</span>,</span><br><span class="line">  lastExpiredTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  lastPendingTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  lastPingedTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  lastSuspendedTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  memoizedInteractions: <span class="built_in">Set</span>[],</span><br><span class="line">  mutableSourceEagerHydrationData: <span class="literal">null</span>,</span><br><span class="line">  mutableSourceLastPendingUpdateTime: NoWork, <span class="comment">// 0</span></span><br><span class="line">  nextKnownPendingLevel: NoWork, <span class="comment">// 0</span></span><br><span class="line">  pendingChildren: <span class="literal">null</span>,</span><br><span class="line">  pendingContext: <span class="literal">null</span>,</span><br><span class="line">  pendingInteractionMap_old: <span class="built_in">Map</span>(<span class="number">0</span>),</span><br><span class="line">  pingCache: <span class="literal">null</span>,</span><br><span class="line">  timeoutHandle: noTimeout, <span class="comment">// -1</span></span><br><span class="line">  tag: LegacyRoot, <span class="comment">// 0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// =========================expirationTime================================</span></span><br><span class="line"></span><br><span class="line">MAX_SIGNED_31_BIT_INT <span class="comment">// 1073741823</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ===========================suspenseConfig==============================</span></span><br><span class="line"></span><br><span class="line"><span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ===========================context======================================</span></span><br><span class="line"></span><br><span class="line">&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ==============================update=====================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export const UpdateState = 0;</span></span><br><span class="line"><span class="comment">// export const ReplaceState = 1;</span></span><br><span class="line"><span class="comment">// export const ForceUpdate = 2;</span></span><br><span class="line"><span class="comment">// export const CaptureUpdate = 3;</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  expirationTime: MAX_SIGNED_31_BIT_INT, <span class="comment">// 1073741823</span></span><br><span class="line">  suspenseConfig: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">  tag: UpdateState, <span class="comment">// 0</span></span><br><span class="line">  payload: <span class="literal">null</span>,</span><br><span class="line">  callback: <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line">  next: <span class="literal">null</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://segmentfault.com/q/1010000019803174" target="_blank" rel="noopener">https://segmentfault.com/q/1010000019803174</a></li>
+<li><a href="https://juejin.im/post/5dd3bebbe51d453da86c1185#heading-11" target="_blank" rel="noopener">https://juejin.im/post/5dd3bebbe51d453da86c1185#heading-11</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp#The_time_origin" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp#The_time_origin</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/Performance/now</a></li>
+<li><a href="https://react.jokcy.me/book/update/expiration-time.html" target="_blank" rel="noopener">https://react.jokcy.me/book/update/expiration-time.html</a></li>
+</ol>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数调用"><span class="toc-text">函数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据结构"><span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<!-- <div class="share" style="width: 100%;">
+  <img src="https://kevinofneu-blog-static.oss-cn-beijing.aliyuncs.com/static/2018-12-10-qrcode_for_gh_ffacf5722095_258.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
+</div> -->
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2020/07/11/react源码学习之首次渲染主要数据结构的构建/" rel="next" title="react源码学习之首次渲染主要数据结构的创建">
+          react源码学习之首次渲染主要数据结构的创建
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2020/07/15/react源码学习之首次渲染调度更新的过程/" rel="prev" title="react源码学习之首次渲染调度更新的过程">
+            react源码学习之首次渲染调度更新的过程
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+<div id="vcomments" class="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments' ,
+    appId: 'Fe5TNm20tHsqA6hpF5LHADO3-gzGzoHsz',
+    appKey: 'nHYuy325r0l9GBVGIm2iCr0y',
+    notify:true, 
+    // verify:false, 
+    avatar:'mp', 
+    placeholder: '耶嘿康忙北鼻~'
+  })
+</script>
+
+    </div>
+
+    
+    <div class="goodle-ads-below-container">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- below -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6846579683645896" data-ad-slot="7362272783" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> |
+        <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">GitHub</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+  <script src="https://unpkg.com/mermaid@8.5.1/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'default'});
+    }
+  </script>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+</body>
+</html>

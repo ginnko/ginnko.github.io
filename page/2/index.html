@@ -92,6 +92,116 @@
     
 
       <article class="recent-post-item">
+        <a class="title" href="/2020/04/03/计算机网络概论学习笔记之bridge/"><h2>《计算机网络概论》学习笔记整理之bridge</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2020-04-02T16:00:00.000Z">
+            2020-04-03
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>这一篇主要涉及以下4个方面：</p>
+<ol>
+<li>A bridge is a layer2 device which relays frames among physically seperated LANs and makes the physical LANs appear as <em>one logical LAN</em> to the end stations</li>
+<li>Bridge的基本功能（）<ul>
+<li>封包转送和过滤</li>
+<li>address learning</li>
+<li>解决拓扑结构中的环状结构问题</li>
+</ul>
+</li>
+<li>spanning tree algotithm，涉及到root、root port、designated port、RPC</li>
+<li>spanning tree的维护</li>
+</ol>
+          </div>
+        
+        <a class="more" href="/2020/04/03/计算机网络概论学习笔记之bridge/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2020/03/22/计算机网络概论学习笔记之wireless/"><h2>《计算机网络概论》学习笔记整理之wireless LAN</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2020-03-21T16:00:00.000Z">
+            2020-03-22
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>在上一篇概述的基础上探讨wireless的运作原理，主要涉及以下10个方面：</p>
+<ol>
+<li>无线的两种重要特征</li>
+<li>无线采用的协议是CSMA/CA而不是CSMA/CD</li>
+<li>RTC/CTS的作用和工作原理</li>
+<li>ACK存在的作用和工作过程</li>
+<li>carrier sense的方式</li>
+<li>CSMA/CA的工作方式</li>
+<li>3个priority的级别：SIFS &lt; PIFS &lt; DIFS</li>
+<li>DCF运行原理</li>
+<li>PCF运行原理</li>
+<li>SuperFrame运行原理</li>
+</ol>
+          </div>
+        
+        <a class="more" href="/2020/03/22/计算机网络概论学习笔记之wireless/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2020/03/12/计算机网络概论学习笔记之Ethernet/"><h2>《计算机网络概论》学习笔记整理之Ethernet</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2020-03-11T16:00:00.000Z">
+            2020-03-12
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+          
+
+        </div>
+
+        
+          <div class="post-excerpt">
+            <p>在上一篇概述的基础上探讨Ethernet，主要涉及下面五方面：</p>
+<ol>
+<li>MAC Protocol：CSMA/CD，这个协议应用在data link layer，不管其下层的physical layer使用的是何种媒介，使用的哪种拓扑结构，这一层都使用该协议</li>
+<li>CSMA/CD协议的两个特点：<ul>
+<li>connectionless：不需要建立连线，在cable上双向传播</li>
+<li>unreliable transimission：不可靠传输表现在两个方面<ol>
+<li>collision超过16次导致的丢弃封包(Frame)</li>
+<li>interference导致的丢弃封包，比如电磁波导致的干扰导致的信号错误，即便没有collision，成功发送，但因为干扰信息变形，没有通过FCS验证，在接收端被丢弃</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>拓扑结构从Bus变为Star(使用Switch)</li>
+<li>Bus结构下的传送效能</li>
+<li>Star(switch)结构下的传送效能</li>
+</ol>
+          </div>
+        
+        <a class="more" href="/2020/03/12/计算机网络概论学习笔记之Ethernet/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
         <a class="title" href="/2020/02/24/计算机网络概论学习笔记之概述/"><h2>《计算机网络概论》学习笔记整理之概述</h2></a>
         <div class="post-meta">
           
@@ -279,80 +389,6 @@
           </div>
         
         <a class="more" href="/2019/10/17/react-router常用组件原理学习/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/10/04/redux-saga源码学习/"><h2>redux-saga源码学习</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-10-03T16:00:00.000Z">
-            2019-10-04
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <p>上一篇整明白了redux-saga的原理，现在来具体看看代码实现。</p>
-<p>讲redux-saga源码的资料真是少的可怜，英文完全没搜到…中文就搜到两篇有价值的，第二篇对整个redux-saga的代码实现做了比较详细的描述。</p>
-<p>然而现在的水准做不到完全掌握，能学多少是多少。</p>
-          </div>
-        
-        <a class="more" href="/2019/10/04/redux-saga源码学习/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/09/28/redux-saga原理学习/"><h2>redux-saga原理学习</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-09-27T16:00:00.000Z">
-            2019-09-28
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <p>这几天看redux-saga的实现原理，英文资料几乎没搜到有讲redux-saga的原理的，基本都是对saga这个概念做了解释。中文资料倒是很多对redux-saga进行原理解释的，看了好多篇，最后留下两篇，记录在文尾的参考资料中。后面再翻看redux-saga的实现原理，先看<a href="https://www.twblogs.net/a/5d037e74bd9eee487be98be1" target="_blank" rel="noopener">参考资料2</a>，再看<a href="https://zhuanlan.zhihu.com/p/30098155" target="_blank" rel="noopener">参考资料1</a>。</p>
-          </div>
-        
-        <a class="more" href="/2019/09/28/redux-saga原理学习/"> 阅读全文〉</a>
-      </article>
-    
-
-      <article class="recent-post-item">
-        <a class="title" href="/2019/09/17/redux-sage文档学习/"><h2>redux-saga文档学习</h2></a>
-        <div class="post-meta">
-          
-          <time class="time" datetime="2019-09-16T16:00:00.000Z">
-            2019-09-17
-          </time>
-          
-          <span class="slash">/</span>
-          
-          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/redux-saga/">redux-saga</a></li></ul>
-          
-
-        </div>
-
-        
-          <div class="post-excerpt">
-            <p>redux-saga学习中。</p>
-          </div>
-        
-        <a class="more" href="/2019/09/17/redux-sage文档学习/"> 阅读全文〉</a>
       </article>
     
   </div>
