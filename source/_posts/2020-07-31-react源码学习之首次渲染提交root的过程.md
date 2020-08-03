@@ -33,6 +33,13 @@ graph TD;
 |  函数名     |   参数(类型)    |   位置    |
 |  ---  |  ---  |  ---  |
 |commitRoot|root|react-reconciler/src/ReactFiberWorkLoop|
+|runWithPriority|reactPriorityLevel(ReactPriorityLevel), fn|react-reconciler/src/SchedulerWithReactIntegration|
+|Scheduler_runWithPriority|priorityLevel(ReactPriorityLevel), eventHandler(fn)|scheduler/src/Scheduler|
+|commitRootImpl|root, renderPriorityLevel|react-reconciler/src/ReactFiberWorkLoop|
+|markRootFinishedAtTime|root(FiberRoot), finishedExpirationTime(ExpirationTime), remainingExpirationTime(ExpirationTime)|react-reconciler/src/ReactFiberRoot|
+|commitBeforeMutationEffects|-|react-reconciler/src/ReactFiberWorkLoop|
+|commitBeforeMutationLifeCycles|current(Fiber或bull), finishedWork(Fiber)|react-reconciler/src/ReactFiberWorkLoop|
+
 
 
 ---
@@ -54,16 +61,54 @@ graph TD;
   export const NoPriority: ReactPriorityLevel = 90;
 
   function commitRoot(root) {
-    const renderPriorityLevel = getCurrentPriorityLevel(); // 此处返回的是NormalPriority
+    const renderPriorityLevel = getCurrentPriorityLevel(); // 此处返回的是NormalPriority 97
     runWithPriority(
-      ImmediatePriority,
+      ImmediatePriority, // 这里值为99
       commitRootImpl.bind(null, root, renderPriorityLevel),
     );
     return null;
   }
 ```
 
-2. commitRootImpl
+2. runWithPriority
+
+```js
+function runWithPriority<T>(
+  reactPriorityLevel: ReactPriorityLevel,
+  fn: () => T,
+): T {
+  const priorityLevel = reactPriorityToSchedulerPriority(reactPriorityLevel); // 不明白这里为啥要对priority做转换 此处返回值为1
+  return Scheduler_runWithPriority(priorityLevel, fn);
+}
+```
+
+3. Scheduler_runWithPriority
+
+```js
+function unstable_runWithPriority(priorityLevel, eventHandler) {
+  switch (priorityLevel) {
+    case ImmediatePriority:
+    case UserBlockingPriority:
+    case NormalPriority:
+    case LowPriority:
+    case IdlePriority:
+      break;
+    default:
+      priorityLevel = NormalPriority;
+  }
+
+  var previousPriorityLevel = currentPriorityLevel;
+  currentPriorityLevel = priorityLevel;
+
+  try {
+    return eventHandler();
+  } finally {
+    currentPriorityLevel = previousPriorityLevel;
+  }
+}
+```
+
+4. commitRootImpl
 
 ```js
 function commitRootImpl(root, renderPriorityLevel) {
@@ -140,7 +185,7 @@ function commitRootImpl(root, renderPriorityLevel) {
 
   // Get the list of effects.
   let firstEffect;
-  if (finishedWork.effectTag > PerformedWork) {
+  if (finishedWork.effectTag > PerformedWork) { // 256 > 1
     // A fiber's effect list consists only of its children, not itself. So if
     // the root has an effect, we need to add it to the end of the list. The
     // resulting list is the set that would belong to the root's parent, if it
@@ -174,9 +219,10 @@ function commitRootImpl(root, renderPriorityLevel) {
     focusedInstanceHandle = prepareForCommit(root.containerInfo);
     shouldFireAfterActiveInstanceBlur = false;
 
-    nextEffect = firstEffect;
+    nextEffect = firstEffect; // 在此处设置了nextEffect
     do {
       try {
+        // 感觉首次渲染，上面的代码并没有做什么有重大影响的操作
         commitBeforeMutationEffects();
       } catch (error) {
         invariant(nextEffect !== null, 'Should be working on an effect.');
@@ -349,3 +395,171 @@ function commitRootImpl(root, renderPriorityLevel) {
   return null;
 }
 ```
+
+5. markRootFinishedAtTime
+
+这里又出来两个概念：
+
+  - pending times
+  - suspended times
+
+```js
+  export const PerformedWork = /*            */ 0b00000000000001;
+  function markRootFinishedAtTime(
+    root: FiberRoot,
+    finishedExpirationTime: ExpirationTime,
+    remainingExpirationTime: ExpirationTime,
+  ): void {
+    // Update the range of pending times
+    root.firstPendingTime = remainingExpirationTime;
+    if (remainingExpirationTime < root.lastPendingTime) {
+      // This usually means we've finished all the work, but it can also happen
+      // when something gets downprioritized during render, like a hidden tree.
+      root.lastPendingTime = remainingExpirationTime;
+    }
+
+    // Update the range of suspended times. Treat everything higher priority or
+    // equal to this update as unsuspended.
+    if (finishedExpirationTime <= root.lastSuspendedTime) {
+      // The entire suspended range is now unsuspended.
+      root.firstSuspendedTime = root.lastSuspendedTime = root.nextKnownPendingLevel = NoWork;
+    } else if (finishedExpirationTime <= root.firstSuspendedTime) {
+      // Part of the suspended range is now unsuspended. Narrow the range to
+      // include everything between the unsuspended time (non-inclusive) and the
+      // last suspended time.
+      root.firstSuspendedTime = finishedExpirationTime - 1;
+    }
+
+    if (finishedExpirationTime <= root.lastPingedTime) {
+      // Clear the pinged time
+      root.lastPingedTime = NoWork;
+    }
+
+    if (finishedExpirationTime <= root.lastExpiredTime) {
+      // Clear the expired time
+      root.lastExpiredTime = NoWork;
+    }
+
+    // Clear any pending updates that were just processed.
+    clearPendingMutableSourceUpdates(root, finishedExpirationTime);
+  }
+```
+
+6. commitBeforeMutationEffects
+
+```js
+// effectTag
+export const Placement = /*                */ 0b00000000000010;
+export const Update = /*                   */ 0b00000000000100;
+export const PlacementAndUpdate = /*       */ 0b00000000000110;
+export const Deletion = /*                 */ 0b00000000001000;
+export const ContentReset = /*             */ 0b00000000010000;
+export const Callback = /*                 */ 0b00000000100000;
+export const DidCapture = /*               */ 0b00000001000000;
+export const Ref = /*                      */ 0b00000010000000;
+export const Snapshot = /*                 */ 0b00000100000000;
+export const Passive = /*                  */ 0b00001000000000;
+export const PassiveUnmountPendingDev = /* */ 0b10000000000000;
+export const Hydrating = /*                */ 0b00010000000000;
+export const HydratingAndUpdate = /*       */ 0b00010000000100;
+
+function commitBeforeMutationEffects() {
+  while (nextEffect !== null) {
+    if (
+      !shouldFireAfterActiveInstanceBlur &&
+      focusedInstanceHandle !== null &&
+      isFiberHiddenOrDeletedAndContains(nextEffect, focusedInstanceHandle)
+    ) {
+      shouldFireAfterActiveInstanceBlur = true;
+      beforeActiveInstanceBlur();
+    }
+    const effectTag = nextEffect.effectTag; 
+    if ((effectTag & Snapshot) !== NoEffect) {
+      setCurrentDebugFiberInDEV(nextEffect);
+
+      const current = nextEffect.alternate;
+      commitBeforeMutationEffectOnFiber(current, nextEffect);
+
+      resetCurrentDebugFiberInDEV();
+    }
+    if ((effectTag & Passive) !== NoEffect) {
+      // If there are passive effects, schedule a callback to flush at
+      // the earliest opportunity.
+      if (!rootDoesHavePassiveEffects) {
+        rootDoesHavePassiveEffects = true;
+        scheduleCallback(NormalPriority, () => {
+          flushPassiveEffects();
+          return null;
+        });
+      }
+    }
+    nextEffect = nextEffect.nextEffect;
+  }
+}
+```
+感觉这里有点点奇怪诶，首次nextEffect是那个Strict组件，但它的nextEffect却指向其父集
+
+7. commitBeforeMutationLifeCycles
+
+```js
+function commitBeforeMutationLifeCycles(
+  current: Fiber | null,
+  finishedWork: Fiber,
+): void {
+  switch (finishedWork.tag) {
+    case FunctionComponent:
+    case ForwardRef:
+    case SimpleMemoComponent:
+    case Block: {
+      return;
+    }
+    case ClassComponent: {
+      if (finishedWork.effectTag & Snapshot) {
+        if (current !== null) {
+          const prevProps = current.memoizedProps;
+          const prevState = current.memoizedState;
+          const instance = finishedWork.stateNode;
+          const snapshot = instance.getSnapshotBeforeUpdate(
+            finishedWork.elementType === finishedWork.type
+              ? prevProps
+              : resolveDefaultProps(finishedWork.type, prevProps),
+            prevState,
+          );
+          instance.__reactInternalSnapshotBeforeUpdate = snapshot;
+        }
+      }
+      return;
+    }
+    case HostRoot: {
+      if (supportsMutation) {
+        if (finishedWork.effectTag & Snapshot) {
+          const root = finishedWork.stateNode;
+          clearContainer(root.containerInfo);
+        }
+      }
+      return;
+    }
+    case HostComponent:
+    case HostText:
+    case HostPortal:
+    case IncompleteClassComponent:
+      // Nothing to do for these component types
+      return;
+  }
+  invariant(
+    false,
+    'This unit of work tag should not have side-effects. This error is ' +
+      'likely caused by a bug in React. Please file an issue.',
+  );
+}
+```
+
+本函数此次执行最主要的任务就是清空根节点的内容
+
+
+---
+
+### 参考资料
+
+1. https://reactjs.org/docs/react-component.html#getsnapshotbeforeupdate
+2. https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement
