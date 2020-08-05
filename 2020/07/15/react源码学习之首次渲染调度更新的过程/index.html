@@ -33,11 +33,11 @@
   
 
   
-    <meta name="description" content="react源码学习之首次渲染调度更新的过程">
+    <meta name="description" content="react源码学习之首次渲染调度更新的流程记录">
   
   
   <link rel="icon" type="image/x-icon" href="https://ginnko.github.io/images/ginnko.jpeg">
-  <title>react源码学习之首次渲染调度更新的过程 [ Ginnko&#39;s ]</title>
+  <title>react源码学习之首次渲染调度更新的流程记录 [ Ginnko&#39;s ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -102,7 +102,7 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        react源码学习之首次渲染调度更新的过程
+        react源码学习之首次渲染调度更新的流程记录
       </h1>
       <span>
         
@@ -122,7 +122,7 @@
       <span id="busuanzi_value_page_pv"></span> 点击
     </span>
       <span class="slash">/</span>
-      <span class="read">阅读耗时 152 分钟</span>
+      <span class="read">阅读耗时 153 分钟</span>
     </header>
 
     <div class="post-content">
@@ -664,6 +664,11 @@
 <li>appendChildren</li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">appendAllChildren = <span class="function"><span class="keyword">function</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  parent: Instance,</span></span></span><br><span class="line"><span class="function"><span class="params">  workInProgress: Fiber,</span></span></span><br><span class="line"><span class="function"><span class="params">  needsVisibilityToggle: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params">  isHidden: boolean,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// We only have the top Fiber that was created but we need recurse down its</span></span><br><span class="line">  <span class="comment">// children to find all the terminal nodes.</span></span><br><span class="line">  <span class="keyword">let</span> node = workInProgress.child;</span><br><span class="line">  <span class="keyword">while</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (node.tag === HostComponent || node.tag === HostText) &#123;</span><br><span class="line">      appendInitialChild(parent, node.stateNode);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (enableFundamentalAPI &amp;&amp; node.tag === FundamentalComponent) &#123;</span><br><span class="line">      appendInitialChild(parent, node.stateNode.instance);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.tag === HostPortal) &#123;</span><br><span class="line">      <span class="comment">// If we have a portal child, then we don't want to traverse</span></span><br><span class="line">      <span class="comment">// down its children. Instead, we'll get insertions from each child in</span></span><br><span class="line">      <span class="comment">// the portal directly.</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.child !== <span class="literal">null</span>) &#123;</span><br><span class="line">      node.child.return = node;</span><br><span class="line">      node = node.child;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (node === workInProgress) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (node.sibling === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (node.return === <span class="literal">null</span> || node.return === workInProgress) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      node = node.return;</span><br><span class="line">    &#125;</span><br><span class="line">    node.sibling.return = node.return;</span><br><span class="line">    node = node.sibling;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="49">
+<li>appendInitialChild</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">appendInitialChild</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  parentInstance: Instance,</span></span></span><br><span class="line"><span class="function"><span class="params">  child: Instance | TextInstance,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  parentInstance.appendChild(child);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>游离的dom元素是通过这个函数建立了层级关系，在后面最外层<code>div</code>一次append进root中，完成页面的渲染</p>
 <hr>
 <h3 id="workLoopSync中的循环"><a href="#workLoopSync中的循环" class="headerlink" title="workLoopSync中的循环"></a>workLoopSync中的循环</h3><ol>
 <li>container参与的过程</li>
@@ -979,14 +984,19 @@
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2020/07/12/react源码学习之首次渲染的更新过程/" rel="next" title="react源码学习之首次渲染创建更新的过程">
-          react源码学习之首次渲染创建更新的过程
+          <a href="/2020/07/12/react源码学习之首次渲染的更新过程/" rel="next" title="react源码学习之首次渲染创建更新的流程记录">
+          react源码学习之首次渲染创建更新的流程记录
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
+          <a href="/2020/07/31/react源码学习之首次渲染提交root的过程/" rel="prev" title="react源码学习之首次渲染提交root的流程记录">
+            react源码学习之首次渲染提交root的流程记录
+          </a>
+          <span>〉</span>
+        
       </div>
     </div>
   
