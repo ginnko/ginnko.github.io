@@ -1,6 +1,6 @@
 ---
 layout: post
-title: react源码学习之JSX到ReactElement的转换
+title: react源码学习之JSX到ReactElement的转换流程记录
 date: 2020-05-26
 tag: 
 - react

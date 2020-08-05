@@ -1,6 +1,6 @@
 ---
 layout: post
-title: react源码学习之首次渲染提交root的过程
+title: react源码学习之首次渲染提交root的流程记录
 date: 2020-07-31
 tag: 
 - react
@@ -39,10 +39,11 @@ graph TD;
 |markRootFinishedAtTime|root(FiberRoot), finishedExpirationTime(ExpirationTime), remainingExpirationTime(ExpirationTime)|react-reconciler/src/ReactFiberRoot|
 |commitBeforeMutationEffects|-|react-reconciler/src/ReactFiberWorkLoop|
 |commitBeforeMutationLifeCycles|current(Fiber或bull), finishedWork(Fiber)|react-reconciler/src/ReactFiberWorkLoop|
-
-
+|commitMutationEffects|root(FiberRoot), renderPriorityLevel|react-reconciler/src/ReactFiberWorkLoop|
+|insertOrAppendPlacementNodeIntoContainer|node(Fiber), before(Instance), parent(Container)|react-reconciler/src/ReactFiberWorkLoop|
 
 ---
+
 
 ### 主要函数
 
@@ -555,6 +556,218 @@ function commitBeforeMutationLifeCycles(
 ```
 
 本函数此次执行最主要的任务就是清空根节点的内容
+
+8. commitMutationEffects
+
+```js
+function commitMutationEffects(root: FiberRoot, renderPriorityLevel) {
+  // TODO: Should probably move the bulk of this function to commitWork.
+  while (nextEffect !== null) {
+    setCurrentDebugFiberInDEV(nextEffect);
+
+    const effectTag = nextEffect.effectTag;
+
+    if (effectTag & ContentReset) {
+      commitResetTextContent(nextEffect);
+    }
+
+    if (effectTag & Ref) {
+      const current = nextEffect.alternate;
+      if (current !== null) {
+        commitDetachRef(current);
+      }
+    }
+
+    // The following switch statement is only concerned about placement,
+    // updates, and deletions. To avoid needing to add a case for every possible
+    // bitmap value, we remove the secondary effects from the effect tag and
+    // switch on that value.
+    const primaryEffectTag =
+      effectTag & (Placement | Update | Deletion | Hydrating);
+    switch (primaryEffectTag) {
+      case Placement: {
+        commitPlacement(nextEffect);
+        // Clear the "placement" from effect tag so that we know that this is
+        // inserted, before any life-cycles like componentDidMount gets called.
+        // TODO: findDOMNode doesn't rely on this any more but isMounted does
+        // and isMounted is deprecated anyway so we should be able to kill this.
+        nextEffect.effectTag &= ~Placement;
+        break;
+      }
+      case PlacementAndUpdate: {
+        // Placement
+        commitPlacement(nextEffect);
+        // Clear the "placement" from effect tag so that we know that this is
+        // inserted, before any life-cycles like componentDidMount gets called.
+        nextEffect.effectTag &= ~Placement;
+
+        // Update
+        const current = nextEffect.alternate;
+        commitWork(current, nextEffect);
+        break;
+      }
+      case Hydrating: {
+        nextEffect.effectTag &= ~Hydrating;
+        break;
+      }
+      case HydratingAndUpdate: {
+        nextEffect.effectTag &= ~Hydrating;
+
+        // Update
+        const current = nextEffect.alternate;
+        commitWork(current, nextEffect);
+        break;
+      }
+      case Update: {
+        const current = nextEffect.alternate;
+        commitWork(current, nextEffect);
+        break;
+      }
+      case Deletion: {
+        commitDeletion(root, nextEffect, renderPriorityLevel);
+        break;
+      }
+    }
+
+    resetCurrentDebugFiberInDEV();
+    nextEffect = nextEffect.nextEffect;
+  }
+}
+```
+9. commitPlacement
+
+这个函数主要完成的是把`div.app`添加进root中
+
+10. insertOrAppendPlacementNodeIntoContainer
+
+```js
+  export const FunctionComponent = 0;
+  export const ClassComponent = 1;
+  export const IndeterminateComponent = 2; // Before we know whether it is function or class
+  export const HostRoot = 3; // Root of a host tree. Could be nested inside another node.
+  export const HostPortal = 4; // A subtree. Could be an entry point to a different renderer.
+  export const HostComponent = 5;
+  export const HostText = 6;
+  export const Fragment = 7;
+  export const Mode = 8;
+  export const ContextConsumer = 9;
+  export const ContextProvider = 10;
+  export const ForwardRef = 11;
+  export const Profiler = 12;
+  export const SuspenseComponent = 13;
+  export const MemoComponent = 14;
+  export const SimpleMemoComponent = 15;
+  export const LazyComponent = 16;
+  export const IncompleteClassComponent = 17;
+  export const DehydratedFragment = 18;
+  export const SuspenseListComponent = 19;
+  export const FundamentalComponent = 20;
+  export const ScopeComponent = 21;
+  export const Block = 22;
+  export const OffscreenComponent = 23;
+  export const LegacyHiddenComponent = 24;
+
+function insertOrAppendPlacementNodeIntoContainer(
+  node: Fiber,
+  before: ?Instance,
+  parent: Container,
+): void {
+  const {tag} = node;
+  const isHost = tag === HostComponent || tag === HostText;
+  if (isHost || (enableFundamentalAPI && tag === FundamentalComponent)) {
+    const stateNode = isHost ? node.stateNode : node.stateNode.instance;
+    if (before) {
+      insertInContainerBefore(parent, stateNode, before);
+    } else {
+      appendChildToContainer(parent, stateNode);
+    }
+  } else if (tag === HostPortal) {
+    // If the insertion itself is a portal, then we don't want to traverse
+    // down its children. Instead, we'll get insertions from each child in
+    // the portal directly.
+  } else {
+    const child = node.child;
+    if (child !== null) {
+      insertOrAppendPlacementNodeIntoContainer(child, before, parent);
+      let sibling = child.sibling;
+      while (sibling !== null) {
+        insertOrAppendPlacementNodeIntoContainer(sibling, before, parent);
+        sibling = sibling.sibling;
+      }
+    }
+  }
+}
+
+```
+
+10. appendChildToContainer
+
+```js
+function appendChildToContainer(
+  container: Container,
+  child: Instance | TextInstance,
+): void {
+  let parentNode;
+  if (container.nodeType === COMMENT_NODE) {
+    parentNode = (container.parentNode: any);
+    parentNode.insertBefore(child, container);
+  } else {
+    parentNode = container;
+    parentNode.appendChild(child);
+  }
+  // This container might be used for a portal.
+  // If something inside a portal is clicked, that click should bubble
+  // through the React tree. However, on Mobile Safari the click would
+  // never bubble through the *DOM* tree unless an ancestor with onclick
+  // event exists. So we wouldn't see it and dispatch it.
+  // This is why we ensure that non React root containers have inline onclick
+  // defined.
+  // https://github.com/facebook/react/issues/11918
+  const reactRootContainer = container._reactRootContainer;
+  if (
+    (reactRootContainer === null || reactRootContainer === undefined) &&
+    parentNode.onclick === null
+  ) {
+    // TODO: This cast may not be sound for SVG, MathML or custom elements.
+    trapClickOnNonInteractiveElement(((parentNode: any): HTMLElement));
+  }
+}
+```
+
+
+11. commitLayoutEffects
+
+```js
+function commitLayoutEffects(
+  root: FiberRoot,
+  committedExpirationTime: ExpirationTime,
+) {
+
+  // TODO: Should probably move the bulk of this function to commitWork.
+  while (nextEffect !== null) {
+    setCurrentDebugFiberInDEV(nextEffect);
+
+    const effectTag = nextEffect.effectTag;
+
+    if (effectTag & (Update | Callback)) {
+      const current = nextEffect.alternate;
+      commitLayoutEffectOnFiber(
+        root,
+        current,
+        nextEffect,
+        committedExpirationTime,
+      );
+    }
+
+    if (effectTag & Ref) {
+      commitAttachRef(nextEffect);
+    }
+
+    resetCurrentDebugFiberInDEV();
+    nextEffect = nextEffect.nextEffect;
+  }
+}
+```
 
 
 ---
